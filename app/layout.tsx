@@ -1,8 +1,10 @@
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
+import Script from "next/script"
 import { Providers } from "@/providers"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { AuthProvider } from "@/contexts/AuthContext"
+import { Analytics } from "@vercel/analytics/next"
 
 import { Settings } from "@/types/settings"
 import { Footer } from "@/components/navigation/footer"
@@ -57,6 +59,18 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       {Settings.gtmconnected && <GoogleTagManager gtmId={Settings.gtm} />}
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-EZ7B74TTSE"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', 'G-EZ7B74TTSE');
+        `}
+      </Script>
       <body className={`${inter.variable} font-regular`}>
         <Providers>
           <AuthProvider>
@@ -65,6 +79,7 @@ export default function RootLayout({
             <Footer />
           </AuthProvider>
         </Providers>
+        <Analytics />
       </body>
     </html>
   )

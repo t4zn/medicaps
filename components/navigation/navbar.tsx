@@ -1,8 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { GitHubLink, Navigations } from "@/settings/navigation"
-import { LuArrowUpRight, LuGithub, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
+import { Navigations } from "@/settings/navigation"
+import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
 import { useAuth } from "@/contexts/AuthContext"
 
 import { buttonVariants } from "@/components/ui/button"

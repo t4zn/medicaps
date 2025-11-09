@@ -1,6 +1,7 @@
 // Import search data with fallback for development
 let searchJson: SearchDocument[] = []
 try {
+  // eslint-disable-next-line @typescript-eslint/no-require-imports
   searchJson = require("@/public/search-data/documents.json")
 } catch (error) {
   console.warn("Search data not available:", error)

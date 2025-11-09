@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
+import Image from 'next/image'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -8,14 +9,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '../ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuCamera, LuUser, LuMail, LuSave, LuUpload } from 'react-icons/lu'
+import { LuUser, LuSave } from 'react-icons/lu'
 
 export default function ProfileSettings() {
   const { user, profile } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
   
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || '',
@@ -48,72 +47,7 @@ export default function ProfileSettings() {
     }
   }
 
-  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file || !user) return
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setMessage({ type: 'error', text: 'Please select an image file.' })
-      return
-    }
-
-    // Validate file size (2MB limit)
-    if (file.size > 2 * 1024 * 1024) {
-      setMessage({ type: 'error', text: 'Image size must be less than 2MB.' })
-      return
-    }
-
-    setUploading(true)
-    setMessage(null)
-
-    try {
-      // For now, we'll skip the avatar upload functionality
-      // since the storage bucket needs to be set up in Supabase first
-      setMessage({ 
-        type: 'error', 
-        text: 'Avatar upload is currently disabled. Please contact support to enable this feature.' 
-      })
-      return
-
-      // TODO: Uncomment this when storage bucket is properly configured
-      /*
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${user.id}-${Math.random()}.${fileExt}`
-      const filePath = `${fileName}`
-
-      // Upload image to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file)
-
-      if (uploadError) throw uploadError
-
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath)
-
-      // Update profile with new avatar URL
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ avatar_url: publicUrl })
-        .eq('id', user.id)
-
-      if (updateError) throw updateError
-
-      setMessage({ type: 'success', text: 'Profile picture updated successfully!' })
-      
-      // Refresh the page to show new avatar
-      window.location.reload()
-      */
-    } catch (error) {
-      console.error('Error uploading avatar:', error)
-      setMessage({ type: 'error', text: 'Failed to upload profile picture. Please try again.' })
-    } finally {
-      setUploading(false)
-    }
-  }
 
   return (
     <Card>
@@ -125,9 +59,11 @@ export default function ProfileSettings() {
         <div className="flex items-center gap-4 p-4 bg-muted/50 rounded-lg">
           <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center">
             {profile?.avatar_url ? (
-              <img
+              <Image
                 src={profile.avatar_url}
                 alt="Profile"
+                width={64}
+                height={64}
                 className="h-16 w-16 rounded-full object-cover"
               />
             ) : (

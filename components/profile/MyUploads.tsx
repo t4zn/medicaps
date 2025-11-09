@@ -1,13 +1,13 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuFileText, LuDownload, LuCalendar, LuEye, LuTrash2, LuUpload } from 'react-icons/lu'
+import { LuFileText, LuDownload, LuTrash2, LuUpload } from 'react-icons/lu'
 import Link from 'next/link'
 
 interface UploadedFile {
@@ -32,13 +32,7 @@ export default function MyUploads() {
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
 
-  useEffect(() => {
-    if (user) {
-      fetchMyUploads()
-    }
-  }, [user])
-
-  const fetchMyUploads = async () => {
+  const fetchMyUploads = useCallback(async () => {
     if (!user) return
 
     try {
@@ -57,7 +51,13 @@ export default function MyUploads() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      fetchMyUploads()
+    }
+  }, [user, fetchMyUploads])
 
   const handleDelete = async (fileId: string) => {
     if (!confirm('Are you sure you want to delete this file?')) return
@@ -94,24 +94,7 @@ export default function MyUploads() {
     })
   }
 
-  const getStatusColor = (isApproved: boolean) => {
-    return isApproved 
-      ? 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-      : 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300'
-  }
 
-  const getCategoryColor = (category: string) => {
-    switch (category) {
-      case 'notes':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300'
-      case 'pyqs':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300'
-      case 'formula-sheet':
-        return 'bg-purple-100 text-purple-800 dark:bg-purple-900 dark:text-purple-300'
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300'
-    }
-  }
 
   if (loading) {
     return (
@@ -153,7 +136,7 @@ export default function MyUploads() {
           <div className="text-center py-8">
             <LuFileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
             <p className="text-muted-foreground mb-4">
-              You haven't uploaded any files yet.
+              You haven&apos;t uploaded any files yet.
             </p>
             <Link href="/upload">
               <Button>

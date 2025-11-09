@@ -60,7 +60,7 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
           onSuccess?.()
         }, 2000)
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)

@@ -3,10 +3,10 @@ import { createClient } from '@supabase/supabase-js'
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { fileId: string } }
+  { params }: { params: Promise<{ fileId: string }> }
 ) {
   try {
-    const { fileId } = params
+    const { fileId } = await params
     const { userId } = await request.json()
     const userAgent = request.headers.get('user-agent') || ''
     const forwarded = request.headers.get('x-forwarded-for')

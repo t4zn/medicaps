@@ -65,6 +65,7 @@ export const Documents: Paths[] = [
                 title: "Workshop",
                 href: "/notes/btech/1st-year/workshop",
               },
+
               {
                 title: "Mix",
                 href: "/notes/btech/1st-year/mix",
@@ -78,11 +79,105 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/computer-science-and-engineering/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Discrete Maths",
+                    href: "/notes/btech/2nd-year/discrete-mathematics",
+                  },
+                  {
+                    title: "Data Comm",
+                    href: "/notes/btech/2nd-year/data-communication",
+                  },
+                  {
+                    title: "OOP",
+                    href: "/notes/btech/2nd-year/object-oriented-programming",
+                  },
+                  {
+                    title: "Data Structures",
+                    href: "/notes/btech/2nd-year/data-structures",
+                  },
+                  {
+                    title: "Java",
+                    href: "/notes/btech/2nd-year/java-programming",
+                  },
+                  {
+                    title: "Digital Electronics",
+                    href: "/notes/btech/2nd-year/digital-electronics",
+                  },
+                  {
+                    title: "Computer Architecture",
+                    href: "/notes/btech/2nd-year/computer-system-architecture",
+                  },
+                  {
+                    title: "Soft Skills-I",
+                    href: "/notes/btech/2nd-year/soft-skills-1",
+                  },
+                  {
+                    title: "Microprocessor",
+                    href: "/notes/btech/2nd-year/microprocessor-and-interfacing",
+                  },
+                  {
+                    title: "Advanced Java",
+                    href: "/notes/btech/2nd-year/advanced-java-programming",
+                  },
+                  {
+                    title: "DBMS",
+                    href: "/notes/btech/2nd-year/database-management-systems",
+                  },
+                  {
+                    title: "Theory of Computation",
+                    href: "/notes/btech/2nd-year/theory-of-computation",
+                  },
+                  {
+                    title: "Operating Systems",
+                    href: "/notes/btech/2nd-year/operating-systems",
+                  },
+                  {
+                    title: "Soft Skills-II",
+                    href: "/notes/btech/2nd-year/soft-skills-2",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/computer-science-and-engineering/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Software Engineering",
+                    href: "/notes/btech/3rd-year/software-engineering",
+                  },
+                  {
+                    title: "Computer Networks",
+                    href: "/notes/btech/3rd-year/computer-networks",
+                  },
+                  {
+                    title: "Economics",
+                    href: "/notes/btech/3rd-year/economics",
+                  },
+                  {
+                    title: "Soft Skills-III",
+                    href: "/notes/btech/3rd-year/soft-skills-3",
+                  },
+                  {
+                    title: "Compiler Design",
+                    href: "/notes/btech/3rd-year/compiler-design",
+                  },
+                  {
+                    title: "Algorithm Design",
+                    href: "/notes/btech/3rd-year/design-and-analysis-of-algorithms",
+                  },
+                  {
+                    title: "Research Methods",
+                    href: "/notes/btech/3rd-year/research-methodology",
+                  },
+                  {
+                    title: "Soft Skills-IV",
+                    href: "/notes/btech/3rd-year/soft-skills-4",
+                  },
+                ],
               },
               {
                 title: "4th Year",

@@ -319,21 +319,21 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                         variant="ghost"
                         size="sm"
                         onClick={() => handleVote(file.id, 'up', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
-                        className={`h-7 px-2 ${file.userVote === 'up' ? 'text-green-600 bg-green-50' : 'text-muted-foreground hover:text-green-600'}`}
+                        className="h-7 px-2 text-muted-foreground hover:bg-transparent"
                         disabled={!user}
                       >
-                        <LuThumbsUp className="h-3 w-3 mr-1" />
-                        {file.upVotes || 0}
+                        <LuThumbsUp className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'up' ? 'text-green-600' : 'hover:text-green-600'}`} />
+                        <span className={file.userVote === 'up' ? 'text-green-600' : ''}>{file.upVotes || 0}</span>
                       </Button>
                       <Button
                         variant="ghost"
                         size="sm"
                         onClick={() => handleVote(file.id, 'down', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
-                        className="h-7 px-2 text-muted-foreground hover:text-red-600"
+                        className={`h-7 px-2 text-muted-foreground hover:bg-transparent ${file.userVote === 'down' ? 'text-red-600' : ''}`}
                         disabled={!user}
                       >
-                        <LuThumbsDown className="h-3 w-3 mr-1" />
-                        {file.downVotes || 0}
+                        <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
+                        <span className={file.userVote === 'down' ? 'text-red-600' : ''}>{file.downVotes || 0}</span>
                       </Button>
                     </div>
                     

@@ -6,7 +6,7 @@ interface SidebarContextType {
   isOpen: boolean
   setIsOpen: (open: boolean) => void
   openSections: Record<string, boolean>
-  toggleSection: (section: string, shouldSync?: boolean) => void
+  toggleSection: (section: string) => void
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined)
@@ -23,6 +23,20 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(defaultOpenSections)
 
+  // Clear old localStorage data on first load to fix synchronization issues
+  useEffect(() => {
+    const version = localStorage.getItem('sidebar-version')
+    if (version !== '2.1') {
+      // Force clear all sidebar data to fix synchronization issues
+      localStorage.removeItem('sidebar-sections')
+      localStorage.removeItem('sidebar-open')
+      localStorage.setItem('sidebar-version', '2.1')
+      // Reset to default state
+      setOpenSections(defaultOpenSections)
+      console.log('Cleared sidebar cache and reset to defaults')
+    }
+  }, [])
+
   // Load state from localStorage on mount
   useEffect(() => {
     const savedIsOpen = localStorage.getItem('sidebar-open')
@@ -32,10 +46,24 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       setIsOpen(JSON.parse(savedIsOpen))
     }
     
+    // Clear old localStorage data that might have synchronization issues
+    // and start fresh with default sections
     if (savedSections) {
-      const parsedSections = JSON.parse(savedSections)
-      // Merge saved sections with defaults, giving priority to saved sections
-      setOpenSections({ ...defaultOpenSections, ...parsedSections })
+      try {
+        const parsedSections = JSON.parse(savedSections)
+        // Only keep sections that don't have synchronization conflicts
+        const cleanedSections: Record<string, boolean> = {}
+        Object.keys(parsedSections).forEach(key => {
+          // Only preserve the main program sections, not nested ones that might cause conflicts
+          if (key.includes('Program-/')) {
+            cleanedSections[key] = parsedSections[key]
+          }
+        })
+        setOpenSections({ ...defaultOpenSections, ...cleanedSections })
+      } catch (error) {
+        // If there's any error parsing, just use defaults
+        setOpenSections(defaultOpenSections)
+      }
     }
   }, [])
 
@@ -48,7 +76,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
     localStorage.setItem('sidebar-sections', JSON.stringify(openSections))
   }, [openSections])
 
-  const toggleSection = useCallback((section: string, shouldSync: boolean = true) => {
+  const toggleSection = useCallback((section: string) => {
     setOpenSections(prev => {
       const newState = { ...prev }
       const newValue = !prev[section]
@@ -56,46 +84,9 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       // Set the main section
       newState[section] = newValue
       
-      // Only synchronize if this is a manual toggle (shouldSync = true)
-      if (shouldSync) {
-        // Parse section key format: "Category-Title-Href" or "Category-Title-Href-SubTitle-SubHref"
-        const parts = section.split('-')
-        
-        if (parts.length >= 3) {
-          const category = parts[0] // "Notes", "PYQs", "Formula Sheet"
-          const title = parts[1] // "Program", "B.Tech", "1st Year", etc.
-          const href = parts[2] // "/basic-setup", "/btech", "/1st-year", etc.
-          
-          // Synchronize across categories for programs (B.Tech, B.Sc, etc.)
-          if (['B.Tech', 'B.Sc', 'BBA', 'B.Com', 'M.Tech', 'MBA'].includes(title)) {
-            const categories = ['Notes', 'PYQs', 'Formula Sheet']
-            categories.forEach(cat => {
-              if (cat !== category) {
-                const syncKey = `${cat}-${title}-${href}`
-                newState[syncKey] = newValue
-              }
-            })
-          }
-          
-          // For nested sections like "Notes-B.Tech-/btech-1st Year-/1st-year"
-          if (parts.length >= 5) {
-            const subTitle = parts[3] // "1st Year", "2nd Year", etc.
-            const subHref = parts[4] // "/1st-year", "/2nd-year", etc.
-            
-            if (['1st Year', '2nd Year', '3rd Year', '4th Year'].includes(subTitle)) {
-              const categories = ['Notes', 'PYQs', 'Formula Sheet']
-              categories.forEach(cat => {
-                if (cat !== category) {
-                  const syncKey = `${cat}-${title}-${href}-${subTitle}-${subHref}`
-                  newState[syncKey] = newValue
-                }
-              })
-            }
-          }
-        }
-      }
+      // Debug logging to track what's happening
+      console.log('Toggling section:', section, 'from', prev[section], 'to', newValue)
       
-      console.log('Toggling section:', section, 'from', prev[section], 'to', newValue, 'shouldSync:', shouldSync)
       return newState
     })
   }, [])

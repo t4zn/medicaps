@@ -40,6 +40,15 @@ export async function POST(request: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
+    // Check if user is owner (auto-approve their uploads)
+    const { data: userProfile } = await supabaseAdmin
+      .from('profiles')
+      .select('email')
+      .eq('id', userId)
+      .single()
+
+    const isOwner = userProfile?.email === 'pathforge2025@gmail.com'
+
     const timestamp = Date.now()
     const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
     const filename = `${timestamp}_${sanitizedName}`
@@ -86,7 +95,7 @@ export async function POST(request: NextRequest) {
         subject,
         category,
         uploaded_by: userId,
-        is_approved: false, // Requires admin approval
+        is_approved: isOwner, // Auto-approve for owner
       })
       .select()
       .single()
@@ -102,7 +111,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       file: fileRecord,
-      message: 'File uploaded successfully! It will be available after admin approval.',
+      message: isOwner 
+        ? 'File uploaded and published successfully!' 
+        : 'File uploaded successfully! It will be available after admin approval.',
     })
 
   } catch (error) {

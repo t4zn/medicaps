@@ -1,8 +1,46 @@
 'use client'
 
-import { useState, useCallback } from 'react'
+import { useState, useCallback, useEffect } from 'react'
+import { useSearchParams } from 'next/navigation'
 import { useDropzone } from 'react-dropzone'
-import { LuUpload, LuCheck, LuX, LuArrowRight, LuArrowLeft } from 'react-icons/lu'
+import { 
+  LuUpload, 
+  LuCheck, 
+  LuX, 
+  LuArrowRight, 
+  LuArrowLeft,
+  LuFileText,
+  LuClipboardList,
+  LuCalculator,
+  LuGraduationCap,
+  LuBeaker,
+  LuBriefcase,
+  LuDollarSign,
+  LuTarget,
+  LuTrendingUp,
+  LuCode,
+  LuAtom,
+  LuHammer,
+  LuMessageSquare,
+  LuZap,
+  LuCpu,
+  LuPalette,
+  LuSquare,
+  LuActivity,
+  LuCog,
+  LuMicroscope,
+  LuWrench,
+  LuShuffle,
+  LuBrain,
+  LuDatabase,
+  LuNetwork,
+  LuShield,
+  LuWifi,
+  LuBuilding,
+  LuCar,
+  LuServer,
+  LuBot
+} from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from './ui/card'
@@ -13,10 +51,11 @@ interface FileUploadProps {
   onUploadSuccess?: () => void
 }
 
-type Step = 'category' | 'program' | 'year' | 'subject' | 'file' | 'upload'
+type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file' | 'upload'
 
 export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const { user } = useAuth()
+  const searchParams = useSearchParams()
   const [currentStep, setCurrentStep] = useState<Step>('category')
   const [uploading, setUploading] = useState(false)
   const [uploadStatus, setUploadStatus] = useState<{
@@ -26,6 +65,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   const [formData, setFormData] = useState({
     program: '',
+    branch: '',
     year: '',
     subject: '',
     category: '',
@@ -33,11 +73,35 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
+  // Check if coming from subject page (has pre-filled parameters)
+  const isFromSubjectPage = searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
+
+  // Auto-populate form data from URL parameters
+  useEffect(() => {
+    const program = searchParams.get('program')
+    const branch = searchParams.get('branch')
+    const year = searchParams.get('year')
+    const subject = searchParams.get('subject')
+    const category = searchParams.get('category')
+
+    if (program || branch || year || subject || category) {
+      setFormData(prev => ({
+        ...prev,
+        ...(program && { program }),
+        ...(branch && { branch }),
+        ...(year && { year }),
+        ...(subject && { subject }),
+        ...(category && { category }),
+      }))
+    }
+  }, [searchParams])
+
   const steps: { key: Step; title: string; required: boolean }[] = [
     { key: 'category', title: 'What type of material?', required: true },
     { key: 'program', title: 'Which program?', required: true },
+    { key: 'branch', title: 'Which branch?', required: true },
     { key: 'year', title: 'Which year?', required: true },
-    { key: 'subject', title: 'Which subject?', required: false },
+    { key: 'subject', title: 'Which subject?', required: true },
     { key: 'file', title: 'Select your file', required: true },
     { key: 'upload', title: 'Ready to upload', required: false },
   ]
@@ -47,8 +111,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     switch (step) {
       case 'category': return !!formData.category
       case 'program': return !!formData.program
+      case 'branch': return !!formData.branch
       case 'year': return !!formData.year
-      case 'subject': return true // Optional step
+      case 'subject': return !!formData.subject
       case 'file': return !!selectedFile
       case 'upload': return false
       default: return false
@@ -100,9 +165,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const handleUpload = async () => {
     if (!selectedFile || !user) return
 
-    const { program, year, subject, category } = formData
+    const { program, branch, year, subject, category } = formData
 
-    if (!program || !year || !category) {
+    if (!program || !branch || !year || !subject || !category) {
       setUploadStatus({
         type: 'error',
         message: 'Please complete all required steps.',
@@ -117,6 +182,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       const uploadFormData = new FormData()
       uploadFormData.append('file', selectedFile)
       uploadFormData.append('program', program)
+      uploadFormData.append('branch', branch)
       uploadFormData.append('year', year)
       uploadFormData.append('subject', subject)
       uploadFormData.append('category', category)
@@ -135,7 +201,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           message: result.message,
         })
         setSelectedFile(null)
-        setFormData({ program: '', year: '', subject: '', category: '' })
+        setFormData({ program: '', branch: '', year: '', subject: '', category: '' })
         setCurrentStep('category')
         onUploadSuccess?.()
       } else {
@@ -165,6 +231,107 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     )
   }
 
+  // If coming from subject page, show simplified upload interface
+  if (isFromSubjectPage) {
+    return (
+      <Card className="max-w-lg mx-auto">
+        <CardContent className="p-4 sm:p-6">
+          {/* Header */}
+          <div className="text-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold">Upload File</h2>
+            <div className="mt-2 space-y-1 text-xs sm:text-sm text-muted-foreground">
+              <div>Program: <span className="font-medium uppercase">{formData.program}</span></div>
+              <div>Branch: <span className="font-medium capitalize">{formData.branch.replace('-', ' ')}</span></div>
+              <div>Year: <span className="font-medium">{formData.year.replace('-', ' ')}</span></div>
+              <div>Subject: <span className="font-medium capitalize">{formData.subject.replace('-', ' ')}</span></div>
+              <div>Type: <span className="font-medium capitalize">{formData.category.replace('-', ' ')}</span></div>
+            </div>
+          </div>
+
+          {/* File Upload */}
+          <div className="mb-4 sm:mb-6">
+            <div
+              {...getRootProps()}
+              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                isDragActive
+                  ? 'border-primary bg-primary/5'
+                  : 'border-muted-foreground/25 hover:border-primary/50'
+              }`}
+            >
+              <input {...getInputProps()} />
+              {selectedFile ? (
+                <div className="space-y-3">
+                  <LuCheck className="h-12 w-12 mx-auto text-green-500" />
+                  <div>
+                    <div className="font-medium">{selectedFile.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedFile(null)
+                    }}
+                  >
+                    <LuX className="h-4 w-4 mr-2" />
+                    Remove
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <LuUpload className="h-12 w-12 mx-auto text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">
+                      {isDragActive ? 'Drop your PDF here' : 'Upload your PDF file'}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Drag & drop or click to browse • Max 50MB
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* Status Messages */}
+          {uploadStatus.type && (
+            <Alert variant={uploadStatus.type === 'error' ? 'destructive' : 'default'} className="mb-4">
+              {uploadStatus.type === 'success' ? (
+                <LuCheck className="h-4 w-4" />
+              ) : (
+                <LuX className="h-4 w-4" />
+              )}
+              <AlertDescription>{uploadStatus.message}</AlertDescription>
+            </Alert>
+          )}
+
+          {/* Upload Button */}
+          <Button
+            onClick={handleUpload}
+            disabled={uploading || !selectedFile}
+            className="w-full h-10 sm:h-12"
+            size="lg"
+          >
+            {uploading ? (
+              <>
+                <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                Uploading...
+              </>
+            ) : (
+              <>
+                <LuUpload className="h-4 w-4 mr-2" />
+                Upload File
+              </>
+            )}
+          </Button>
+        </CardContent>
+      </Card>
+    )
+  }
+
   const renderStepContent = () => {
     switch (currentStep) {
       case 'category':
@@ -172,18 +339,36 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           <div className="space-y-4">
             <div className="grid gap-3">
               {[
-                { value: 'notes', label: '📝 Notes', desc: 'Class notes and study materials' },
-                { value: 'pyqs', label: '📋 PYQs', desc: 'Previous year question papers' },
-                { value: 'formula-sheet', label: '📊 Formula Sheet', desc: 'Quick reference formulas' },
+                { 
+                  value: 'notes', 
+                  label: 'Notes', 
+                  desc: 'Class notes and study materials',
+                  icon: LuFileText
+                },
+                { 
+                  value: 'pyqs', 
+                  label: 'PYQs', 
+                  desc: 'Previous year question papers',
+                  icon: LuClipboardList
+                },
+                { 
+                  value: 'formula-sheet', 
+                  label: 'Formula Sheet', 
+                  desc: 'Quick reference formulas',
+                  icon: LuCalculator
+                },
               ].map((option) => (
                 <button
                   key={option.value}
                   onClick={() => setFormData({ ...formData, category: option.value })}
-                  className={`p-4 text-left border rounded-lg transition-colors hover:bg-muted/50 ${
+                  className={`p-3 sm:p-4 text-left border rounded-lg transition-colors hover:bg-muted/50 ${
                     formData.category === option.value ? 'border-primary bg-primary/5' : 'border-border'
                   }`}
                 >
-                  <div className="font-medium">{option.label}</div>
+                  <div className="flex items-center gap-3 mb-2">
+                    <option.icon className="h-5 w-5 text-primary" />
+                    <div className="font-medium">{option.label}</div>
+                  </div>
                   <div className="text-sm text-muted-foreground">{option.desc}</div>
                 </button>
               ))}
@@ -202,21 +387,163 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <SelectValue placeholder="Choose your program" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="btech">🎓 B.Tech</SelectItem>
-                <SelectItem value="bsc">🔬 B.Sc</SelectItem>
-                <SelectItem value="bba">💼 BBA</SelectItem>
-                <SelectItem value="bcom">💰 B.Com</SelectItem>
-                <SelectItem value="mtech">🎯 M.Tech</SelectItem>
-                <SelectItem value="mba">📈 MBA</SelectItem>
+                <SelectItem value="btech">
+                  <div className="flex items-center gap-2">
+                    <LuGraduationCap className="h-4 w-4" />
+                    B.Tech
+                  </div>
+                </SelectItem>
+                <SelectItem value="bsc" disabled>
+                  <div className="flex items-center gap-2 opacity-50">
+                    <LuBeaker className="h-4 w-4" />
+                    B.Sc (Coming Soon)
+                  </div>
+                </SelectItem>
+                <SelectItem value="bba" disabled>
+                  <div className="flex items-center gap-2 opacity-50">
+                    <LuBriefcase className="h-4 w-4" />
+                    BBA (Coming Soon)
+                  </div>
+                </SelectItem>
+                <SelectItem value="bcom" disabled>
+                  <div className="flex items-center gap-2 opacity-50">
+                    <LuDollarSign className="h-4 w-4" />
+                    B.Com (Coming Soon)
+                  </div>
+                </SelectItem>
+                <SelectItem value="mtech" disabled>
+                  <div className="flex items-center gap-2 opacity-50">
+                    <LuTarget className="h-4 w-4" />
+                    M.Tech (Coming Soon)
+                  </div>
+                </SelectItem>
+                <SelectItem value="mba" disabled>
+                  <div className="flex items-center gap-2 opacity-50">
+                    <LuTrendingUp className="h-4 w-4" />
+                    MBA (Coming Soon)
+                  </div>
+                </SelectItem>
               </SelectContent>
             </Select>
+          </div>
+        )
+
+      case 'branch':
+        return (
+          <div className="space-y-4">
+            {formData.program === 'btech' ? (
+              <Select
+                value={formData.branch}
+                onValueChange={(value: string) => setFormData({ ...formData, branch: value })}
+              >
+                <SelectTrigger className="h-12">
+                  <SelectValue placeholder="Choose your branch" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="computer-science-and-engineering">
+                    <div className="flex items-center gap-2">
+                      <LuCode className="h-4 w-4" />
+                      CSE
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-artificial-intelligence">
+                    <div className="flex items-center gap-2">
+                      <LuBrain className="h-4 w-4" />
+                      CSE - AI
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-data-science">
+                    <div className="flex items-center gap-2">
+                      <LuDatabase className="h-4 w-4" />
+                      CSE - DS
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-networks">
+                    <div className="flex items-center gap-2">
+                      <LuNetwork className="h-4 w-4" />
+                      CSE - Networks
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-artificial-intelligence-and-machine-learning">
+                    <div className="flex items-center gap-2">
+                      <LuBot className="h-4 w-4" />
+                      CSE - AI & ML
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-cyber-security">
+                    <div className="flex items-center gap-2">
+                      <LuShield className="h-4 w-4" />
+                      Cyber Security
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="cse-internet-of-things">
+                    <div className="flex items-center gap-2">
+                      <LuWifi className="h-4 w-4" />
+                      CSE - IoT
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="csbs-computer-science-and-business-systems">
+                    <div className="flex items-center gap-2">
+                      <LuBuilding className="h-4 w-4" />
+                      CSBS
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="ece-electronics-communication-engineering">
+                    <div className="flex items-center gap-2">
+                      <LuCpu className="h-4 w-4" />
+                      ECE
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="ce-civil-engineering">
+                    <div className="flex items-center gap-2">
+                      <LuHammer className="h-4 w-4" />
+                      Civil
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="ee-electrical-engineering">
+                    <div className="flex items-center gap-2">
+                      <LuZap className="h-4 w-4" />
+                      Electrical
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="au-ev-automobile-engineering-electric-vehicle">
+                    <div className="flex items-center gap-2">
+                      <LuCar className="h-4 w-4" />
+                      Automobile (EV)
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="it-information-technology">
+                    <div className="flex items-center gap-2">
+                      <LuServer className="h-4 w-4" />
+                      IT
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="mechanical-engineering">
+                    <div className="flex items-center gap-2">
+                      <LuCog className="h-4 w-4" />
+                      Mechanical
+                    </div>
+                  </SelectItem>
+                  <SelectItem value="ra-robotics-and-automation">
+                    <div className="flex items-center gap-2">
+                      <LuBot className="h-4 w-4" />
+                      Robotics & Automation
+                    </div>
+                  </SelectItem>
+                </SelectContent>
+              </Select>
+            ) : (
+              <div className="text-center py-8">
+                <p className="text-muted-foreground">Please select B.Tech program first</p>
+              </div>
+            )}
           </div>
         )
 
       case 'year':
         return (
           <div className="space-y-4">
-            <div className="grid grid-cols-2 gap-3">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
               {[
                 { value: '1st-year', label: '1st Year' },
                 { value: '2nd-year', label: '2nd Year' },
@@ -229,7 +556,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <button
                   key={option.value}
                   onClick={() => setFormData({ ...formData, year: option.value })}
-                  className={`p-4 text-center border rounded-lg transition-colors hover:bg-muted/50 ${
+                  className={`p-3 sm:p-4 text-center border rounded-lg transition-colors hover:bg-muted/50 ${
                     formData.year === option.value ? 'border-primary bg-primary/5' : 'border-border'
                   }`}
                 >
@@ -248,29 +575,95 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               onValueChange={(value: string) => setFormData({ ...formData, subject: value })}
             >
               <SelectTrigger className="h-12">
-                <SelectValue placeholder="Choose subject (optional)" />
+                <SelectValue placeholder="Choose subject" />
               </SelectTrigger>
               <SelectContent>
                 {formData.program === 'btech' && formData.year === '1st-year' && (
                   <>
-                    <SelectItem value="c-programming">💻 C Programming</SelectItem>
-                    <SelectItem value="chemistry">🧪 Chemistry</SelectItem>
-                    <SelectItem value="civil">🏗️ Civil</SelectItem>
-                    <SelectItem value="communication-skills">🗣️ Communication Skills</SelectItem>
-                    <SelectItem value="electrical">⚡ Electrical</SelectItem>
-                    <SelectItem value="electronics">🔌 Electronics</SelectItem>
-                    <SelectItem value="graphics">🎨 Graphics</SelectItem>
-                    <SelectItem value="maths-1">📐 Maths I</SelectItem>
-                    <SelectItem value="maths-2">📊 Maths II</SelectItem>
-                    <SelectItem value="mechanical">⚙️ Mechanical</SelectItem>
-                    <SelectItem value="physics">🔬 Physics</SelectItem>
-                    <SelectItem value="workshop">🔧 Workshop</SelectItem>
+                    <SelectItem value="c-programming">
+                      <div className="flex items-center gap-2">
+                        <LuCode className="h-4 w-4" />
+                        C Programming
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="chemistry">
+                      <div className="flex items-center gap-2">
+                        <LuAtom className="h-4 w-4" />
+                        Chemistry
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="civil">
+                      <div className="flex items-center gap-2">
+                        <LuHammer className="h-4 w-4" />
+                        Civil
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="communication-skills">
+                      <div className="flex items-center gap-2">
+                        <LuMessageSquare className="h-4 w-4" />
+                        Communication Skills
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="electrical">
+                      <div className="flex items-center gap-2">
+                        <LuZap className="h-4 w-4" />
+                        Electrical
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="electronics">
+                      <div className="flex items-center gap-2">
+                        <LuCpu className="h-4 w-4" />
+                        Electronics
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="graphics">
+                      <div className="flex items-center gap-2">
+                        <LuPalette className="h-4 w-4" />
+                        Graphics
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="maths-1">
+                      <div className="flex items-center gap-2">
+                        <LuSquare className="h-4 w-4" />
+                        Maths I
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="maths-2">
+                      <div className="flex items-center gap-2">
+                        <LuActivity className="h-4 w-4" />
+                        Maths II
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="mechanical">
+                      <div className="flex items-center gap-2">
+                        <LuCog className="h-4 w-4" />
+                        Mechanical
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="physics">
+                      <div className="flex items-center gap-2">
+                        <LuMicroscope className="h-4 w-4" />
+                        Physics
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="workshop">
+                      <div className="flex items-center gap-2">
+                        <LuWrench className="h-4 w-4" />
+                        Workshop
+                      </div>
+                    </SelectItem>
+                    <SelectItem value="mix">
+                      <div className="flex items-center gap-2">
+                        <LuShuffle className="h-4 w-4" />
+                        Mix
+                      </div>
+                    </SelectItem>
                   </>
                 )}
               </SelectContent>
             </Select>
             <p className="text-sm text-muted-foreground text-center">
-              You can skip this step if your material covers multiple subjects
+              Select the specific subject for your material
             </p>
           </div>
         )
@@ -346,15 +739,17 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <span className="uppercase">{formData.program}</span>
               </div>
               <div className="flex justify-between">
+                <span className="text-muted-foreground">Branch:</span>
+                <span className="capitalize">{formData.branch.replace(/-/g, ' ')}</span>
+              </div>
+              <div className="flex justify-between">
                 <span className="text-muted-foreground">Year:</span>
                 <span>{formData.year.replace('-', ' ')}</span>
               </div>
-              {formData.subject && (
-                <div className="flex justify-between">
-                  <span className="text-muted-foreground">Subject:</span>
-                  <span className="capitalize">{formData.subject.replace('-', ' ')}</span>
-                </div>
-              )}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Subject:</span>
+                <span className="capitalize">{formData.subject.replace('-', ' ')}</span>
+              </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">File:</span>
                 <span className="truncate max-w-32">{selectedFile?.name}</span>
@@ -392,7 +787,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   return (
     <Card className="max-w-lg mx-auto">
-      <CardContent className="p-6">
+      <CardContent className="p-4 sm:p-6">
         {/* Progress Bar */}
         <div className="mb-6">
           <div className="flex justify-between text-xs text-muted-foreground mb-2">
@@ -408,12 +803,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         </div>
 
         {/* Step Title */}
-        <div className="text-center mb-6">
-          <h2 className="text-xl font-semibold">{currentStepData?.title}</h2>
+        <div className="text-center mb-4 sm:mb-6">
+          <h2 className="text-lg sm:text-xl font-semibold">{currentStepData?.title}</h2>
         </div>
 
         {/* Step Content */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           {renderStepContent()}
         </div>
 
@@ -431,11 +826,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
         {/* Navigation */}
         {currentStep !== 'upload' && (
-          <div className="flex justify-between">
+          <div className="flex flex-col sm:flex-row gap-3 sm:justify-between">
             <Button
               variant="outline"
               onClick={prevStep}
               disabled={currentIndex === 0}
+              className="w-full sm:w-auto order-2 sm:order-1"
             >
               <LuArrowLeft className="h-4 w-4 mr-2" />
               Back
@@ -444,6 +840,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             <Button
               onClick={nextStep}
               disabled={!canProceed() || currentIndex === steps.length - 1}
+              className="w-full sm:w-auto order-1 sm:order-2"
             >
               {currentIndex === steps.length - 2 ? 'Review' : 'Next'}
               <LuArrowRight className="h-4 w-4 ml-2" />

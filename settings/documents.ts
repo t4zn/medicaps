@@ -65,6 +65,10 @@ export const Documents: Paths[] = [
                 title: "Workshop",
                 href: "/notes/btech/1st-year/workshop",
               },
+              {
+                title: "Mix",
+                href: "/notes/btech/1st-year/mix",
+              },
             ],
           },
           {

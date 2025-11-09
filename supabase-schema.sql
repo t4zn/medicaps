@@ -122,6 +122,17 @@ CREATE TABLE file_reviews (
   UNIQUE(file_id, user_id)
 );
 
+-- File Votes (Thumbs Up/Down)
+CREATE TABLE file_votes (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  file_id UUID REFERENCES files(id) ON DELETE CASCADE,
+  user_id UUID REFERENCES profiles(id) ON DELETE CASCADE,
+  vote_type TEXT CHECK (vote_type IN ('up', 'down')),
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE(file_id, user_id)
+);
+
 -- File Bookmarks/Favorites
 CREATE TABLE file_bookmarks (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
@@ -277,6 +288,7 @@ ALTER TABLE downloads ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_connections ENABLE ROW LEVEL SECURITY;
 ALTER TABLE user_activities ENABLE ROW LEVEL SECURITY;
 ALTER TABLE file_reviews ENABLE ROW LEVEL SECURITY;
+ALTER TABLE file_votes ENABLE ROW LEVEL SECURITY;
 ALTER TABLE file_bookmarks ENABLE ROW LEVEL SECURITY;
 ALTER TABLE study_groups ENABLE ROW LEVEL SECURITY;
 ALTER TABLE study_group_members ENABLE ROW LEVEL SECURITY;
@@ -312,6 +324,12 @@ CREATE POLICY "System can insert activities" ON user_activities FOR INSERT WITH 
 CREATE POLICY "Reviews are publicly viewable" ON file_reviews FOR SELECT USING (true);
 CREATE POLICY "Users can create reviews" ON file_reviews FOR INSERT WITH CHECK (auth.uid() = user_id);
 CREATE POLICY "Users can update their reviews" ON file_reviews FOR UPDATE USING (auth.uid() = user_id);
+
+-- File Votes Policies
+CREATE POLICY "Votes are publicly viewable" ON file_votes FOR SELECT USING (true);
+CREATE POLICY "Users can create votes" ON file_votes FOR INSERT WITH CHECK (auth.uid() = user_id);
+CREATE POLICY "Users can update their votes" ON file_votes FOR UPDATE USING (auth.uid() = user_id);
+CREATE POLICY "Users can delete their votes" ON file_votes FOR DELETE USING (auth.uid() = user_id);
 
 -- File Bookmarks Policies
 CREATE POLICY "Users can view their bookmarks" ON file_bookmarks FOR SELECT USING (auth.uid() = user_id);
@@ -587,4 +605,6 @@ CREATE INDEX idx_downloads_file_id ON downloads(file_id);
 CREATE INDEX idx_user_activities_user_id ON user_activities(user_id);
 CREATE INDEX idx_notifications_user_id_read ON notifications(user_id, is_read);
 CREATE INDEX idx_file_reviews_file_id ON file_reviews(file_id);
+CREATE INDEX idx_file_votes_file_id ON file_votes(file_id);
+CREATE INDEX idx_file_votes_user_id ON file_votes(user_id);
 CREATE INDEX idx_file_bookmarks_user_id ON file_bookmarks(user_id);

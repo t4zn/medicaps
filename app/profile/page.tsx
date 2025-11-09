@@ -6,10 +6,11 @@ import { useAuth } from '@/contexts/AuthContext'
 import ProfileSettings from '@/components/profile/ProfileSettings'
 import MyUploads from '@/components/profile/MyUploads'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { LuUser, LuFileText } from 'react-icons/lu'
+import { LuUser, LuFileText, LuShield } from 'react-icons/lu'
+import AdminPanel from '@/components/admin/AdminPanel'
 
 export default function ProfilePage() {
-  const { user, loading } = useAuth()
+  const { user, loading, isAdmin } = useAuth()
   const router = useRouter()
 
   useEffect(() => {
@@ -42,7 +43,7 @@ export default function ProfilePage() {
       </div>
 
       <Tabs defaultValue="settings" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2 h-12 sm:h-10">
+        <TabsList className={`grid w-full h-12 sm:h-10 ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'}`}>
           <TabsTrigger value="settings" className="text-sm sm:text-base">
             <LuUser className="h-4 w-4 mr-1 sm:mr-2" />
             <span className="hidden xs:inline">Settings</span>
@@ -53,6 +54,13 @@ export default function ProfilePage() {
             <span className="hidden xs:inline">My Uploads</span>
             <span className="xs:hidden">Files</span>
           </TabsTrigger>
+          {isAdmin && (
+            <TabsTrigger value="admin" className="text-sm sm:text-base">
+              <LuShield className="h-4 w-4 mr-1 sm:mr-2" />
+              <span className="hidden xs:inline">Admin</span>
+              <span className="xs:hidden">Admin</span>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="settings" className="mt-6">
@@ -62,6 +70,12 @@ export default function ProfilePage() {
         <TabsContent value="uploads" className="mt-6">
           <MyUploads />
         </TabsContent>
+
+        {isAdmin && (
+          <TabsContent value="admin" className="mt-6">
+            <AdminPanel />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

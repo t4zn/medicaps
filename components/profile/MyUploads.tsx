@@ -7,7 +7,16 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Badge } from '../ui/badge'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuFileText, LuDownload, LuTrash2, LuUpload } from 'react-icons/lu'
+import { 
+  LuFileText, 
+  LuDownload, 
+  LuTrash2, 
+  LuUpload, 
+  LuCalendar, 
+  LuFolder, 
+  LuArrowDown, 
+  LuTag 
+} from 'react-icons/lu'
 import Link from 'next/link'
 
 interface UploadedFile {
@@ -112,17 +121,9 @@ export default function MyUploads() {
   return (
     <Card>
       <CardHeader>
-        <CardTitle className="flex items-center justify-between">
-          <span className="flex items-center gap-2">
-            <LuFileText className="h-5 w-5" />
-            My Uploads ({files.length})
-          </span>
-          <Link href="/upload">
-            <Button size="sm">
-              <LuUpload className="h-4 w-4 mr-2" />
-              Upload New
-            </Button>
-          </Link>
+        <CardTitle className="flex items-center gap-2">
+          <LuFileText className="h-5 w-5" />
+          My Uploads ({files.length})
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -170,16 +171,20 @@ export default function MyUploads() {
                     
                     <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
                       <span className="flex items-center gap-1">
-                        📅 {formatDate(file.created_at)}
+                        <LuCalendar className="h-3 w-3" />
+                        {formatDate(file.created_at)}
                       </span>
                       <span className="flex items-center gap-1">
-                        📁 {formatFileSize(file.file_size)}
+                        <LuFolder className="h-3 w-3" />
+                        {formatFileSize(file.file_size)}
                       </span>
                       <span className="flex items-center gap-1">
-                        📥 {file.downloads} downloads
+                        <LuArrowDown className="h-3 w-3" />
+                        {file.downloads} downloads
                       </span>
                       <span className="flex items-center gap-1 capitalize">
-                        🏷️ {file.category.replace('-', ' ')}
+                        <LuTag className="h-3 w-3" />
+                        {file.category.replace('-', ' ')}
                       </span>
                     </div>
 

@@ -16,9 +16,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   
   // Default sections to be open (Program dropdowns)
   const defaultOpenSections = {
-    'Notes-Program-/basic-setup': true,
-    'PYQs-Program-/structure': true,
-    'Formula Sheet-Program-/markdown': true,
+    'Resources-Program-/basic-setup': true,
   }
   
   const [openSections, setOpenSections] = useState<Record<string, boolean>>(defaultOpenSections)

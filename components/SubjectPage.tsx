@@ -8,6 +8,7 @@ import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 
 interface FileItem {
   id: string
@@ -36,10 +37,13 @@ interface SubjectPageProps {
 
 export default function SubjectPage({ subject }: SubjectPageProps) {
   const { user } = useAuth()
-  const [files, setFiles] = useState<FileItem[]>([])
+  const [notesFiles, setNotesFiles] = useState<FileItem[]>([])
+  const [pyqsFiles, setPyqsFiles] = useState<FileItem[]>([])
+  const [formulaFiles, setFormulaFiles] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [activeTab, setActiveTab] = useState('notes')
 
-  const fetchFiles = useCallback(async () => {
+  const fetchFiles = useCallback(async (category: string) => {
     try {
       const { data, error } = await supabase
         .from('files')
@@ -52,22 +56,38 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         .eq('program', subject.program)
         .eq('year', subject.year)
         .eq('subject', subject.name.toLowerCase().replace(/\s+/g, '-'))
-        .eq('category', subject.category)
+        .eq('category', category)
         .eq('is_approved', true)
         .order('created_at', { ascending: false })
 
       if (error) throw error
-      setFiles(data || [])
+      return data || []
     } catch (error) {
       console.error('Error fetching files:', error)
+      return []
+    }
+  }, [subject.program, subject.year, subject.name])
+
+  const fetchAllFiles = useCallback(async () => {
+    setLoading(true)
+    try {
+      const [notes, pyqs, formulas] = await Promise.all([
+        fetchFiles('notes'),
+        fetchFiles('pyqs'),
+        fetchFiles('formula-sheet')
+      ])
+      
+      setNotesFiles(notes)
+      setPyqsFiles(pyqs)
+      setFormulaFiles(formulas)
     } finally {
       setLoading(false)
     }
-  }, [subject.program, subject.year, subject.name, subject.category])
+  }, [fetchFiles])
 
   useEffect(() => {
-    fetchFiles()
-  }, [fetchFiles])
+    fetchAllFiles()
+  }, [fetchAllFiles])
 
   const handleDownload = async (file: FileItem) => {
     try {
@@ -101,6 +121,79 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     })
   }
 
+  const renderFileList = (files: FileItem[], category: string) => {
+    if (loading) {
+      return (
+        <div className="flex items-center justify-center py-12">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        </div>
+      )
+    }
+
+    if (files.length === 0) {
+      return (
+        <Card>
+          <CardContent className="py-12 text-center">
+            <LuFileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+            <h3 className="text-lg font-semibold mb-2">No {category} available yet</h3>
+            <p className="text-muted-foreground mb-4 max-w-md mx-auto">
+              Be the first to contribute {category} for {subject.name}.
+            </p>
+            {user && (
+              <Link href="/upload">
+                <Button>
+                  <LuUpload className="h-4 w-4 mr-2" />
+                  Upload First File
+                </Button>
+              </Link>
+            )}
+          </CardContent>
+        </Card>
+      )
+    }
+
+    return (
+      <div className="space-y-3">
+        {files.map((file) => (
+          <Card key={file.id} className="hover:shadow-sm transition-all duration-200 border-l-4 border-l-transparent hover:border-l-primary">
+            <CardContent className="p-4">
+              <div className="flex items-center justify-between">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-3 mb-2">
+                    <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
+                    <h3 className="font-medium truncate">{file.original_name}</h3>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                    <div className="flex items-center gap-1">
+                      <LuCalendar className="h-3 w-3" />
+                      {formatDate(file.created_at)}
+                    </div>
+                    <div className="flex items-center gap-1">
+                      <LuUser className="h-3 w-3" />
+                      {file.profiles?.full_name || 'Anonymous'}
+                    </div>
+                    <span>{formatFileSize(file.file_size)}</span>
+                    <span>{file.downloads} downloads</span>
+                  </div>
+                </div>
+
+                <Button
+                  onClick={() => handleDownload(file)}
+                  size="sm"
+                  className="ml-4 flex-shrink-0"
+                >
+                  <LuDownload className="h-4 w-4 mr-2" />
+                  Download
+                </Button>
+              </div>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
+    )
+  }
+
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
       {/* Header */}
@@ -110,7 +203,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             <Link href="/upload">
               <Button size="sm">
                 <LuUpload className="h-4 w-4 mr-2" />
-                Upload {subject.category}
+                Upload Material
               </Button>
             </Link>
           )}
@@ -122,7 +215,6 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             <div className="flex items-center gap-2 text-sm">
               <Badge variant="outline">{subject.program.toUpperCase()}</Badge>
               <Badge variant="outline">{subject.year.replace('-', ' ')}</Badge>
-              <Badge variant="outline" className="capitalize">{subject.category}</Badge>
               {subject.code && <Badge variant="secondary">{subject.code}</Badge>}
             </div>
           </div>
@@ -135,78 +227,44 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         </div>
       </div>
 
-      {/* Files Section */}
-      <div className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xl font-semibold">Study Materials</h2>
-          <span className="text-sm text-muted-foreground">
-            {files.length} {files.length === 1 ? 'file' : 'files'} available
-          </span>
-        </div>
+      {/* Tabs Section */}
+      <Tabs defaultValue="notes" className="space-y-6">
+        <TabsList className="w-full justify-start">
+          <TabsTrigger value="notes">Notes</TabsTrigger>
+          <TabsTrigger value="pyqs">PYQs</TabsTrigger>
+          <TabsTrigger value="formula-sheets">Formula Sheets</TabsTrigger>
+        </TabsList>
 
-        {loading ? (
-          <div className="flex items-center justify-center py-12">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+        <TabsContent value="notes" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Notes</h2>
+            <span className="text-sm text-muted-foreground">
+              {notesFiles.length} {notesFiles.length === 1 ? 'file' : 'files'} available
+            </span>
           </div>
-        ) : files.length === 0 ? (
-          <Card>
-            <CardContent className="py-12 text-center">
-              <LuFileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-              <h3 className="text-lg font-semibold mb-2">No materials available yet</h3>
-              <p className="text-muted-foreground mb-4 max-w-md mx-auto">
-                Be the first to contribute {subject.category} for {subject.name}.
-              </p>
-              {user && (
-                <Link href="/upload">
-                  <Button>
-                    <LuUpload className="h-4 w-4 mr-2" />
-                    Upload First File
-                  </Button>
-                </Link>
-              )}
-            </CardContent>
-          </Card>
-        ) : (
-          <div className="space-y-3">
-            {files.map((file) => (
-              <Card key={file.id} className="hover:shadow-sm transition-all duration-200 border-l-4 border-l-transparent hover:border-l-primary">
-                <CardContent className="p-4">
-                  <div className="flex items-center justify-between">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-3 mb-2">
-                        <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
-                        <h3 className="font-medium truncate">{file.original_name}</h3>
-                      </div>
-                      
-                      <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <LuCalendar className="h-3 w-3" />
-                          {formatDate(file.created_at)}
-                        </div>
-                        <div className="flex items-center gap-1">
-                          <LuUser className="h-3 w-3" />
-                          {file.profiles?.full_name || 'Anonymous'}
-                        </div>
-                        <span>{formatFileSize(file.file_size)}</span>
-                        <span>{file.downloads} downloads</span>
-                      </div>
-                    </div>
+          {renderFileList(notesFiles, 'notes')}
+        </TabsContent>
 
-                    <Button
-                      onClick={() => handleDownload(file)}
-                      size="sm"
-                      className="ml-4 flex-shrink-0"
-                    >
-                      <LuDownload className="h-4 w-4 mr-2" />
-                      Download
-                    </Button>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
+        <TabsContent value="pyqs" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Previous Year Questions</h2>
+            <span className="text-sm text-muted-foreground">
+              {pyqsFiles.length} {pyqsFiles.length === 1 ? 'file' : 'files'} available
+            </span>
           </div>
-        )}
-      </div>
+          {renderFileList(pyqsFiles, 'PYQs')}
+        </TabsContent>
+
+        <TabsContent value="formula-sheets" className="space-y-6">
+          <div className="flex items-center justify-between">
+            <h2 className="text-xl font-semibold">Formula Sheets</h2>
+            <span className="text-sm text-muted-foreground">
+              {formulaFiles.length} {formulaFiles.length === 1 ? 'file' : 'files'} available
+            </span>
+          </div>
+          {renderFileList(formulaFiles, 'formula sheets')}
+        </TabsContent>
+      </Tabs>
     </div>
   )
 }

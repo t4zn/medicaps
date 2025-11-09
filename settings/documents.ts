@@ -5,162 +5,187 @@ export const Documents: Paths[] = [
     heading: "Notes",
     title: "Program",
     href: "/basic-setup",
+    noLink: true,
     items: [
       {
         title: "B.Tech",
         href: "/btech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
             items: [
               {
                 title: "C Programming",
-                href: "/c-programming",
+                href: "/notes/btech/1st-year/c-programming",
               },
               {
                 title: "Chemistry",
-                href: "/chemistry",
+                href: "/notes/btech/1st-year/chemistry",
               },
               {
                 title: "Civil",
-                href: "/civil",
+                href: "/notes/btech/1st-year/civil",
               },
               {
                 title: "Communication Skills",
-                href: "/communication-skills",
+                href: "/notes/btech/1st-year/communication-skills",
               },
               {
                 title: "Electrical",
-                href: "/electrical",
+                href: "/notes/btech/1st-year/electrical",
               },
               {
                 title: "Electronics",
-                href: "/electronics",
+                href: "/notes/btech/1st-year/electronics",
               },
               {
                 title: "Graphics",
-                href: "/graphics",
+                href: "/notes/btech/1st-year/graphics",
               },
               {
                 title: "Maths I",
-                href: "/maths-1",
+                href: "/notes/btech/1st-year/maths-1",
               },
               {
                 title: "Maths II",
-                href: "/maths-2",
+                href: "/notes/btech/1st-year/maths-2",
               },
               {
                 title: "Mechanical",
-                href: "/mechanical",
+                href: "/notes/btech/1st-year/mechanical",
               },
               {
                 title: "Physics",
-                href: "/physics",
+                href: "/notes/btech/1st-year/physics",
               },
               {
                 title: "Workshop",
-                href: "/workshop",
+                href: "/notes/btech/1st-year/workshop",
               },
             ],
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Sc",
         href: "/bsc",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "BBA",
         href: "/bba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Com",
         href: "/bcom",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "M.Tech",
         href: "/mtech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "MBA",
         href: "/mba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },
@@ -173,162 +198,187 @@ export const Documents: Paths[] = [
     title: "Program",
     href: "/structure",
     heading: "PYQs",
+    noLink: true,
     items: [
       {
         title: "B.Tech",
         href: "/btech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
             items: [
               {
                 title: "C Programming",
-                href: "/c-programming",
+                href: "/pyqs/btech/1st-year/c-programming",
               },
               {
                 title: "Chemistry",
-                href: "/chemistry",
+                href: "/pyqs/btech/1st-year/chemistry",
               },
               {
                 title: "Civil",
-                href: "/civil",
+                href: "/pyqs/btech/1st-year/civil",
               },
               {
                 title: "Communication Skills",
-                href: "/communication-skills",
+                href: "/pyqs/btech/1st-year/communication-skills",
               },
               {
                 title: "Electrical",
-                href: "/electrical",
+                href: "/pyqs/btech/1st-year/electrical",
               },
               {
                 title: "Electronics",
-                href: "/electronics",
+                href: "/pyqs/btech/1st-year/electronics",
               },
               {
                 title: "Graphics",
-                href: "/graphics",
+                href: "/pyqs/btech/1st-year/graphics",
               },
               {
                 title: "Maths I",
-                href: "/maths-1",
+                href: "/pyqs/btech/1st-year/maths-1",
               },
               {
                 title: "Maths II",
-                href: "/maths-2",
+                href: "/pyqs/btech/1st-year/maths-2",
               },
               {
                 title: "Mechanical",
-                href: "/mechanical",
+                href: "/pyqs/btech/1st-year/mechanical",
               },
               {
                 title: "Physics",
-                href: "/physics",
+                href: "/pyqs/btech/1st-year/physics",
               },
               {
                 title: "Workshop",
-                href: "/workshop",
+                href: "/pyqs/btech/1st-year/workshop",
               },
             ],
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Sc",
         href: "/bsc",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "BBA",
         href: "/bba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Com",
         href: "/bcom",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "M.Tech",
         href: "/mtech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "MBA",
         href: "/mba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },
@@ -341,162 +391,187 @@ export const Documents: Paths[] = [
     title: "Program",
     href: "/markdown",
     heading: "Formula Sheet",
+    noLink: true,
     items: [
       {
         title: "B.Tech",
         href: "/btech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
             items: [
               {
                 title: "C Programming",
-                href: "/c-programming",
+                href: "/formula-sheets/btech/1st-year/c-programming",
               },
               {
                 title: "Chemistry",
-                href: "/chemistry",
+                href: "/formula-sheets/btech/1st-year/chemistry",
               },
               {
                 title: "Civil",
-                href: "/civil",
+                href: "/formula-sheets/btech/1st-year/civil",
               },
               {
                 title: "Communication Skills",
-                href: "/communication-skills",
+                href: "/formula-sheets/btech/1st-year/communication-skills",
               },
               {
                 title: "Electrical",
-                href: "/electrical",
+                href: "/formula-sheets/btech/1st-year/electrical",
               },
               {
                 title: "Electronics",
-                href: "/electronics",
+                href: "/formula-sheets/btech/1st-year/electronics",
               },
               {
                 title: "Graphics",
-                href: "/graphics",
+                href: "/formula-sheets/btech/1st-year/graphics",
               },
               {
                 title: "Maths I",
-                href: "/maths-1",
+                href: "/formula-sheets/btech/1st-year/maths-1",
               },
               {
                 title: "Maths II",
-                href: "/maths-2",
+                href: "/formula-sheets/btech/1st-year/maths-2",
               },
               {
                 title: "Mechanical",
-                href: "/mechanical",
+                href: "/formula-sheets/btech/1st-year/mechanical",
               },
               {
                 title: "Physics",
-                href: "/physics",
+                href: "/formula-sheets/btech/1st-year/physics",
               },
               {
                 title: "Workshop",
-                href: "/workshop",
+                href: "/formula-sheets/btech/1st-year/workshop",
               },
             ],
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Sc",
         href: "/bsc",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "BBA",
         href: "/bba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "B.Com",
         href: "/bcom",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
           {
             title: "3rd Year",
             href: "/3rd-year",
+            noLink: true,
           },
           {
             title: "4th Year",
             href: "/4th-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "M.Tech",
         href: "/mtech",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },
       {
         title: "MBA",
         href: "/mba",
+        noLink: true,
         items: [
           {
             title: "1st Year",
             href: "/1st-year",
+            noLink: true,
           },
           {
             title: "2nd Year",
             href: "/2nd-year",
+            noLink: true,
           },
         ],
       },

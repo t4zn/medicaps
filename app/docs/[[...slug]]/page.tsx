@@ -16,6 +16,13 @@ type PageProps = {
 export default async function Pages({ params }: PageProps) {
   const { slug = [] } = await params
   const pathName = slug.join("/")
+  
+  // Exclude dynamic routes that should not be handled by docs
+  const excludedPaths = ['notes', 'pyqs', 'formula-sheets', 'btech', 'bsc', 'bba', 'bcom']
+  if (slug.length > 0 && excludedPaths.includes(slug[0])) {
+    notFound()
+  }
+  
   const res = await getDocument(pathName)
 
   if (!res) notFound()
@@ -48,6 +55,13 @@ export default async function Pages({ params }: PageProps) {
 export async function generateMetadata({ params }: PageProps) {
   const { slug = [] } = await params
   const pathName = slug.join("/")
+  
+  // Exclude dynamic routes that should not be handled by docs
+  const excludedPaths = ['notes', 'pyqs', 'formula-sheets', 'btech', 'bsc', 'bba', 'bcom']
+  if (slug.length > 0 && excludedPaths.includes(slug[0])) {
+    return null
+  }
+  
   const res = await getDocument(pathName)
 
   if (!res) return null
@@ -89,7 +103,14 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export function generateStaticParams() {
-  return PageRoutes.filter((item) => item.href).map((item) => ({
-    slug: item.href.split("/").slice(1),
-  }))
+  return PageRoutes
+    .filter((item) => item.href)
+    .filter((item) => {
+      // Exclude dynamic routes that are handled by other pages
+      const dynamicPrefixes = ['/notes/', '/pyqs/', '/formula-sheets/']
+      return !dynamicPrefixes.some(prefix => item.href.startsWith(prefix))
+    })
+    .map((item) => ({
+      slug: item.href.split("/").slice(1),
+    }))
 }

@@ -56,10 +56,10 @@ export default function FileBrowser({
     setLoading(true)
     try {
       const params = new URLSearchParams()
-      if (filters.program) params.append('program', filters.program)
-      if (filters.year) params.append('year', filters.year)
-      if (filters.subject) params.append('subject', filters.subject)
-      if (filters.category) params.append('category', filters.category)
+      if (filters.program && filters.program !== 'all') params.append('program', filters.program)
+      if (filters.year && filters.year !== 'all') params.append('year', filters.year)
+      if (filters.subject && filters.subject !== 'all') params.append('subject', filters.subject)
+      if (filters.category && filters.category !== 'all') params.append('category', filters.category)
       if (searchTerm) params.append('search', searchTerm)
 
       const response = await fetch(`/api/files?${params}`)
@@ -162,7 +162,7 @@ export default function FileBrowser({
                 <SelectValue placeholder="All Categories" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Categories</SelectItem>
+                <SelectItem value="all">All Categories</SelectItem>
                 <SelectItem value="notes">Notes</SelectItem>
                 <SelectItem value="pyqs">PYQs</SelectItem>
                 <SelectItem value="formula-sheet">Formula Sheet</SelectItem>
@@ -179,7 +179,7 @@ export default function FileBrowser({
                 <SelectValue placeholder="All Programs" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Programs</SelectItem>
+                <SelectItem value="all">All Programs</SelectItem>
                 <SelectItem value="btech">B.Tech</SelectItem>
                 <SelectItem value="bsc">B.Sc</SelectItem>
                 <SelectItem value="bba">BBA</SelectItem>
@@ -199,7 +199,7 @@ export default function FileBrowser({
                 <SelectValue placeholder="All Years" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">All Years</SelectItem>
+                <SelectItem value="all">All Years</SelectItem>
                 <SelectItem value="1st-year">1st Year</SelectItem>
                 <SelectItem value="2nd-year">2nd Year</SelectItem>
                 <SelectItem value="3rd-year">3rd Year</SelectItem>

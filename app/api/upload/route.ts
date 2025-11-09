@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
       : `files/${category}/${program}/${year}/${filename}`
 
     // Upload to Supabase Storage
-    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+    const { error: uploadError } = await supabaseAdmin.storage
       .from('files')
       .upload(storagePath, file, {
         cacheControl: '3600',

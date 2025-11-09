@@ -32,7 +32,9 @@ function getAllLinks(node: Paths): Page[] {
   if (isRoute(node) && node.items) {
     node.items.forEach((subNode) => {
       if (isRoute(subNode)) {
-        const temp = { ...subNode, href: `${node.href}${subNode.href}` }
+        // Handle absolute paths (starting with /) differently
+        const finalHref = subNode.href.startsWith('/') ? subNode.href : `${node.href}${subNode.href}`
+        const temp = { ...subNode, href: finalHref }
         pages.push(...getAllLinks(temp))
       }
     })

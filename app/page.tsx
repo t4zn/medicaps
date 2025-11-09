@@ -2,7 +2,7 @@ import { Link } from "lib/transition"
 import Image from "next/image"
 import { LuUpload } from "react-icons/lu"
 
-import { PageRoutes } from "@/lib/pageroutes"
+
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 import Search from "@/components/navigation/search"
@@ -37,7 +37,7 @@ export default function Home() {
           </Button>
         </Link>
         <Link
-          href={`/docs${PageRoutes[0].href}`}
+          href="/docs/basic-setup"
           className={buttonVariants({ variant: "outline", className: "px-6 w-full sm:w-auto", size: "lg" })}
         >
           Get Started

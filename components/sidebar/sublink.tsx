@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo } from "react"
 import { usePathname } from "next/navigation"
 import { LuChevronDown, LuChevronRight } from "react-icons/lu"
 
@@ -12,6 +12,7 @@ import {
 } from "@/components/ui/collapsible"
 import { SheetClose } from "@/components/ui/sheet"
 import Anchor from "@/components/anchor"
+import { useSidebar } from "@/contexts/SidebarContext"
 
 function isRoute(
   item: Paths
@@ -20,23 +21,40 @@ function isRoute(
 }
 
 export default function SubLink(
-  props: Paths & { level: number; isSheet: boolean }
+  props: Paths & { level: number; isSheet: boolean; parentKey?: string }
 ) {
   const path = usePathname()
-  const [isOpen, setIsOpen] = useState(
-    isRoute(props) && props.title === "Program"
-  )
+  const { openSections, toggleSection } = useSidebar()
+  
+  // Create a unique section key that includes parent context
+  const isRouteProps = isRoute(props)
+  const parentKey = props.parentKey || ''
+  const propTitle = isRouteProps ? props.title : ''
+  const propHref = isRouteProps ? props.href : ''
+  
+  const sectionKey = useMemo(() => {
+    if (!isRouteProps) return ''
+    return `${parentKey}-${propTitle}-${propHref}`
+  }, [parentKey, propTitle, propHref, isRouteProps])
+  
+  const isOpen = openSections[sectionKey] ?? false
+  
+  // Debug logging
+  if (isRoute(props) && props.items) {
+    console.log('Section:', props.title, 'Key:', sectionKey, 'IsOpen:', isOpen)
+  }
 
   useEffect(() => {
     if (
-      isRoute(props) &&
-      props.href &&
-      path !== props.href &&
-      path.includes(props.href)
+      isRouteProps &&
+      propHref &&
+      path !== propHref &&
+      path.includes(propHref) &&
+      !isOpen
     ) {
-      setIsOpen(true)
+      toggleSection(sectionKey)
     }
-  }, [path, props])
+  }, [path, propHref, sectionKey, toggleSection, isRouteProps, isOpen])
 
   if (!isRoute(props)) {
     return null
@@ -66,7 +84,7 @@ export default function SubLink(
 
   return (
     <div className="flex w-full flex-col gap-1">
-      <Collapsible open={isOpen} onOpenChange={setIsOpen}>
+      <Collapsible open={isOpen} onOpenChange={() => toggleSection(sectionKey)}>
         <div className="mr-3 flex items-center gap-2 text-sm">
           {titleOrLink}
           <CollapsibleTrigger asChild>
@@ -92,11 +110,15 @@ export default function SubLink(
                 return null
               }
 
+              // Handle absolute paths (starting with /) differently
+              const finalHref = innerLink.href.startsWith('/') ? innerLink.href : `${href}${innerLink.href}`
+              
               const modifiedItems = {
                 ...innerLink,
-                href: `${href}${innerLink.href}`,
+                href: finalHref,
                 level: level + 1,
                 isSheet,
+                parentKey: sectionKey, // Pass current section key as parent for nested items
               }
 
               return <SubLink key={modifiedItems.href} {...modifiedItems} />

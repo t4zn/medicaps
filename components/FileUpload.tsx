@@ -2,7 +2,7 @@
 
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { LuUpload, LuFile, LuCheck, LuX, LuArrowRight, LuArrowLeft } from 'react-icons/lu'
+import { LuUpload, LuCheck, LuX, LuArrowRight, LuArrowLeft } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from './ui/card'

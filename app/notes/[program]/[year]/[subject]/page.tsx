@@ -178,6 +178,11 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Soft Skills-IV',
     description: 'Professional excellence, career development, and advanced interpersonal skills.',
     code: 'EN3NG08'
+  },
+  'industrial-training': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in real-world environments.',
+    code: 'CS3PC03'
   }
 }
 

@@ -178,6 +178,11 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Soft Skills-IV',
     description: 'Previous year question papers for Professional Excellence and career development.',
     code: 'EN3NG08'
+  },
+  'industrial-training': {
+    name: 'Industrial Training',
+    description: 'Previous year question papers for Industrial Training covering internship evaluation and reports.',
+    code: 'CS3PC03'
   }
 }
 

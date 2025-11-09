@@ -181,7 +181,14 @@ export const Documents: Paths[] = [
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/computer-science-and-engineering/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Industrial Training",
+                    href: "/notes/btech/4th-year/industrial-training",
+                  },
+                ],
               },
             ],
           },

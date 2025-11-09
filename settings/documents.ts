@@ -68,7 +68,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Computer Science and Engineering",
+            title: "CSE",
             href: "/computer-science-and-engineering",
             noLink: true,
             items: [
@@ -87,7 +87,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence",
+            title: "CSE - AI",
             href: "/cse-artificial-intelligence",
             noLink: true,
             items: [
@@ -106,7 +106,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Data Science",
+            title: "CSE - DS",
             href: "/cse-data-science",
             noLink: true,
             items: [
@@ -144,7 +144,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence and Machine Learning",
+            title: "CSE - AI & ML",
             href: "/cse-artificial-intelligence-and-machine-learning",
             noLink: true,
             items: [
@@ -163,7 +163,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Cyber Security",
+            title: "Cyber Security",
             href: "/cse-cyber-security",
             noLink: true,
             items: [
@@ -182,7 +182,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Internet of Things",
+            title: "CSE - IoT",
             href: "/cse-internet-of-things",
             noLink: true,
             items: [
@@ -201,7 +201,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSBS - Computer Science and Business Systems",
+            title: "CSBS",
             href: "/csbs-computer-science-and-business-systems",
             noLink: true,
             items: [
@@ -220,7 +220,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "ECE - Electronics & Communication Engineering",
+            title: "ECE",
             href: "/ece-electronics-communication-engineering",
             noLink: true,
             items: [
@@ -239,7 +239,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CE - Civil Engineering",
+            title: "Civil",
             href: "/ce-civil-engineering",
             noLink: true,
             items: [
@@ -258,7 +258,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "EE - Electrical Engineering",
+            title: "Electrical",
             href: "/ee-electrical-engineering",
             noLink: true,
             items: [
@@ -277,7 +277,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "AU/EV - Automobile Engineering (Electric Vehicle)",
+            title: "Automobile (EV)",
             href: "/au-ev-automobile-engineering-electric-vehicle",
             noLink: true,
             items: [
@@ -296,7 +296,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "IT - Information Technology",
+            title: "IT",
             href: "/it-information-technology",
             noLink: true,
             items: [
@@ -315,7 +315,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Mechanical Engineering",
+            title: "Mechanical",
             href: "/mechanical-engineering",
             noLink: true,
             items: [
@@ -334,7 +334,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "RA - Robotics and Automation",
+            title: "Robotics & Automation",
             href: "/ra-robotics-and-automation",
             noLink: true,
             items: [
@@ -352,523 +352,28 @@ export const Documents: Paths[] = [
               },
             ],
           },
-          {
-            title: "CSE - Artificial Intelligence & Analytics",
-            href: "/cse-artificial-intelligence-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/btech/cse-artificial-intelligence-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/btech/cse-artificial-intelligence-analytics/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/notes/btech/cse-artificial-intelligence-analytics/4th-year",
-              },
-            ],
-          },
-          {
-            title: "CSE - Advanced Artificial Intelligence",
-            href: "/cse-advanced-artificial-intelligence",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/btech/cse-advanced-artificial-intelligence/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/btech/cse-advanced-artificial-intelligence/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/notes/btech/cse-advanced-artificial-intelligence/4th-year",
-              },
-            ],
-          },
+
         ],
       },
       {
         title: "B.Sc",
-        href: "/bsc",
-        noLink: true,
-        items: [
-          {
-            title: "1st Year",
-            href: "/1st-year",
-            noLink: true,
-            items: [
-              {
-                title: "C Programming",
-                href: "/notes/bsc/1st-year/c-programming",
-              },
-              {
-                title: "Chemistry",
-                href: "/notes/bsc/1st-year/chemistry",
-              },
-              {
-                title: "Civil",
-                href: "/notes/bsc/1st-year/civil",
-              },
-              {
-                title: "Communication Skills",
-                href: "/notes/bsc/1st-year/communication-skills",
-              },
-              {
-                title: "Electrical",
-                href: "/notes/bsc/1st-year/electrical",
-              },
-              {
-                title: "Electronics",
-                href: "/notes/bsc/1st-year/electronics",
-              },
-              {
-                title: "Graphics",
-                href: "/notes/bsc/1st-year/graphics",
-              },
-              {
-                title: "Maths I",
-                href: "/notes/bsc/1st-year/maths-1",
-              },
-              {
-                title: "Maths II",
-                href: "/notes/bsc/1st-year/maths-2",
-              },
-              {
-                title: "Mechanical",
-                href: "/notes/bsc/1st-year/mechanical",
-              },
-              {
-                title: "Physics",
-                href: "/notes/bsc/1st-year/physics",
-              },
-              {
-                title: "Workshop",
-                href: "/notes/bsc/1st-year/workshop",
-              },
-            ],
-          },
-          {
-            title: "Biotechnology",
-            href: "/biotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/bsc/biotechnology/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bsc/biotechnology/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Forensic Science",
-            href: "/forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/bsc/forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bsc/forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Forensic Science",
-            href: "/hons-in-forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/bsc/hons-in-forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bsc/hons-in-forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Agriculture",
-            href: "/hons-in-agriculture",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/notes/bsc/hons-in-agriculture/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bsc/hons-in-agriculture/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/notes/bsc",
       },
       {
         title: "BBA",
-        href: "/bba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/finance/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/finance/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/foreign-trade/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/foreign-trade/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/human-resource/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/human-resource/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/marketing-management/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/marketing-management/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Digital Marketing",
-            href: "/digital-marketing",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/digital-marketing/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/digital-marketing/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/digital-marketing/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bba/business-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bba/business-analytics/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/notes/bba",
       },
       {
         title: "B.Com",
-        href: "/bcom",
-        noLink: true,
-        items: [
-          {
-            title: "B.Com (Hons.) Global Finance with ACCA",
-            href: "/bcom-hons-global-finance-with-acca",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/bcom/bcom-hons-global-finance-with-acca/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/bcom/bcom-hons-global-finance-with-acca/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/notes/bcom/bcom-hons-global-finance-with-acca/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/notes/bcom",
       },
       {
         title: "M.Tech",
-        href: "/mtech",
-        noLink: true,
-        items: [
-          {
-            title: "Computer Science and Engineering",
-            href: "/computer-science-and-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/computer-science-and-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/computer-science-and-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electronics and Communication Engineering",
-            href: "/electronics-and-communication-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/electronics-and-communication-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/electronics-and-communication-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electrical Engineering",
-            href: "/electrical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/electrical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/electrical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Mechanical Engineering",
-            href: "/mechanical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/mechanical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/mechanical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Civil Engineering",
-            href: "/civil-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/civil-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/civil-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Information Technology",
-            href: "/information-technology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/information-technology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/information-technology/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "NanoTechnology",
-            href: "/nanotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mtech/nanotechnology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mtech/nanotechnology/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/notes/mtech",
       },
       {
         title: "MBA",
-        href: "/mba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/finance/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/business-analytics/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/marketing-management/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/human-resource/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/foreign-trade/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Logistic Supply Chain Management",
-            href: "/logistic-supply-chain-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/notes/mba/logistic-supply-chain-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/notes/mba/logistic-supply-chain-management/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/notes/mba",
       },
     ],
   },
@@ -943,7 +448,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Computer Science and Engineering",
+            title: "CSE",
             href: "/computer-science-and-engineering",
             noLink: true,
             items: [
@@ -962,7 +467,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence",
+            title: "CSE - AI",
             href: "/cse-artificial-intelligence",
             noLink: true,
             items: [
@@ -981,7 +486,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Data Science",
+            title: "CSE - DS",
             href: "/cse-data-science",
             noLink: true,
             items: [
@@ -1019,7 +524,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence and Machine Learning",
+            title: "CSE - AI & ML",
             href: "/cse-artificial-intelligence-and-machine-learning",
             noLink: true,
             items: [
@@ -1038,7 +543,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Cyber Security",
+            title: "Cyber Security",
             href: "/cse-cyber-security",
             noLink: true,
             items: [
@@ -1057,7 +562,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Internet of Things",
+            title: "CSE - IoT",
             href: "/cse-internet-of-things",
             noLink: true,
             items: [
@@ -1076,7 +581,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSBS - Computer Science and Business Systems",
+            title: "CSBS",
             href: "/csbs-computer-science-and-business-systems",
             noLink: true,
             items: [
@@ -1095,7 +600,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "ECE - Electronics & Communication Engineering",
+            title: "ECE",
             href: "/ece-electronics-communication-engineering",
             noLink: true,
             items: [
@@ -1114,7 +619,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CE - Civil Engineering",
+            title: "Civil",
             href: "/ce-civil-engineering",
             noLink: true,
             items: [
@@ -1133,7 +638,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "EE - Electrical Engineering",
+            title: "Electrical",
             href: "/ee-electrical-engineering",
             noLink: true,
             items: [
@@ -1152,7 +657,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "AU/EV - Automobile Engineering (Electric Vehicle)",
+            title: "Automobile (EV)",
             href: "/au-ev-automobile-engineering-electric-vehicle",
             noLink: true,
             items: [
@@ -1171,7 +676,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "IT - Information Technology",
+            title: "IT",
             href: "/it-information-technology",
             noLink: true,
             items: [
@@ -1190,7 +695,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Mechanical Engineering",
+            title: "Mechanical",
             href: "/mechanical-engineering",
             noLink: true,
             items: [
@@ -1209,7 +714,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "RA - Robotics and Automation",
+            title: "Robotics & Automation",
             href: "/ra-robotics-and-automation",
             noLink: true,
             items: [
@@ -1227,523 +732,28 @@ export const Documents: Paths[] = [
               },
             ],
           },
-          {
-            title: "CSE - Artificial Intelligence & Analytics",
-            href: "/cse-artificial-intelligence-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/btech/cse-artificial-intelligence-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/btech/cse-artificial-intelligence-analytics/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/pyqs/btech/cse-artificial-intelligence-analytics/4th-year",
-              },
-            ],
-          },
-          {
-            title: "CSE - Advanced Artificial Intelligence",
-            href: "/cse-advanced-artificial-intelligence",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/btech/cse-advanced-artificial-intelligence/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/btech/cse-advanced-artificial-intelligence/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/pyqs/btech/cse-advanced-artificial-intelligence/4th-year",
-              },
-            ],
-          },
+
         ],
       },
       {
         title: "B.Sc",
-        href: "/bsc",
-        noLink: true,
-        items: [
-          {
-            title: "1st Year",
-            href: "/1st-year",
-            noLink: true,
-            items: [
-              {
-                title: "C Programming",
-                href: "/pyqs/bsc/1st-year/c-programming",
-              },
-              {
-                title: "Chemistry",
-                href: "/pyqs/bsc/1st-year/chemistry",
-              },
-              {
-                title: "Civil",
-                href: "/pyqs/bsc/1st-year/civil",
-              },
-              {
-                title: "Communication Skills",
-                href: "/pyqs/bsc/1st-year/communication-skills",
-              },
-              {
-                title: "Electrical",
-                href: "/pyqs/bsc/1st-year/electrical",
-              },
-              {
-                title: "Electronics",
-                href: "/pyqs/bsc/1st-year/electronics",
-              },
-              {
-                title: "Graphics",
-                href: "/pyqs/bsc/1st-year/graphics",
-              },
-              {
-                title: "Maths I",
-                href: "/pyqs/bsc/1st-year/maths-1",
-              },
-              {
-                title: "Maths II",
-                href: "/pyqs/bsc/1st-year/maths-2",
-              },
-              {
-                title: "Mechanical",
-                href: "/pyqs/bsc/1st-year/mechanical",
-              },
-              {
-                title: "Physics",
-                href: "/pyqs/bsc/1st-year/physics",
-              },
-              {
-                title: "Workshop",
-                href: "/pyqs/bsc/1st-year/workshop",
-              },
-            ],
-          },
-          {
-            title: "Biotechnology",
-            href: "/biotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/bsc/biotechnology/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bsc/biotechnology/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Forensic Science",
-            href: "/forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/bsc/forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bsc/forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Forensic Science",
-            href: "/hons-in-forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/bsc/hons-in-forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bsc/hons-in-forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Agriculture",
-            href: "/hons-in-agriculture",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/pyqs/bsc/hons-in-agriculture/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bsc/hons-in-agriculture/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/pyqs/bsc",
       },
       {
         title: "BBA",
-        href: "/bba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/finance/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/finance/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/foreign-trade/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/foreign-trade/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/human-resource/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/human-resource/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/marketing-management/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/marketing-management/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Digital Marketing",
-            href: "/digital-marketing",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/digital-marketing/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/digital-marketing/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/digital-marketing/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bba/business-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bba/business-analytics/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/pyqs/bba",
       },
       {
         title: "B.Com",
-        href: "/bcom",
-        noLink: true,
-        items: [
-          {
-            title: "B.Com (Hons.) Global Finance with ACCA",
-            href: "/bcom-hons-global-finance-with-acca",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/bcom/bcom-hons-global-finance-with-acca/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/bcom/bcom-hons-global-finance-with-acca/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/pyqs/bcom/bcom-hons-global-finance-with-acca/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/pyqs/bcom",
       },
       {
         title: "M.Tech",
-        href: "/mtech",
-        noLink: true,
-        items: [
-          {
-            title: "Computer Science and Engineering",
-            href: "/computer-science-and-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/computer-science-and-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/computer-science-and-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electronics and Communication Engineering",
-            href: "/electronics-and-communication-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/electronics-and-communication-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/electronics-and-communication-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electrical Engineering",
-            href: "/electrical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/electrical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/electrical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Mechanical Engineering",
-            href: "/mechanical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/mechanical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/mechanical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Civil Engineering",
-            href: "/civil-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/civil-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/civil-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Information Technology",
-            href: "/information-technology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/information-technology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/information-technology/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "NanoTechnology",
-            href: "/nanotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mtech/nanotechnology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mtech/nanotechnology/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/pyqs/mtech",
       },
       {
         title: "MBA",
-        href: "/mba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/finance/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/business-analytics/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/marketing-management/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/human-resource/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/foreign-trade/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Logistic Supply Chain Management",
-            href: "/logistic-supply-chain-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/pyqs/mba/logistic-supply-chain-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/pyqs/mba/logistic-supply-chain-management/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/pyqs/mba",
       },
     ],
   },
@@ -1821,7 +831,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Computer Science and Engineering",
+            title: "CSE",
             href: "/computer-science-and-engineering",
             noLink: true,
             items: [
@@ -1840,7 +850,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence",
+            title: "CSE - AI",
             href: "/cse-artificial-intelligence",
             noLink: true,
             items: [
@@ -1859,7 +869,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Data Science",
+            title: "CSE - DS",
             href: "/cse-data-science",
             noLink: true,
             items: [
@@ -1897,7 +907,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Artificial Intelligence and Machine Learning",
+            title: "CSE - AI & ML",
             href: "/cse-artificial-intelligence-and-machine-learning",
             noLink: true,
             items: [
@@ -1916,7 +926,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Cyber Security",
+            title: "Cyber Security",
             href: "/cse-cyber-security",
             noLink: true,
             items: [
@@ -1935,7 +945,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSE - Internet of Things",
+            title: "CSE - IoT",
             href: "/cse-internet-of-things",
             noLink: true,
             items: [
@@ -1954,7 +964,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CSBS - Computer Science and Business Systems",
+            title: "CSBS",
             href: "/csbs-computer-science-and-business-systems",
             noLink: true,
             items: [
@@ -1973,7 +983,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "ECE - Electronics & Communication Engineering",
+            title: "ECE",
             href: "/ece-electronics-communication-engineering",
             noLink: true,
             items: [
@@ -1992,7 +1002,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "CE - Civil Engineering",
+            title: "Civil",
             href: "/ce-civil-engineering",
             noLink: true,
             items: [
@@ -2011,7 +1021,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "EE - Electrical Engineering",
+            title: "Electrical",
             href: "/ee-electrical-engineering",
             noLink: true,
             items: [
@@ -2030,7 +1040,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "AU/EV - Automobile Engineering (Electric Vehicle)",
+            title: "Automobile (EV)",
             href: "/au-ev-automobile-engineering-electric-vehicle",
             noLink: true,
             items: [
@@ -2049,7 +1059,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "IT - Information Technology",
+            title: "IT",
             href: "/it-information-technology",
             noLink: true,
             items: [
@@ -2068,7 +1078,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "Mechanical Engineering",
+            title: "Mechanical",
             href: "/mechanical-engineering",
             noLink: true,
             items: [
@@ -2087,7 +1097,7 @@ export const Documents: Paths[] = [
             ],
           },
           {
-            title: "RA - Robotics and Automation",
+            title: "Robotics & Automation",
             href: "/ra-robotics-and-automation",
             noLink: true,
             items: [
@@ -2105,523 +1115,28 @@ export const Documents: Paths[] = [
               },
             ],
           },
-          {
-            title: "CSE - Artificial Intelligence & Analytics",
-            href: "/cse-artificial-intelligence-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/btech/cse-artificial-intelligence-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/btech/cse-artificial-intelligence-analytics/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/formula-sheets/btech/cse-artificial-intelligence-analytics/4th-year",
-              },
-            ],
-          },
-          {
-            title: "CSE - Advanced Artificial Intelligence",
-            href: "/cse-advanced-artificial-intelligence",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/btech/cse-advanced-artificial-intelligence/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/btech/cse-advanced-artificial-intelligence/3rd-year",
-              },
-              {
-                title: "4th Year",
-                href: "/formula-sheets/btech/cse-advanced-artificial-intelligence/4th-year",
-              },
-            ],
-          },
+
         ],
       },
       {
         title: "B.Sc",
-        href: "/bsc",
-        noLink: true,
-        items: [
-          {
-            title: "1st Year",
-            href: "/1st-year",
-            noLink: true,
-            items: [
-              {
-                title: "C Programming",
-                href: "/formula-sheets/bsc/1st-year/c-programming",
-              },
-              {
-                title: "Chemistry",
-                href: "/formula-sheets/bsc/1st-year/chemistry",
-              },
-              {
-                title: "Civil",
-                href: "/formula-sheets/bsc/1st-year/civil",
-              },
-              {
-                title: "Communication Skills",
-                href: "/formula-sheets/bsc/1st-year/communication-skills",
-              },
-              {
-                title: "Electrical",
-                href: "/formula-sheets/bsc/1st-year/electrical",
-              },
-              {
-                title: "Electronics",
-                href: "/formula-sheets/bsc/1st-year/electronics",
-              },
-              {
-                title: "Graphics",
-                href: "/formula-sheets/bsc/1st-year/graphics",
-              },
-              {
-                title: "Maths I",
-                href: "/formula-sheets/bsc/1st-year/maths-1",
-              },
-              {
-                title: "Maths II",
-                href: "/formula-sheets/bsc/1st-year/maths-2",
-              },
-              {
-                title: "Mechanical",
-                href: "/formula-sheets/bsc/1st-year/mechanical",
-              },
-              {
-                title: "Physics",
-                href: "/formula-sheets/bsc/1st-year/physics",
-              },
-              {
-                title: "Workshop",
-                href: "/formula-sheets/bsc/1st-year/workshop",
-              },
-            ],
-          },
-          {
-            title: "Biotechnology",
-            href: "/biotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bsc/biotechnology/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bsc/biotechnology/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Forensic Science",
-            href: "/forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bsc/forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bsc/forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Forensic Science",
-            href: "/hons-in-forensic-science",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bsc/hons-in-forensic-science/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bsc/hons-in-forensic-science/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Hons in Agriculture",
-            href: "/hons-in-agriculture",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bsc/hons-in-agriculture/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bsc/hons-in-agriculture/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/formula-sheets/bsc",
       },
       {
         title: "BBA",
-        href: "/bba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/finance/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/finance/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/foreign-trade/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/foreign-trade/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/human-resource/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/human-resource/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/marketing-management/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/marketing-management/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Digital Marketing",
-            href: "/digital-marketing",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/digital-marketing/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/digital-marketing/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/digital-marketing/3rd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bba/business-analytics/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bba/business-analytics/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/formula-sheets/bba",
       },
       {
         title: "B.Com",
-        href: "/bcom",
-        noLink: true,
-        items: [
-          {
-            title: "B.Com (Hons.) Global Finance with ACCA",
-            href: "/bcom-hons-global-finance-with-acca",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/bcom/bcom-hons-global-finance-with-acca/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/bcom/bcom-hons-global-finance-with-acca/2nd-year",
-              },
-              {
-                title: "3rd Year",
-                href: "/formula-sheets/bcom/bcom-hons-global-finance-with-acca/3rd-year",
-              },
-            ],
-          },
-        ],
+        href: "/formula-sheets/bcom",
       },
       {
         title: "M.Tech",
-        href: "/mtech",
-        noLink: true,
-        items: [
-          {
-            title: "Computer Science and Engineering",
-            href: "/computer-science-and-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/computer-science-and-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/computer-science-and-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electronics and Communication Engineering",
-            href: "/electronics-and-communication-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/electronics-and-communication-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/electronics-and-communication-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Electrical Engineering",
-            href: "/electrical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/electrical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/electrical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Mechanical Engineering",
-            href: "/mechanical-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/mechanical-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/mechanical-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Civil Engineering",
-            href: "/civil-engineering",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/civil-engineering/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/civil-engineering/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Information Technology",
-            href: "/information-technology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/information-technology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/information-technology/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "NanoTechnology",
-            href: "/nanotechnology",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mtech/nanotechnology/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mtech/nanotechnology/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/formula-sheets/mtech",
       },
       {
         title: "MBA",
-        href: "/mba",
-        noLink: true,
-        items: [
-          {
-            title: "Finance",
-            href: "/finance",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/finance/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/finance/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Business Analytics",
-            href: "/business-analytics",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/business-analytics/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/business-analytics/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Marketing Management",
-            href: "/marketing-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/marketing-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/marketing-management/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Human Resource",
-            href: "/human-resource",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/human-resource/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/human-resource/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Foreign Trade",
-            href: "/foreign-trade",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/foreign-trade/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/foreign-trade/2nd-year",
-              },
-            ],
-          },
-          {
-            title: "Logistic Supply Chain Management",
-            href: "/logistic-supply-chain-management",
-            noLink: true,
-            items: [
-              {
-                title: "1st Year",
-                href: "/formula-sheets/mba/logistic-supply-chain-management/1st-year",
-              },
-              {
-                title: "2nd Year",
-                href: "/formula-sheets/mba/logistic-supply-chain-management/2nd-year",
-              },
-            ],
-          },
-        ],
+        href: "/formula-sheets/mba",
       },
     ],
   },

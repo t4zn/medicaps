@@ -44,6 +44,30 @@ export default function SubLink(
     toggleSection(sectionKey)
   }, [toggleSection, sectionKey])
 
+  // Memoize the nested items to prevent unnecessary re-renders - moved before early returns
+  const nestedItems = useMemo(() => {
+    if (!isRouteProps || !isRoute(props) || !props.items) return null
+    
+    return props.items?.map((innerLink) => {
+      if (!isRoute(innerLink)) {
+        return null
+      }
+
+      // Handle absolute paths (starting with /) differently
+      const finalHref = innerLink.href.startsWith('/') ? innerLink.href : `${props.href}${innerLink.href}`
+      
+      const modifiedItems = {
+        ...innerLink,
+        href: finalHref,
+        level: props.level + 1,
+        isSheet: props.isSheet,
+        parentKey: sectionKey, // Pass current section key as parent for nested items
+      }
+
+      return <SubLink key={modifiedItems.href} {...modifiedItems} />
+    })
+  }, [props, sectionKey, isRouteProps])
+
   useEffect(() => {
     if (
       isRouteProps &&
@@ -82,28 +106,6 @@ export default function SubLink(
   if (!items) {
     return <div className="flex flex-col text-sm">{titleOrLink}</div>
   }
-
-  // Memoize the nested items to prevent unnecessary re-renders
-  const nestedItems = useMemo(() => {
-    return items?.map((innerLink) => {
-      if (!isRoute(innerLink)) {
-        return null
-      }
-
-      // Handle absolute paths (starting with /) differently
-      const finalHref = innerLink.href.startsWith('/') ? innerLink.href : `${href}${innerLink.href}`
-      
-      const modifiedItems = {
-        ...innerLink,
-        href: finalHref,
-        level: level + 1,
-        isSheet,
-        parentKey: sectionKey, // Pass current section key as parent for nested items
-      }
-
-      return <SubLink key={modifiedItems.href} {...modifiedItems} />
-    })
-  }, [items, href, level, isSheet, sectionKey])
 
   return (
     <div className="flex w-full flex-col gap-1">

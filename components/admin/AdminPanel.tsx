@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { LuCheck, LuX, LuFileText, LuCalendar, LuUser, LuRefreshCw, LuFlag, LuEye } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -54,7 +54,7 @@ export default function AdminPanel() {
   const [actionLoading, setActionLoading] = useState<string | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
 
-  const fetchPendingFiles = async () => {
+  const fetchPendingFiles = useCallback(async () => {
     if (!user) return
 
     try {
@@ -67,14 +67,14 @@ export default function AdminPanel() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to fetch files' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error occurred' })
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
 
-  const fetchReports = async () => {
+  const fetchReports = useCallback(async () => {
     if (!user) return
 
     try {
@@ -87,17 +87,17 @@ export default function AdminPanel() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Failed to fetch reports' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error occurred' })
     } finally {
       setReportsLoading(false)
     }
-  }
+  }, [user])
 
   useEffect(() => {
     fetchPendingFiles()
     fetchReports()
-  }, [user])
+  }, [user, fetchPendingFiles, fetchReports])
 
   const handleFileAction = async (fileId: string, action: 'approve' | 'reject') => {
     if (!user) return
@@ -119,7 +119,7 @@ export default function AdminPanel() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Action failed' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error occurred' })
     } finally {
       setActionLoading(null)
@@ -164,7 +164,7 @@ export default function AdminPanel() {
       } else {
         setMessage({ type: 'error', text: data.error || 'Action failed' })
       }
-    } catch (error) {
+    } catch {
       setMessage({ type: 'error', text: 'Network error occurred' })
     } finally {
       setActionLoading(null)

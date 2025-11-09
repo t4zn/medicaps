@@ -57,6 +57,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const { user } = useAuth()
   const searchParams = useSearchParams()
   const [currentStep, setCurrentStep] = useState<Step>('category')
+  const [isClient, setIsClient] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadStatus, setUploadStatus] = useState<{
     type: 'success' | 'error' | null

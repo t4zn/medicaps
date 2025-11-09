@@ -281,15 +281,117 @@ function extractSnippet(content: string, query: string): string {
   return snippet
 }
 
+// Subject data for search
+const subjectData = [
+  // 1st Year subjects
+  { title: "Engineering Mathematics-I", href: "/notes/btech/1st-year/maths-1", code: "EN3BS11", category: "1st Year" },
+  { title: "Engineering Mathematics-II", href: "/notes/btech/1st-year/maths-2", code: "EN3BS12", category: "1st Year" },
+  { title: "Engineering Physics", href: "/notes/btech/1st-year/physics", code: "EN3BS16", category: "1st Year" },
+  { title: "Engineering Chemistry", href: "/notes/btech/1st-year/chemistry", code: "EN3BS14", category: "1st Year" },
+  { title: "Basic Electrical Engineering", href: "/notes/btech/1st-year/electrical", code: "EN3ES17", category: "1st Year" },
+  { title: "Basic Electronics Engineering", href: "/notes/btech/1st-year/electronics", code: "EN3ES16", category: "1st Year" },
+  { title: "Engineering Graphics", href: "/notes/btech/1st-year/graphics", code: "EN3ES26", category: "1st Year" },
+  { title: "Basic Programming with C", href: "/notes/btech/1st-year/c-programming", code: "EN3ES27", category: "1st Year" },
+  { title: "Basic Civil Engineering & Mechanics", href: "/notes/btech/1st-year/civil", code: "EN3ES30", category: "1st Year" },
+  { title: "Workshop Practice", href: "/notes/btech/1st-year/workshop", code: "EN3ES29", category: "1st Year" },
+  { title: "Communication Skills", href: "/notes/btech/1st-year/communication-skills", code: "EN3HS10", category: "1st Year" },
+  
+  // CSE 2nd Year subjects
+  { title: "Discrete Mathematics", href: "/notes/btech/2nd-year/discrete-mathematics", code: "CS3BS04", category: "CSE 2nd Year" },
+  { title: "Data Communication", href: "/notes/btech/2nd-year/data-communication", code: "CS3CO28", category: "CSE 2nd Year" },
+  { title: "Object Oriented Programming", href: "/notes/btech/2nd-year/object-oriented-programming", code: "CS3CO30", category: "CSE 2nd Year" },
+  { title: "Data Structures", href: "/notes/btech/2nd-year/data-structures", code: "CS3CO31", category: "CSE 2nd Year" },
+  { title: "Java Programming", href: "/notes/btech/2nd-year/java-programming", code: "CS3CO32", category: "CSE 2nd Year" },
+  { title: "Digital Electronics", href: "/notes/btech/2nd-year/digital-electronics", code: "CS3CO33", category: "CSE 2nd Year" },
+  { title: "Computer System Architecture", href: "/notes/btech/2nd-year/computer-system-architecture", code: "CS3CO34", category: "CSE 2nd Year" },
+  { title: "Soft Skills-I", href: "/notes/btech/2nd-year/soft-skills-1", code: "EN3NG03", category: "CSE 2nd Year" },
+  { title: "Microprocessor and Interfacing", href: "/notes/btech/2nd-year/microprocessor-and-interfacing", code: "CS3CO35", category: "CSE 2nd Year" },
+  { title: "Advanced Java Programming", href: "/notes/btech/2nd-year/advanced-java-programming", code: "CS3CO37", category: "CSE 2nd Year" },
+  { title: "Database Management Systems", href: "/notes/btech/2nd-year/database-management-systems", code: "CS3CO39", category: "CSE 2nd Year" },
+  { title: "Theory of Computation", href: "/notes/btech/2nd-year/theory-of-computation", code: "CS3CO46", category: "CSE 2nd Year" },
+  { title: "Operating Systems", href: "/notes/btech/2nd-year/operating-systems", code: "CS3CO47", category: "CSE 2nd Year" },
+  { title: "Soft Skills-II", href: "/notes/btech/2nd-year/soft-skills-2", code: "EN3NG10", category: "CSE 2nd Year" },
+  
+  // CSE 3rd Year subjects
+  { title: "Software Engineering", href: "/notes/btech/3rd-year/software-engineering", code: "CS3CO40", category: "CSE 3rd Year" },
+  { title: "Computer Networks", href: "/notes/btech/3rd-year/computer-networks", code: "CS3CO43", category: "CSE 3rd Year" },
+  { title: "Economics", href: "/notes/btech/3rd-year/economics", code: "EN3HS04", category: "CSE 3rd Year" },
+  { title: "Soft Skills-III", href: "/notes/btech/3rd-year/soft-skills-3", code: "EN3NG09", category: "CSE 3rd Year" },
+  { title: "Compiler Design", href: "/notes/btech/3rd-year/compiler-design", code: "CS3CO44", category: "CSE 3rd Year" },
+  { title: "Design and Analysis of Algorithms", href: "/notes/btech/3rd-year/design-and-analysis-of-algorithms", code: "CS3CO45", category: "CSE 3rd Year" },
+  { title: "Research Methodology", href: "/notes/btech/3rd-year/research-methodology", code: "CS3ES15", category: "CSE 3rd Year" },
+  { title: "Soft Skills-IV", href: "/notes/btech/3rd-year/soft-skills-4", code: "EN3NG08", category: "CSE 3rd Year" },
+  
+  // CSE 4th Year subjects
+  { title: "Industrial Training", href: "/notes/btech/4th-year/industrial-training", code: "CS3PC03", category: "CSE 4th Year" },
+  
+  // CSE AI 2nd Year subjects
+  { title: "Principles of Artificial Intelligence", href: "/notes/btech/2nd-year/principles-of-artificial-intelligence", code: "CS3CO35", category: "CSE AI 2nd Year" },
+  { title: "Machine Learning Fundamentals", href: "/notes/btech/2nd-year/machine-learning-fundamentals", code: "CS3CO40", category: "CSE AI 2nd Year" },
+]
+
+function searchSubjects(query: string): search[] {
+  const lowerQuery = query.toLowerCase().trim()
+  const queryWords = lowerQuery.split(/\s+/)
+  
+  return subjectData
+    .map((subject) => {
+      let relevance = 0
+      
+      // Exact title match
+      if (subject.title.toLowerCase() === lowerQuery) {
+        relevance += 100
+      } else if (subject.title.toLowerCase().includes(lowerQuery)) {
+        relevance += 50
+      }
+      
+      // Code match
+      if (subject.code.toLowerCase().includes(lowerQuery)) {
+        relevance += 80
+      }
+      
+      // Category match
+      if (subject.category.toLowerCase().includes(lowerQuery)) {
+        relevance += 30
+      }
+      
+      // Word matches
+      queryWords.forEach((word) => {
+        if (subject.title.toLowerCase().includes(word)) {
+          relevance += 20
+        }
+        if (subject.code.toLowerCase().includes(word)) {
+          relevance += 15
+        }
+        if (subject.category.toLowerCase().includes(word)) {
+          relevance += 10
+        }
+      })
+      
+      return {
+        title: subject.title,
+        href: subject.href,
+        snippet: `${subject.code} - ${subject.category}`,
+        description: `Course code: ${subject.code}`,
+        relevance
+      }
+    })
+    .filter((result) => result.relevance > 0)
+    .sort((a, b) => b.relevance - a.relevance)
+}
+
 export function advanceSearch(query: string) {
   const lowerQuery = query.toLowerCase().trim()
-  const queryWords = lowerQuery.split(/\s+/).filter((word) => word.length >= 3)
+  const queryWords = lowerQuery.split(/\s+/).filter((word) => word.length >= 2)
 
   if (queryWords.length === 0) return []
 
+  // Search subjects first
+  const subjectResults = searchSubjects(query)
+  
+  // Search documentation
   const chunks = chunkArray(searchData, 100)
-
-  const results = chunks.flatMap((chunk) =>
+  const docResults = chunks.flatMap((chunk) =>
     chunk
       .map((doc) => {
         const relevanceScore = calculateRelevance(
@@ -315,7 +417,11 @@ export function advanceSearch(query: string) {
       .sort((a, b) => b.relevance - a.relevance)
   )
 
-  return results.slice(0, 10)
+  // Combine and sort results
+  const allResults = [...subjectResults, ...docResults]
+    .sort((a, b) => (b.relevance || 0) - (a.relevance || 0))
+
+  return allResults.slice(0, 10)
 }
 
 function chunkArray<T>(array: T[], chunkSize: number): T[][] {

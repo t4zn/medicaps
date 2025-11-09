@@ -183,6 +183,21 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Industrial Training',
     description: 'Previous year question papers for Industrial Training covering internship evaluation and reports.',
     code: 'CS3PC03'
+  },
+  'principles-of-artificial-intelligence': {
+    name: 'Principles of Artificial Intelligence',
+    description: 'Previous year question papers for AI covering search algorithms and knowledge representation.',
+    code: 'CS3CO35'
+  },
+  'machine-learning-fundamentals': {
+    name: 'Machine Learning Fundamentals',
+    description: 'Previous year question papers for ML covering algorithms and neural networks.',
+    code: 'CS3CO40'
+  },
+  'advanced-java-or-python-programming': {
+    name: 'Advanced Java or Python Programming',
+    description: 'Previous year question papers for advanced programming in Java or Python.',
+    code: 'CS3CO37'
   }
 }
 

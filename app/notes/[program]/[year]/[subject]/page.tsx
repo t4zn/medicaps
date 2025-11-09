@@ -183,6 +183,21 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Industrial Training',
     description: 'Practical industry experience, internship reports, and professional skill development in real-world environments.',
     code: 'CS3PC03'
+  },
+  'principles-of-artificial-intelligence': {
+    name: 'Principles of Artificial Intelligence',
+    description: 'AI fundamentals, search algorithms, knowledge representation, and intelligent agent design.',
+    code: 'CS3CO35'
+  },
+  'machine-learning-fundamentals': {
+    name: 'Machine Learning Fundamentals',
+    description: 'ML algorithms, supervised and unsupervised learning, neural networks, and data preprocessing.',
+    code: 'CS3CO40'
+  },
+  'advanced-java-or-python-programming': {
+    name: 'Advanced Java or Python Programming',
+    description: 'Advanced programming concepts in Java or Python for AI and ML applications.',
+    code: 'CS3CO37'
   }
 }
 

@@ -47,7 +47,11 @@ export default function Search() {
       if (isOpen && event.key === "Enter" && filteredResults.length > 2) {
         const selected = filteredResults[0]
         if ("href" in selected) {
-          window.location.href = `/docs${selected.href}`
+          // Check if it's a subject page or docs page
+          const href = selected.href.startsWith('/notes') || selected.href.startsWith('/pyqs') || selected.href.startsWith('/formula-sheets') 
+            ? selected.href 
+            : `/docs${selected.href}`
+          window.location.href = href
           setIsOpen(false)
         }
       }
@@ -168,7 +172,7 @@ export default function Search() {
                             className={cn(
                               "flex w-full max-w-[310px] flex-col gap-0.5 rounded-sm p-3 text-[15px] transition-all duration-300 hover:bg-neutral-100 sm:max-w-[480px] dark:hover:bg-neutral-900"
                             )}
-                            href={`/docs${item.href}`}
+                            href={item.href.startsWith('/notes') || item.href.startsWith('/pyqs') || item.href.startsWith('/formula-sheets') ? item.href : `/docs${item.href}`}
                           >
                             <div className="flex h-full items-center gap-x-2">
                               <LuFileText className="h-[1.1rem] w-[1.1rem]" />

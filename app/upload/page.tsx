@@ -1,4 +1,18 @@
+'use client'
+
+import { Suspense } from 'react'
 import FileUpload from '@/components/FileUpload'
+
+// Force dynamic rendering
+export const dynamic = 'force-dynamic'
+
+function LoadingFallback() {
+  return (
+    <div className="flex items-center justify-center py-12">
+      <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+    </div>
+  )
+}
 
 export default function UploadPage() {
   return (
@@ -12,7 +26,9 @@ export default function UploadPage() {
           </p>
         </div>
         
-        <FileUpload />
+        <Suspense fallback={<LoadingFallback />}>
+          <FileUpload />
+        </Suspense>
       </div>
     </div>
   )

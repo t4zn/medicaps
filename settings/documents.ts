@@ -199,7 +199,62 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-artificial-intelligence/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Discrete Maths",
+                    href: "/notes/btech/2nd-year/discrete-mathematics",
+                  },
+                  {
+                    title: "Data Comm",
+                    href: "/notes/btech/2nd-year/data-communication",
+                  },
+                  {
+                    title: "Data Structures",
+                    href: "/notes/btech/2nd-year/data-structures",
+                  },
+                  {
+                    title: "Digital Electronics",
+                    href: "/notes/btech/2nd-year/digital-electronics",
+                  },
+                  {
+                    title: "Computer Architecture",
+                    href: "/notes/btech/2nd-year/computer-system-architecture",
+                  },
+                  {
+                    title: "AI Principles",
+                    href: "/notes/btech/2nd-year/principles-of-artificial-intelligence",
+                  },
+                  {
+                    title: "Soft Skills-I",
+                    href: "/notes/btech/2nd-year/soft-skills-1",
+                  },
+                  {
+                    title: "Operating Systems",
+                    href: "/notes/btech/2nd-year/operating-systems",
+                  },
+                  {
+                    title: "Advanced Java/Python",
+                    href: "/notes/btech/2nd-year/advanced-java-or-python-programming",
+                  },
+                  {
+                    title: "Theory of Computation",
+                    href: "/notes/btech/2nd-year/theory-of-computation",
+                  },
+                  {
+                    title: "DBMS",
+                    href: "/notes/btech/2nd-year/database-management-systems",
+                  },
+                  {
+                    title: "ML Fundamentals",
+                    href: "/notes/btech/2nd-year/machine-learning-fundamentals",
+                  },
+                  {
+                    title: "Soft Skills-II",
+                    href: "/notes/btech/2nd-year/soft-skills-2",
+                  },
+                ],
               },
               {
                 title: "3rd Year",

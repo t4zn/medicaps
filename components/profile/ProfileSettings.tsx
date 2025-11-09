@@ -11,7 +11,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
 import { Alert, AlertDescription } from '../ui/alert'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { Separator } from '../ui/separator'
-import { LuUser, LuSave, LuCamera, LuMail, LuCalendar, LuGraduationCap, LuMapPin, LuPhone, LuRotateCcw } from 'react-icons/lu'
+import { LuUser, LuSave, LuCamera, LuMail, LuGraduationCap, LuMapPin, LuRotateCcw } from 'react-icons/lu'
 
 export default function ProfileSettings() {
   const { user, profile } = useAuth()
@@ -93,7 +93,7 @@ export default function ProfileSettings() {
     try {
       const fileExt = file.name.split('.').pop()
       const fileName = `${user.id}-${Date.now()}.${fileExt}`
-      const filePath = `avatars/${fileName}`
+      const filePath = `${fileName}`
 
       // Upload image to Supabase Storage
       const { error: uploadError } = await supabase.storage

@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import Image from "next/image"
 import { Navigations } from "@/settings/navigation"
 import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
 import { useAuth } from "@/contexts/AuthContext"
@@ -53,17 +54,45 @@ export function Navbar() {
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="outline" size="sm">
-                    <LuUser className="h-4 w-4 mr-2" />
-                    {profile?.full_name || user.email}
+                  <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full p-0">
+                    {profile?.avatar_url ? (
+                      <Image
+                        src={profile.avatar_url}
+                        alt="Profile"
+                        width={32}
+                        height={32}
+                        className="h-8 w-8 rounded-full object-cover"
+                      />
+                    ) : (
+                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
+                        <LuUser className="h-4 w-4 text-primary" />
+                      </div>
+                    )}
                   </Button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end">
+                <DropdownMenuContent align="end" className="w-56">
+                  <div className="flex items-center justify-start gap-2 p-2">
+                    <div className="flex flex-col space-y-1 leading-none">
+                      {profile?.full_name && (
+                        <p className="font-medium">{profile.full_name}</p>
+                      )}
+                      <p className="w-[200px] truncate text-sm text-muted-foreground">
+                        {user.email}
+                      </p>
+                    </div>
+                  </div>
+                  <DropdownMenuSeparator />
                   <DropdownMenuItem asChild>
-                    <Link href="/profile">Profile</Link>
+                    <Link href="/profile" className="cursor-pointer">
+                      <LuUser className="h-4 w-4 mr-2" />
+                      Profile
+                    </Link>
                   </DropdownMenuItem>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={() => signOut()}>
+                  <DropdownMenuItem 
+                    onClick={() => signOut()}
+                    className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                  >
                     <LuLogOut className="h-4 w-4 mr-2" />
                     Sign Out
                   </DropdownMenuItem>

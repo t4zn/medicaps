@@ -91,39 +91,30 @@ export default function ProfileSettings() {
     setMessage(null)
 
     try {
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${user.id}-${Date.now()}.${fileExt}`
-      const filePath = `${fileName}`
+      const formData = new FormData()
+      formData.append('file', file)
+      formData.append('userId', user.id)
 
-      // Upload image to Supabase Storage
-      const { error: uploadError } = await supabase.storage
-        .from('avatars')
-        .upload(filePath, file)
+      const response = await fetch('/api/avatar', {
+        method: 'POST',
+        body: formData,
+      })
 
-      if (uploadError) throw uploadError
+      const result = await response.json()
 
-      // Get public URL
-      const { data: { publicUrl } } = supabase.storage
-        .from('avatars')
-        .getPublicUrl(filePath)
-
-      // Update profile with new avatar URL
-      const { error: updateError } = await supabase
-        .from('profiles')
-        .update({ avatar_url: publicUrl })
-        .eq('id', user.id)
-
-      if (updateError) throw updateError
-
-      setMessage({ type: 'success', text: 'Profile picture updated successfully!' })
-      
-      // Refresh the page to show new avatar
-      setTimeout(() => {
-        window.location.reload()
-      }, 1000)
+      if (result.success) {
+        setMessage({ type: 'success', text: result.message })
+        
+        // Refresh the page to show new avatar
+        setTimeout(() => {
+          window.location.reload()
+        }, 1000)
+      } else {
+        setMessage({ type: 'error', text: result.error || 'Upload failed' })
+      }
     } catch (error) {
       console.error('Error uploading avatar:', error)
-      setMessage({ type: 'error', text: 'Failed to upload profile picture. Please try again.' })
+      setMessage({ type: 'error', text: 'Network error. Please try again.' })
     } finally {
       setUploading(false)
     }

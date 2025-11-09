@@ -99,7 +99,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           message: result.error || 'Upload failed',
         })
       }
-    } catch (error) {
+    } catch {
       setUploadStatus({
         type: 'error',
         message: 'Network error. Please try again.',

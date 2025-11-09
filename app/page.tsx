@@ -1,6 +1,6 @@
 import { Link } from "lib/transition"
 import Image from "next/image"
-import { LuUpload, LuFolderOpen } from "react-icons/lu"
+import { LuUpload } from "react-icons/lu"
 
 import { PageRoutes } from "@/lib/pageroutes"
 import { buttonVariants } from "@/components/ui/button"

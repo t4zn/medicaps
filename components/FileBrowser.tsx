@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuUser } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -52,7 +52,7 @@ export default function FileBrowser({
     category: initialCategory,
   })
 
-  const fetchFiles = async () => {
+  const fetchFiles = useCallback(async () => {
     setLoading(true)
     try {
       const params = new URLSearchParams()
@@ -73,11 +73,11 @@ export default function FileBrowser({
     } finally {
       setLoading(false)
     }
-  }
+  }, [filters, searchTerm])
 
   useEffect(() => {
     fetchFiles()
-  }, [filters, searchTerm])
+  }, [fetchFiles])
 
   const handleDownload = async (file: FileItem) => {
     try {

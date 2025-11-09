@@ -37,7 +37,7 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
       } else {
         onSuccess?.()
       }
-    } catch (err) {
+    } catch {
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)
@@ -114,7 +114,7 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
               onClick={onSwitchToSignUp}
               className="text-sm"
             >
-              Don't have an account? Sign up
+              Don&apos;t have an account? Sign up
             </Button>
           </div>
         </form>

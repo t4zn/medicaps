@@ -2,20 +2,22 @@
 
 import { useState, useCallback } from 'react'
 import { useDropzone } from 'react-dropzone'
-import { LuUpload, LuFile, LuCheck, LuX } from 'react-icons/lu'
+import { LuUpload, LuFile, LuCheck, LuX, LuArrowRight, LuArrowLeft } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
+import { Card, CardContent } from './ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
-import { Label } from './ui/label'
 import { Alert, AlertDescription } from './ui/alert'
 
 interface FileUploadProps {
   onUploadSuccess?: () => void
 }
 
+type Step = 'category' | 'program' | 'year' | 'subject' | 'file' | 'upload'
+
 export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const { user } = useAuth()
+  const [currentStep, setCurrentStep] = useState<Step>('category')
   const [uploading, setUploading] = useState(false)
   const [uploadStatus, setUploadStatus] = useState<{
     type: 'success' | 'error' | null
@@ -30,6 +32,48 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   })
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
+
+  const steps: { key: Step; title: string; required: boolean }[] = [
+    { key: 'category', title: 'What type of material?', required: true },
+    { key: 'program', title: 'Which program?', required: true },
+    { key: 'year', title: 'Which year?', required: true },
+    { key: 'subject', title: 'Which subject?', required: false },
+    { key: 'file', title: 'Select your file', required: true },
+    { key: 'upload', title: 'Ready to upload', required: false },
+  ]
+
+  const getCurrentStepIndex = () => steps.findIndex(step => step.key === currentStep)
+  const isStepCompleted = (step: Step) => {
+    switch (step) {
+      case 'category': return !!formData.category
+      case 'program': return !!formData.program
+      case 'year': return !!formData.year
+      case 'subject': return true // Optional step
+      case 'file': return !!selectedFile
+      case 'upload': return false
+      default: return false
+    }
+  }
+
+  const canProceed = () => {
+    const currentStepData = steps.find(step => step.key === currentStep)
+    if (!currentStepData) return false
+    return !currentStepData.required || isStepCompleted(currentStep)
+  }
+
+  const nextStep = () => {
+    const currentIndex = getCurrentStepIndex()
+    if (currentIndex < steps.length - 1) {
+      setCurrentStep(steps[currentIndex + 1].key)
+    }
+  }
+
+  const prevStep = () => {
+    const currentIndex = getCurrentStepIndex()
+    if (currentIndex > 0) {
+      setCurrentStep(steps[currentIndex - 1].key)
+    }
+  }
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     const file = acceptedFiles[0]
@@ -50,7 +94,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       'application/pdf': ['.pdf'],
     },
     maxFiles: 1,
-    maxSize: 10 * 1024 * 1024, // 10MB
+    maxSize: 50 * 1024 * 1024, // 50MB
   })
 
   const handleUpload = async () => {
@@ -61,7 +105,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     if (!program || !year || !category) {
       setUploadStatus({
         type: 'error',
-        message: 'Please fill in all required fields.',
+        message: 'Please complete all required steps.',
       })
       return
     }
@@ -92,6 +136,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         })
         setSelectedFile(null)
         setFormData({ program: '', year: '', subject: '', category: '' })
+        setCurrentStep('category')
         onUploadSuccess?.()
       } else {
         setUploadStatus({
@@ -109,178 +154,272 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     }
   }
 
-  const removeFile = () => {
-    setSelectedFile(null)
-    setUploadStatus({ type: null, message: '' })
-  }
-
   if (!user) {
     return (
-      <Card>
-        <CardContent className="pt-6">
-          <p className="text-center text-muted-foreground">
-            Please sign in to upload files.
-          </p>
+      <Card className="max-w-md mx-auto">
+        <CardContent className="pt-6 text-center">
+          <LuUpload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+          <p className="text-muted-foreground">Please sign in to upload files.</p>
         </CardContent>
       </Card>
     )
   }
 
-  return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <LuUpload className="h-5 w-5" />
-          Upload Study Material
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {/* Form Fields */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          <div>
-            <Label htmlFor="category">Category *</Label>
-            <Select
-              value={formData.category}
-              onValueChange={(value: string) =>
-                setFormData({ ...formData, category: value })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="notes">Notes</SelectItem>
-                <SelectItem value="pyqs">PYQs</SelectItem>
-                <SelectItem value="formula-sheet">Formula Sheet</SelectItem>
-              </SelectContent>
-            </Select>
+  const renderStepContent = () => {
+    switch (currentStep) {
+      case 'category':
+        return (
+          <div className="space-y-4">
+            <div className="grid gap-3">
+              {[
+                { value: 'notes', label: '📝 Notes', desc: 'Class notes and study materials' },
+                { value: 'pyqs', label: '📋 PYQs', desc: 'Previous year question papers' },
+                { value: 'formula-sheet', label: '📊 Formula Sheet', desc: 'Quick reference formulas' },
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setFormData({ ...formData, category: option.value })}
+                  className={`p-4 text-left border rounded-lg transition-colors hover:bg-muted/50 ${
+                    formData.category === option.value ? 'border-primary bg-primary/5' : 'border-border'
+                  }`}
+                >
+                  <div className="font-medium">{option.label}</div>
+                  <div className="text-sm text-muted-foreground">{option.desc}</div>
+                </button>
+              ))}
+            </div>
           </div>
+        )
 
-          <div>
-            <Label htmlFor="program">Program *</Label>
+      case 'program':
+        return (
+          <div className="space-y-4">
             <Select
               value={formData.program}
-              onValueChange={(value: string) =>
-                setFormData({ ...formData, program: value })
-              }
+              onValueChange={(value: string) => setFormData({ ...formData, program: value })}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select program" />
+              <SelectTrigger className="h-12">
+                <SelectValue placeholder="Choose your program" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="btech">B.Tech</SelectItem>
-                <SelectItem value="bsc">B.Sc</SelectItem>
-                <SelectItem value="bba">BBA</SelectItem>
-                <SelectItem value="bcom">B.Com</SelectItem>
-                <SelectItem value="mtech">M.Tech</SelectItem>
-                <SelectItem value="mba">MBA</SelectItem>
+                <SelectItem value="btech">🎓 B.Tech</SelectItem>
+                <SelectItem value="bsc">🔬 B.Sc</SelectItem>
+                <SelectItem value="bba">💼 BBA</SelectItem>
+                <SelectItem value="bcom">💰 B.Com</SelectItem>
+                <SelectItem value="mtech">🎯 M.Tech</SelectItem>
+                <SelectItem value="mba">📈 MBA</SelectItem>
               </SelectContent>
             </Select>
           </div>
+        )
 
-          <div>
-            <Label htmlFor="year">Year *</Label>
-            <Select
-              value={formData.year}
-              onValueChange={(value: string) =>
-                setFormData({ ...formData, year: value })
-              }
-            >
-              <SelectTrigger>
-                <SelectValue placeholder="Select year" />
-              </SelectTrigger>
-              <SelectContent>
-                <SelectItem value="1st-year">1st Year</SelectItem>
-                <SelectItem value="2nd-year">2nd Year</SelectItem>
-                <SelectItem value="3rd-year">3rd Year</SelectItem>
-                {(formData.program === 'btech' || formData.program === 'bcom') && (
-                  <SelectItem value="4th-year">4th Year</SelectItem>
-                )}
-              </SelectContent>
-            </Select>
+      case 'year':
+        return (
+          <div className="space-y-4">
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { value: '1st-year', label: '1st Year' },
+                { value: '2nd-year', label: '2nd Year' },
+                { value: '3rd-year', label: '3rd Year' },
+                ...(formData.program === 'btech' || formData.program === 'bcom' 
+                  ? [{ value: '4th-year', label: '4th Year' }] 
+                  : []
+                ),
+              ].map((option) => (
+                <button
+                  key={option.value}
+                  onClick={() => setFormData({ ...formData, year: option.value })}
+                  className={`p-4 text-center border rounded-lg transition-colors hover:bg-muted/50 ${
+                    formData.year === option.value ? 'border-primary bg-primary/5' : 'border-border'
+                  }`}
+                >
+                  <div className="font-medium">{option.label}</div>
+                </button>
+              ))}
+            </div>
           </div>
+        )
 
-          <div>
-            <Label htmlFor="subject">Subject</Label>
+      case 'subject':
+        return (
+          <div className="space-y-4">
             <Select
               value={formData.subject}
-              onValueChange={(value: string) =>
-                setFormData({ ...formData, subject: value })
-              }
+              onValueChange={(value: string) => setFormData({ ...formData, subject: value })}
             >
-              <SelectTrigger>
-                <SelectValue placeholder="Select subject (optional)" />
+              <SelectTrigger className="h-12">
+                <SelectValue placeholder="Choose subject (optional)" />
               </SelectTrigger>
               <SelectContent>
                 {formData.program === 'btech' && formData.year === '1st-year' && (
                   <>
-                    <SelectItem value="c-programming">C Programming</SelectItem>
-                    <SelectItem value="chemistry">Chemistry</SelectItem>
-                    <SelectItem value="civil">Civil</SelectItem>
-                    <SelectItem value="communication-skills">Communication Skills</SelectItem>
-                    <SelectItem value="electrical">Electrical</SelectItem>
-                    <SelectItem value="electronics">Electronics</SelectItem>
-                    <SelectItem value="graphics">Graphics</SelectItem>
-                    <SelectItem value="maths-1">Maths I</SelectItem>
-                    <SelectItem value="maths-2">Maths II</SelectItem>
-                    <SelectItem value="mechanical">Mechanical</SelectItem>
-                    <SelectItem value="physics">Physics</SelectItem>
-                    <SelectItem value="workshop">Workshop</SelectItem>
+                    <SelectItem value="c-programming">💻 C Programming</SelectItem>
+                    <SelectItem value="chemistry">🧪 Chemistry</SelectItem>
+                    <SelectItem value="civil">🏗️ Civil</SelectItem>
+                    <SelectItem value="communication-skills">🗣️ Communication Skills</SelectItem>
+                    <SelectItem value="electrical">⚡ Electrical</SelectItem>
+                    <SelectItem value="electronics">🔌 Electronics</SelectItem>
+                    <SelectItem value="graphics">🎨 Graphics</SelectItem>
+                    <SelectItem value="maths-1">📐 Maths I</SelectItem>
+                    <SelectItem value="maths-2">📊 Maths II</SelectItem>
+                    <SelectItem value="mechanical">⚙️ Mechanical</SelectItem>
+                    <SelectItem value="physics">🔬 Physics</SelectItem>
+                    <SelectItem value="workshop">🔧 Workshop</SelectItem>
                   </>
                 )}
               </SelectContent>
             </Select>
+            <p className="text-sm text-muted-foreground text-center">
+              You can skip this step if your material covers multiple subjects
+            </p>
+          </div>
+        )
+
+      case 'file':
+        return (
+          <div className="space-y-4">
+            <div
+              {...getRootProps()}
+              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
+                isDragActive
+                  ? 'border-primary bg-primary/5'
+                  : 'border-muted-foreground/25 hover:border-primary/50'
+              }`}
+            >
+              <input {...getInputProps()} />
+              {selectedFile ? (
+                <div className="space-y-3">
+                  <LuCheck className="h-12 w-12 mx-auto text-green-500" />
+                  <div>
+                    <div className="font-medium">{selectedFile.name}</div>
+                    <div className="text-sm text-muted-foreground">
+                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
+                    </div>
+                  </div>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      setSelectedFile(null)
+                    }}
+                  >
+                    <LuX className="h-4 w-4 mr-2" />
+                    Remove
+                  </Button>
+                </div>
+              ) : (
+                <div className="space-y-3">
+                  <LuUpload className="h-12 w-12 mx-auto text-muted-foreground" />
+                  <div>
+                    <p className="font-medium">
+                      {isDragActive ? 'Drop your PDF here' : 'Upload your PDF file'}
+                    </p>
+                    <p className="text-sm text-muted-foreground">
+                      Drag & drop or click to browse • Max 50MB
+                    </p>
+                  </div>
+                </div>
+              )}
+            </div>
+          </div>
+        )
+
+      case 'upload':
+        return (
+          <div className="space-y-6">
+            <div className="text-center space-y-4">
+              <LuCheck className="h-16 w-16 mx-auto text-green-500" />
+              <div>
+                <h3 className="text-lg font-semibold">Ready to Upload!</h3>
+                <p className="text-muted-foreground">Review your details below</p>
+              </div>
+            </div>
+
+            <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Type:</span>
+                <span className="capitalize">{formData.category.replace('-', ' ')}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Program:</span>
+                <span className="uppercase">{formData.program}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Year:</span>
+                <span>{formData.year.replace('-', ' ')}</span>
+              </div>
+              {formData.subject && (
+                <div className="flex justify-between">
+                  <span className="text-muted-foreground">Subject:</span>
+                  <span className="capitalize">{formData.subject.replace('-', ' ')}</span>
+                </div>
+              )}
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">File:</span>
+                <span className="truncate max-w-32">{selectedFile?.name}</span>
+              </div>
+            </div>
+
+            <Button
+              onClick={handleUpload}
+              disabled={uploading}
+              className="w-full h-12"
+              size="lg"
+            >
+              {uploading ? (
+                <>
+                  <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                  Uploading...
+                </>
+              ) : (
+                <>
+                  <LuUpload className="h-4 w-4 mr-2" />
+                  Upload File
+                </>
+              )}
+            </Button>
+          </div>
+        )
+
+      default:
+        return null
+    }
+  }
+
+  const currentStepData = steps.find(step => step.key === currentStep)
+  const currentIndex = getCurrentStepIndex()
+
+  return (
+    <Card className="max-w-lg mx-auto">
+      <CardContent className="p-6">
+        {/* Progress Bar */}
+        <div className="mb-6">
+          <div className="flex justify-between text-xs text-muted-foreground mb-2">
+            <span>Step {currentIndex + 1} of {steps.length}</span>
+            <span>{Math.round(((currentIndex + 1) / steps.length) * 100)}%</span>
+          </div>
+          <div className="w-full bg-muted rounded-full h-2">
+            <div 
+              className="bg-primary h-2 rounded-full transition-all duration-300"
+              style={{ width: `${((currentIndex + 1) / steps.length) * 100}%` }}
+            />
           </div>
         </div>
 
-        {/* File Drop Zone */}
-        <div
-          {...getRootProps()}
-          className={`border-2 border-dashed rounded-lg p-6 text-center cursor-pointer transition-colors ${
-            isDragActive
-              ? 'border-primary bg-primary/5'
-              : 'border-muted-foreground/25 hover:border-primary/50'
-          }`}
-        >
-          <input {...getInputProps()} />
-          {selectedFile ? (
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <LuFile className="h-5 w-5 text-red-500" />
-                <span className="text-sm font-medium">{selectedFile.name}</span>
-                <span className="text-xs text-muted-foreground">
-                  ({(selectedFile.size / 1024 / 1024).toFixed(2)} MB)
-                </span>
-              </div>
-              <Button
-                variant="ghost"
-                size="sm"
-                onClick={(e) => {
-                  e.stopPropagation()
-                  removeFile()
-                }}
-              >
-                <LuX className="h-4 w-4" />
-              </Button>
-            </div>
-          ) : (
-            <div>
-              <LuUpload className="h-8 w-8 mx-auto mb-2 text-muted-foreground" />
-              <p className="text-sm text-muted-foreground">
-                {isDragActive
-                  ? 'Drop the PDF file here...'
-                  : 'Drag & drop a PDF file here, or click to select'}
-              </p>
-              <p className="text-xs text-muted-foreground mt-1">
-                Maximum file size: 10MB
-              </p>
-            </div>
-          )}
+        {/* Step Title */}
+        <div className="text-center mb-6">
+          <h2 className="text-xl font-semibold">{currentStepData?.title}</h2>
+        </div>
+
+        {/* Step Content */}
+        <div className="mb-6">
+          {renderStepContent()}
         </div>
 
         {/* Status Messages */}
         {uploadStatus.type && (
-          <Alert variant={uploadStatus.type === 'error' ? 'destructive' : 'default'}>
+          <Alert variant={uploadStatus.type === 'error' ? 'destructive' : 'default'} className="mb-4">
             {uploadStatus.type === 'success' ? (
               <LuCheck className="h-4 w-4" />
             ) : (
@@ -290,14 +429,38 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           </Alert>
         )}
 
-        {/* Upload Button */}
-        <Button
-          onClick={handleUpload}
-          disabled={!selectedFile || uploading || !formData.program || !formData.year || !formData.category}
-          className="w-full"
-        >
-          {uploading ? 'Uploading...' : 'Upload File'}
-        </Button>
+        {/* Navigation */}
+        {currentStep !== 'upload' && (
+          <div className="flex justify-between">
+            <Button
+              variant="outline"
+              onClick={prevStep}
+              disabled={currentIndex === 0}
+            >
+              <LuArrowLeft className="h-4 w-4 mr-2" />
+              Back
+            </Button>
+            
+            <Button
+              onClick={nextStep}
+              disabled={!canProceed() || currentIndex === steps.length - 1}
+            >
+              {currentIndex === steps.length - 2 ? 'Review' : 'Next'}
+              <LuArrowRight className="h-4 w-4 ml-2" />
+            </Button>
+          </div>
+        )}
+
+        {currentStep === 'upload' && (
+          <Button
+            variant="outline"
+            onClick={prevStep}
+            className="w-full"
+          >
+            <LuArrowLeft className="h-4 w-4 mr-2" />
+            Back to Edit
+          </Button>
+        )}
       </CardContent>
     </Card>
   )

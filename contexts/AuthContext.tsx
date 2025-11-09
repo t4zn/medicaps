@@ -9,8 +9,19 @@ interface Profile {
   email: string
   full_name: string
   avatar_url?: string
+  phone?: string
+  bio?: string
+  program?: string
+  year?: string
+  branch?: string
+  college?: string
+  city?: string
+  state?: string
+  date_of_birth?: string
+  gender?: string
   role: string
   created_at: string
+  updated_at?: string
 }
 
 interface AuthContextType {

@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-import { uploadToGitHub } from '@/lib/github'
 
 export async function POST(request: NextRequest) {
   try {
@@ -27,35 +26,11 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate file size (10MB limit)
-    if (file.size > 10 * 1024 * 1024) {
+    // Validate file size (50MB limit)
+    if (file.size > 50 * 1024 * 1024) {
       return NextResponse.json(
-        { error: 'File size must be less than 10MB' },
+        { error: 'File size must be less than 50MB' },
         { status: 400 }
-      )
-    }
-
-    const buffer = Buffer.from(await file.arrayBuffer())
-    const timestamp = Date.now()
-    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
-    const filename = `${timestamp}_${sanitizedName}`
-    
-    // Create GitHub path
-    const githubPath = subject 
-      ? `${category}/${program}/${year}/${subject}/${filename}`
-      : `${category}/${program}/${year}/${filename}`
-
-    // Upload to GitHub
-    const githubResult = await uploadToGitHub({
-      content: buffer,
-      path: githubPath,
-      message: `Add ${file.name} for ${program} ${year} ${subject || ''} ${category}`,
-    })
-
-    if (!githubResult.success) {
-      return NextResponse.json(
-        { error: githubResult.error },
-        { status: 500 }
       )
     }
 
@@ -65,15 +40,45 @@ export async function POST(request: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
+    const timestamp = Date.now()
+    const sanitizedName = file.name.replace(/[^a-zA-Z0-9.-]/g, '_')
+    const filename = `${timestamp}_${sanitizedName}`
+    
+    // Create storage path
+    const storagePath = subject 
+      ? `files/${category}/${program}/${year}/${subject}/${filename}`
+      : `files/${category}/${program}/${year}/${filename}`
+
+    // Upload to Supabase Storage
+    const { data: uploadData, error: uploadError } = await supabaseAdmin.storage
+      .from('files')
+      .upload(storagePath, file, {
+        cacheControl: '3600',
+        upsert: false
+      })
+
+    if (uploadError) {
+      console.error('Storage upload error:', uploadError)
+      return NextResponse.json(
+        { error: 'Failed to upload file to storage' },
+        { status: 500 }
+      )
+    }
+
+    // Get public URL
+    const { data: { publicUrl } } = supabaseAdmin.storage
+      .from('files')
+      .getPublicUrl(storagePath)
+
     // Save metadata to Supabase
     const { data: fileRecord, error: dbError } = await supabaseAdmin
       .from('files')
       .insert({
         filename,
         original_name: file.name,
-        file_path: githubPath,
-        github_url: githubResult.githubUrl,
-        cdn_url: githubResult.downloadUrl,
+        file_path: storagePath,
+        github_url: null, // No longer using GitHub
+        cdn_url: publicUrl,
         file_size: file.size,
         mime_type: file.type,
         program,

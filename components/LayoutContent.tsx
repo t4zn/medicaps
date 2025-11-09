@@ -12,21 +12,24 @@ interface LayoutContentProps {
 export function LayoutContent({ children }: LayoutContentProps) {
   const pathname = usePathname()
   
-  // Don't show sidebar on homepage
-  const showSidebar = pathname !== '/'
+  // Don't show sidebar on homepage, login, signup, and profile pages
+  const hideSidebarPaths = ['/', '/login', '/signup', '/profile', '/upload']
+  const showSidebar = !hideSidebarPaths.includes(pathname)
 
   return (
-    <>
+    <div className="min-h-screen flex flex-col">
       <Navbar />
-      {showSidebar ? (
-        <div className="flex items-start gap-10 px-5 sm:px-8 pt-10">
-          <Sidebar />
-          <main className="flex-1 md:flex-[6] h-auto">{children}</main>
-        </div>
-      ) : (
-        <main className="h-auto px-5 sm:px-8">{children}</main>
-      )}
+      <div className="flex-1">
+        {showSidebar ? (
+          <div className="flex items-start gap-10 px-5 sm:px-8 pt-10">
+            <Sidebar />
+            <main className="flex-1 md:flex-[6] h-auto">{children}</main>
+          </div>
+        ) : (
+          <main className="h-auto px-5 sm:px-8">{children}</main>
+        )}
+      </div>
       <Footer />
-    </>
+    </div>
   )
 }

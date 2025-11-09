@@ -52,7 +52,8 @@ export default function SubLink(
       path.includes(propHref) &&
       !isOpen
     ) {
-      toggleSection(sectionKey)
+      // Auto-expand without synchronization (shouldSync: false)
+      toggleSection(sectionKey, false)
     }
   }, [path, propHref, sectionKey, toggleSection, isRouteProps, isOpen])
 
@@ -84,7 +85,7 @@ export default function SubLink(
 
   return (
     <div className="flex w-full flex-col gap-1">
-      <Collapsible open={isOpen} onOpenChange={() => toggleSection(sectionKey)}>
+      <Collapsible open={isOpen} onOpenChange={() => toggleSection(sectionKey, true)}>
         <div className="mr-3 flex items-center gap-2 text-sm">
           {titleOrLink}
           <CollapsibleTrigger asChild>

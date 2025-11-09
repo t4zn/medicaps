@@ -69,16 +69,9 @@ export default function SubLink(
   }, [props, sectionKey, isRouteProps])
 
   useEffect(() => {
-    if (
-      isRouteProps &&
-      propHref &&
-      path !== propHref &&
-      path.includes(propHref) &&
-      !isOpen
-    ) {
-      // Auto-expand for current path
-      toggleSection(sectionKey)
-    }
+    // Disable auto-expansion to prevent unwanted dropdown opening
+    // Users should manually open dropdowns as needed
+    return
   }, [path, propHref, sectionKey, toggleSection, isRouteProps, isOpen])
 
   if (!isRoute(props)) {

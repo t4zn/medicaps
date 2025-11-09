@@ -26,14 +26,14 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
   // Clear old localStorage data on first load to fix synchronization issues
   useEffect(() => {
     const version = localStorage.getItem('sidebar-version')
-    if (version !== '2.1') {
+    if (version !== '2.2') {
       // Force clear all sidebar data to fix synchronization issues
       localStorage.removeItem('sidebar-sections')
       localStorage.removeItem('sidebar-open')
-      localStorage.setItem('sidebar-version', '2.1')
+      localStorage.setItem('sidebar-version', '2.2')
       // Reset to default state
       setOpenSections(defaultOpenSections)
-      console.log('Cleared sidebar cache and reset to defaults')
+      console.log('Cleared sidebar cache and reset to defaults - v2.2')
     }
   }, [])
 
@@ -84,8 +84,7 @@ export function SidebarProvider({ children }: { children: React.ReactNode }) {
       // Set the main section
       newState[section] = newValue
       
-      // Debug logging to track what's happening
-      console.log('Toggling section:', section, 'from', prev[section], 'to', newValue)
+
       
       return newState
     })

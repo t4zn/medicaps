@@ -10,19 +10,24 @@ import Search from "@/components/navigation/search"
 export default function Home() {
   return (
     <section className="flex min-h-[86.5vh] flex-col items-center justify-center px-2 py-8 text-center">
-      <div className="mb-4 flex flex-col items-center justify-center gap-3 sm:flex-row sm:gap-4">
+      <div className="mb-4 flex items-center justify-center gap-2 sm:gap-4">
         <Image
           src="/icon.png"
           alt="Medicaps Resources Icon"
           width={128}
           height={128}
-          className="h-16 w-16 sm:h-32 sm:w-32"
+          className="h-12 w-12 sm:h-32 sm:w-32"
         />
-        <h1 className="text-3xl font-bold sm:text-7xl">Medicaps Resources</h1>
+        <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap">Medicaps Resources</h1>
       </div>
-      <p className="text-foreground mb-8 max-w-[600px] sm:text-base">
-        Find notes, PYQs, cheat sheets, and study materials for Medicaps University. 
-        Your comprehensive resource hub for academic success.
+      <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
+        <span className="sm:hidden">
+          Find notes, PYQs, and study materials for Medicaps University students.
+        </span>
+        <span className="hidden sm:inline">
+          Find notes, PYQs, cheat sheets, and study materials for Medicaps University. 
+          Your comprehensive resource hub for academic success.
+        </span>
       </p>
 
       <div className="mb-6 w-full max-w-md">

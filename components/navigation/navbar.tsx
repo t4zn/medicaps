@@ -2,6 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
+import { usePathname } from "next/navigation"
 import { Navigations } from "@/settings/navigation"
 import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
 import { useAuth } from "@/contexts/AuthContext"
@@ -24,11 +25,16 @@ import { ModeToggle } from "@/components/theme-toggle"
 
 export function Navbar() {
   const { user, profile, signOut } = useAuth()
+  const pathname = usePathname()
+  
+  // Hide search bar and hamburger menu on homepage
+  const showSearch = pathname !== '/'
+  const showHamburger = pathname !== '/'
 
   return (
     <nav className="bg-opacity-5 sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between border-b p-1 px-2 backdrop-blur-xl backdrop-filter sm:p-3 md:gap-2 md:px-4">
       <div className="flex items-center gap-5">
-        <SheetLeft />
+        {showHamburger && <SheetLeft />}
         <div className="flex items-center gap-6">
           <div className="hidden md:flex">
             <Logo />
@@ -40,7 +46,7 @@ export function Navbar() {
       </div>
 
       <div className="flex items-center gap-2">
-        <Search />
+        {showSearch && <Search />}
         <div className="flex gap-2 sm:ml-0">
           {user ? (
             <>

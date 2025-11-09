@@ -48,8 +48,8 @@ export function Navbar() {
                 href="/upload"
                 className={buttonVariants({ variant: "outline", size: "sm" })}
               >
-                <LuUpload className="h-4 w-4 mr-2" />
-                Upload
+                <LuUpload className="h-4 w-4 sm:mr-2" />
+                <span className="hidden sm:inline">Upload</span>
               </Link>
               
               <DropdownMenu>
@@ -104,8 +104,8 @@ export function Navbar() {
               href="/auth"
               className={buttonVariants({ variant: "default", size: "sm" })}
             >
-              <LuUser className="h-4 w-4 mr-2" />
-              Sign In
+              <LuUser className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Sign In</span>
             </Link>
           )}
           
@@ -117,33 +117,41 @@ export function Navbar() {
 }
 
 export function NavMenu({ isSheet = false }) {
-  return (
-    <>
-      {Navigations.map((item) => {
-        const Comp = (
-          <Anchor
-            key={item.title + item.href}
-            absolute
-            activeClassName="font-bold text-primary"
-            className="flex items-center gap-1 text-sm"
-            href={item.href}
-            target={item.external ? "_blank" : undefined}
-            rel={item.external ? "noopener noreferrer" : undefined}
-          >
-            {item.title === "🏠" ? <LuHouse className="h-4 w-4" /> : item.title}{" "}
-            {item.external && (
-              <LuArrowUpRight className="h-3 w-3 align-super" strokeWidth={3} />
-            )}
-          </Anchor>
-        )
-        return isSheet ? (
-          <SheetClose key={item.title + item.href} asChild>
-            {Comp}
-          </SheetClose>
-        ) : (
-          Comp
-        )
-      })}
-    </>
-  )
+  const navigationItems = Navigations.map((item) => {
+    const Comp = (
+      <Anchor
+        key={item.title + item.href}
+        absolute
+        activeClassName="font-bold text-primary"
+        className="flex items-center gap-1 text-sm"
+        href={item.href}
+        target={item.external ? "_blank" : undefined}
+        rel={item.external ? "noopener noreferrer" : undefined}
+      >
+        {item.title === "🏠" ? <LuHouse className="h-4 w-4" /> : item.title}{" "}
+        {item.external && (
+          <LuArrowUpRight className="h-3 w-3 align-super" strokeWidth={3} />
+        )}
+      </Anchor>
+    )
+    return isSheet ? (
+      <SheetClose key={item.title + item.href} asChild>
+        {Comp}
+      </SheetClose>
+    ) : (
+      Comp
+    )
+  })
+
+  // In mobile sidebar, display items horizontally
+  if (isSheet) {
+    return (
+      <div className="flex items-center gap-4">
+        {navigationItems}
+      </div>
+    )
+  }
+
+  // In desktop navbar, display items as before
+  return <>{navigationItems}</>
 }

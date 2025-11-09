@@ -1,0 +1,6 @@
+Add these dependencies to your package.json:
+
+npm install @supabase/supabase-js @supabase/auth-helpers-nextjs
+npm install @octokit/rest
+npm install react-dropzone
+npm install lucide-react (if not already installed)

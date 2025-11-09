@@ -41,7 +41,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
   const [pyqsFiles, setPyqsFiles] = useState<FileItem[]>([])
   const [formulaFiles, setFormulaFiles] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
-  const [activeTab, setActiveTab] = useState('notes')
+
 
   const fetchFiles = useCallback(async (category: string) => {
     try {
@@ -198,17 +198,6 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     <div className="container mx-auto py-8 px-4 max-w-4xl">
       {/* Header */}
       <div className="mb-8">
-        <div className="flex items-center justify-end mb-6">
-          {user && (
-            <Link href="/upload">
-              <Button size="sm">
-                <LuUpload className="h-4 w-4 mr-2" />
-                Upload Material
-              </Button>
-            </Link>
-          )}
-        </div>
-
         <div className="space-y-4">
           <div>
             <h1 className="text-3xl font-bold mb-3">{subject.name}</h1>

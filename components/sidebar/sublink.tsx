@@ -103,10 +103,10 @@ export default function SubLink(
   return (
     <div className="flex w-full flex-col gap-1">
       <Collapsible open={isOpen} onOpenChange={handleToggle}>
-        <div className="mr-3 flex items-center gap-2 text-sm">
-          {titleOrLink}
-          <CollapsibleTrigger asChild>
-            <Button className="ml-auto h-6 w-6" variant="link" size="icon">
+        <CollapsibleTrigger asChild>
+          <div className="mr-3 flex items-center gap-2 text-sm cursor-pointer hover:bg-muted/50 rounded-md p-1 -m-1 transition-colors">
+            {titleOrLink}
+            <Button className="ml-auto h-6 w-6 pointer-events-none" variant="link" size="icon">
               {!isOpen ? (
                 <LuChevronRight className="h-[0.9rem] w-[0.9rem]" />
               ) : (
@@ -114,8 +114,8 @@ export default function SubLink(
               )}
               <span className="sr-only">Toggle</span>
             </Button>
-          </CollapsibleTrigger>
-        </div>
+          </div>
+        </CollapsibleTrigger>
         <CollapsibleContent className="CollapsibleContent">
           <div
             className={cn(

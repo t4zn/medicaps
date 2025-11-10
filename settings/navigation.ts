@@ -3,7 +3,7 @@ import { PageRoutes } from "@/lib/pageroutes"
 export const Navigations = [
   {
     title: "🏠",
-    href: "/docs/basic-setup",
+    href: "/welcome",
   },
   {
     title: "Medicaps",

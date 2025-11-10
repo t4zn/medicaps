@@ -1,9 +1,20 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 
+// Configure route to handle larger payloads
+export const runtime = 'nodejs'
+export const maxDuration = 60 // 60 seconds timeout
+
 export async function POST(request: NextRequest) {
   try {
-    const formData = await request.formData()
+    // Add timeout handling for mobile uploads
+    const timeoutPromise = new Promise((_, reject) => {
+      setTimeout(() => reject(new Error('Request timeout')), 55000) // 55 second timeout
+    })
+
+    const formDataPromise = request.formData()
+    const formData = await Promise.race([formDataPromise, timeoutPromise]) as FormData
+
     const file = formData.get('file') as File
     const program = formData.get('program') as string
     const year = formData.get('year') as string
@@ -30,7 +41,7 @@ export async function POST(request: NextRequest) {
     if (file.size > 50 * 1024 * 1024) {
       return NextResponse.json(
         { error: 'File size must be less than 50MB' },
-        { status: 400 }
+        { status: 413 }
       )
     }
 
@@ -118,6 +129,23 @@ export async function POST(request: NextRequest) {
 
   } catch (error) {
     console.error('Upload error:', error)
+    
+    // Handle specific error types for better mobile experience
+    if (error instanceof Error) {
+      if (error.message === 'Request timeout') {
+        return NextResponse.json(
+          { error: 'Upload timeout. Please check your connection and try again.' },
+          { status: 408 }
+        )
+      }
+      if (error.message.includes('PayloadTooLargeError') || error.message.includes('413')) {
+        return NextResponse.json(
+          { error: 'File too large. Please select a file smaller than 50MB.' },
+          { status: 413 }
+        )
+      }
+    }
+    
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

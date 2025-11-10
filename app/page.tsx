@@ -36,7 +36,7 @@ export default function Home() {
 
       <div className="flex flex-col sm:flex-row items-center gap-4">
         <Link
-          href="/docs/basic-setup"
+          href="/welcome"
           className={buttonVariants({ variant: "outline", className: "px-6 w-full sm:w-auto", size: "lg" })}
         >
           Get Started

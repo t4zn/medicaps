@@ -290,9 +290,37 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     }
   }
 
-  const onDrop = useCallback((acceptedFiles: File[]) => {
+  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {
+    // Handle rejected files first
+    if (rejectedFiles.length > 0) {
+      const rejection = rejectedFiles[0]
+      if (rejection.errors.some((e: any) => e.code === 'file-too-large')) {
+        setUploadStatus({
+          type: 'error',
+          message: 'File too large. Please select a file smaller than 50MB.',
+        })
+        return
+      }
+      if (rejection.errors.some((e: any) => e.code === 'file-invalid-type')) {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please select a PDF file only.',
+        })
+        return
+      }
+    }
+
     const file = acceptedFiles[0]
     if (file && file.type === 'application/pdf') {
+      // Double-check file size on mobile (sometimes dropzone doesn't catch it)
+      if (file.size > 50 * 1024 * 1024) {
+        setUploadStatus({
+          type: 'error',
+          message: 'File too large. Please select a file smaller than 50MB.',
+        })
+        return
+      }
+      
       setSelectedFile(file)
       setUploadStatus({ type: null, message: '' })
     } else {
@@ -380,12 +408,24 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       clearTimeout(timeoutId)
 
       if (!response.ok) {
-        // Handle HTTP errors
-        const errorText = await response.text()
-        console.error('Upload HTTP error:', response.status, errorText)
+        // Handle HTTP errors with specific messages
+        let errorMessage = 'Upload failed. Please try again.'
+        
+        if (response.status === 413) {
+          errorMessage = 'File too large. Please select a file smaller than 50MB or try compressing your PDF.'
+        } else if (response.status === 408) {
+          errorMessage = 'Upload timeout. Please check your internet connection and try again.'
+        } else if (response.status === 400) {
+          const errorData = await response.json().catch(() => ({}))
+          errorMessage = errorData.error || 'Invalid file or missing information.'
+        } else if (response.status >= 500) {
+          errorMessage = 'Server error. Please try again in a few moments.'
+        }
+        
+        console.error('Upload HTTP error:', response.status)
         setUploadStatus({
           type: 'error',
-          message: `Upload failed (${response.status}). Please try again.`,
+          message: errorMessage,
         })
         return
       }
@@ -507,6 +547,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Drag & drop or click to browse • Max 50MB
+                      <br />
+                      <span className="text-xs">Tip: Compress large PDFs for faster upload</span>
                     </p>
                   </div>
                 </div>
@@ -879,6 +921,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                     </p>
                     <p className="text-sm text-muted-foreground">
                       Drag & drop or click to browse • Max 50MB
+                      <br />
+                      <span className="text-xs">Tip: Compress large PDFs for faster upload</span>
                     </p>
                   </div>
                 </div>

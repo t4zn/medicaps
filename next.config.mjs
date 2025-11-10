@@ -16,6 +16,10 @@ const nextConfig = {
       },
     ],
   },
+  // Increase body size limit for file uploads
+  experimental: {
+    serverComponentsExternalPackages: [],
+  },
   // Production domain configuration
   async headers() {
     return [

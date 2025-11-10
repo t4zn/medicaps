@@ -293,66 +293,84 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     }
 
     return (
-      <div className="space-y-3">
+      <div className="space-y-2 sm:space-y-3">
         {files.map((file) => (
           <Card key={file.id} className="hover:shadow-sm transition-all duration-200 border-l-4 border-l-transparent hover:border-l-primary">
-            <CardContent className="p-4">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-start gap-3 mb-2">
-                    <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
-                    <h3 className="font-medium break-words leading-tight">{file.original_name}</h3>
+            <CardContent className="p-3 sm:p-4">
+              {/* Mobile Layout */}
+              <div className="block sm:hidden">
+                <div className="flex items-start gap-2 mb-2">
+                  <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-medium text-sm break-words leading-tight">{file.original_name}</h3>
                   </div>
-                  
-                  <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm text-muted-foreground mb-3">
-                    <div className="flex items-center gap-1">
-                      <LuCalendar className="h-3 w-3" />
-                      <span className="truncate">{formatDate(file.created_at)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ProfilePicture 
-                        avatarUrl={file.profiles?.avatar_url} 
-                        fullName={file.profiles?.full_name} 
-                        size={16} 
-                      />
-                      <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
-                    </div>
-                    <span className="truncate">{formatFileSize(file.file_size)}</span>
-                    <span className="truncate">{file.downloads} downloads</span>
+                  <Button
+                    onClick={() => handleDownload(file)}
+                    size="sm"
+                    className="h-7 px-3 text-xs flex-shrink-0"
+                  >
+                    <LuDownload className="h-3 w-3 mr-1" />
+                    Download
+                  </Button>
+                </div>
+                
+                <div className="flex items-center justify-between mb-2">
+                  <div className="flex items-center gap-2 text-xs text-muted-foreground">
+                    <ProfilePicture 
+                      avatarUrl={file.profiles?.avatar_url} 
+                      fullName={file.profiles?.full_name} 
+                      size={12} 
+                    />
+                    <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
                   </div>
-                  
-                  {/* Voting and Report Section */}
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-1">
+                  <div className="text-xs text-muted-foreground text-right">
+                    <div>{formatFileSize(file.file_size)}</div>
+                  </div>
+                </div>
+
+                <div className="flex items-center justify-start">
+                  <div className="flex items-center gap-1">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleVote(file.id, 'up', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                      className="h-6 px-1 text-muted-foreground hover:bg-transparent"
+                      disabled={!user}
+                    >
+                      <LuThumbsUp className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'up' ? 'text-green-600' : 'hover:text-green-600'}`} />
+                      <span className={`text-xs ${file.userVote === 'up' ? 'text-green-600' : ''}`}>{file.upVotes || 0}</span>
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleVote(file.id, 'down', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                      className={`h-6 px-1 text-muted-foreground hover:bg-transparent ${file.userVote === 'down' ? 'text-red-600' : ''}`}
+                      disabled={!user}
+                    >
+                      <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
+                      <span className={`text-xs ${file.userVote === 'down' ? 'text-red-600' : ''}`}>{file.downVotes || 0}</span>
+                    </Button>
+                    <div className="flex items-center h-6 px-1 text-muted-foreground">
+                      <LuDownload className="h-3 w-3 mr-1" />
+                      <span className="text-xs">{file.downloads || 0}</span>
+                    </div>
+                    {isAdmin && (
                       <Button
+                        onClick={() => handleAdminDelete(file.id, category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
                         variant="ghost"
                         size="sm"
-                        onClick={() => handleVote(file.id, 'up', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
-                        className="h-7 px-2 text-muted-foreground hover:bg-transparent"
-                        disabled={!user}
+                        className="h-6 px-1 text-muted-foreground hover:text-red-600"
                       >
-                        <LuThumbsUp className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'up' ? 'text-green-600' : 'hover:text-green-600'}`} />
-                        <span className={file.userVote === 'up' ? 'text-green-600' : ''}>{file.upVotes || 0}</span>
+                        <LuTrash2 className="h-3 w-3" />
                       </Button>
-                      <Button
-                        variant="ghost"
-                        size="sm"
-                        onClick={() => handleVote(file.id, 'down', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
-                        className={`h-7 px-2 text-muted-foreground hover:bg-transparent ${file.userVote === 'down' ? 'text-red-600' : ''}`}
-                        disabled={!user}
-                      >
-                        <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
-                        <span className={file.userVote === 'down' ? 'text-red-600' : ''}>{file.downVotes || 0}</span>
-                      </Button>
-                    </div>
-                    
+                    )}
                     {user && (
                       <Dialog open={reportDialog.open && reportDialog.fileId === file.id} onOpenChange={(open) => setReportDialog({ open, fileId: open ? file.id : null })}>
                         <DialogTrigger asChild>
                           <Button
                             variant="ghost"
                             size="sm"
-                            className="h-7 px-2 text-muted-foreground hover:text-red-600"
+                            className="h-6 px-1 text-muted-foreground hover:text-red-600"
                           >
                             <LuFlag className="h-3 w-3" />
                           </Button>
@@ -411,8 +429,124 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                     )}
                   </div>
                 </div>
+              </div>
 
-                <div className="flex gap-2 ml-4 flex-shrink-0">
+              {/* Desktop Layout */}
+              <div className="hidden sm:flex sm:items-center gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-start gap-3 mb-2">
+                    <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5" />
+                    <h3 className="font-medium break-words leading-tight">{file.original_name}</h3>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center gap-1">
+                      <LuCalendar className="h-3 w-3" />
+                      <span className="truncate">{formatDate(file.created_at)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProfilePicture 
+                        avatarUrl={file.profiles?.avatar_url} 
+                        fullName={file.profiles?.full_name} 
+                        size={16} 
+                      />
+                      <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
+                    </div>
+                    <span className="truncate">{formatFileSize(file.file_size)}</span>
+                    <span className="truncate">{file.downloads} downloads</span>
+                  </div>
+                  
+                  {/* Voting and Report Section */}
+                  <div className="flex items-center justify-start">
+                    <div className="flex items-center gap-1">
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleVote(file.id, 'up', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                        className="h-7 px-2 text-muted-foreground hover:bg-transparent"
+                        disabled={!user}
+                      >
+                        <LuThumbsUp className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'up' ? 'text-green-600' : 'hover:text-green-600'}`} />
+                        <span className={file.userVote === 'up' ? 'text-green-600' : ''}>{file.upVotes || 0}</span>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleVote(file.id, 'down', category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                        className={`h-7 px-2 text-muted-foreground hover:bg-transparent ${file.userVote === 'down' ? 'text-red-600' : ''}`}
+                        disabled={!user}
+                      >
+                        <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
+                        <span className={file.userVote === 'down' ? 'text-red-600' : ''}>{file.downVotes || 0}</span>
+                      </Button>
+                      {user && (
+                        <Dialog open={reportDialog.open && reportDialog.fileId === file.id} onOpenChange={(open) => setReportDialog({ open, fileId: open ? file.id : null })}>
+                          <DialogTrigger asChild>
+                            <Button
+                              variant="ghost"
+                              size="sm"
+                              className="h-7 px-2 text-muted-foreground hover:text-red-600"
+                            >
+                              <LuFlag className="h-3 w-3" />
+                            </Button>
+                          </DialogTrigger>
+                        <DialogContent className="sm:max-w-md">
+                          <DialogHeader>
+                            <DialogTitle>Report File</DialogTitle>
+                            <DialogDescription>
+                              Help us maintain quality by reporting inappropriate content.
+                            </DialogDescription>
+                          </DialogHeader>
+                          <div className="space-y-4">
+                            <div>
+                              <label className="text-sm font-medium">Reason for reporting</label>
+                              <Select value={reportReason} onValueChange={setReportReason}>
+                                <SelectTrigger className="mt-1">
+                                  <SelectValue placeholder="Select a reason" />
+                                </SelectTrigger>
+                                <SelectContent>
+                                  <SelectItem value="inappropriate">Inappropriate Content</SelectItem>
+                                  <SelectItem value="copyright">Copyright Violation</SelectItem>
+                                  <SelectItem value="spam">Spam or Misleading</SelectItem>
+                                  <SelectItem value="wrong_category">Wrong Category</SelectItem>
+                                  <SelectItem value="low_quality">Low Quality</SelectItem>
+                                  <SelectItem value="other">Other</SelectItem>
+                                </SelectContent>
+                              </Select>
+                            </div>
+                            <div>
+                              <label className="text-sm font-medium">Additional details (optional)</label>
+                              <textarea
+                                placeholder="Provide more details about the issue..."
+                                value={reportDescription}
+                                onChange={(e: React.ChangeEvent<HTMLTextAreaElement>) => setReportDescription(e.target.value)}
+                                className="mt-1 flex min-h-[80px] w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+                                rows={3}
+                              />
+                            </div>
+                          </div>
+                          <DialogFooter>
+                            <Button
+                              variant="outline"
+                              onClick={() => setReportDialog({ open: false, fileId: null })}
+                            >
+                              Cancel
+                            </Button>
+                            <Button
+                              onClick={handleReport}
+                              disabled={!reportReason || reportSubmitting}
+                            >
+                              {reportSubmitting ? 'Submitting..' : 'Submit Report'}
+                            </Button>
+                          </DialogFooter>
+                        </DialogContent>
+                        </Dialog>
+                      )}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex gap-2 flex-shrink-0">
                   <Button
                     onClick={() => handleDownload(file)}
                     size="sm"

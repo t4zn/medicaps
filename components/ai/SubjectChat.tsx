@@ -96,7 +96,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       
       if (savedMessages) {
         try {
-          const parsedMessages = JSON.parse(savedMessages).map((msg: any) => ({
+          const parsedMessages = JSON.parse(savedMessages).map((msg: Message & { timestamp: string }) => ({
             ...msg,
             timestamp: new Date(msg.timestamp)
           }))

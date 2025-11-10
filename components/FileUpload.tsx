@@ -317,6 +317,23 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     const { program, branch, year, subject, category } = formData
 
+    // Additional mobile-friendly validations
+    if (selectedFile.size > 50 * 1024 * 1024) {
+      setUploadStatus({
+        type: 'error',
+        message: 'File size must be less than 50MB.',
+      })
+      return
+    }
+
+    if (selectedFile.type !== 'application/pdf') {
+      setUploadStatus({
+        type: 'error',
+        message: 'Only PDF files are allowed.',
+      })
+      return
+    }
+
     // When coming from subject page, we only need the basic fields
     if (isFromSubjectPage) {
       // For subject page uploads, only validate essential fields (check for both empty string and undefined)
@@ -351,10 +368,27 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       uploadFormData.append('category', category)
       uploadFormData.append('userId', user.id)
 
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 120000) // 2 minute timeout for mobile
+
       const response = await fetch('/api/upload', {
         method: 'POST',
         body: uploadFormData,
+        signal: controller.signal,
       })
+
+      clearTimeout(timeoutId)
+
+      if (!response.ok) {
+        // Handle HTTP errors
+        const errorText = await response.text()
+        console.error('Upload HTTP error:', response.status, errorText)
+        setUploadStatus({
+          type: 'error',
+          message: `Upload failed (${response.status}). Please try again.`,
+        })
+        return
+      }
 
       const result = await response.json()
 
@@ -379,10 +413,25 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           message: result.error || 'Upload failed',
         })
       }
-    } catch {
+    } catch (error) {
+      console.error('Upload error:', error)
+      
+      // Provide more specific error messages
+      let errorMessage = 'Network error. Please try again.'
+      
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          errorMessage = 'Upload timeout. Please check your connection and try again.'
+        } else if (error.message.includes('fetch')) {
+          errorMessage = 'Connection failed. Check your internet connection.'
+        } else {
+          errorMessage = `Upload error: ${error.message}`
+        }
+      }
+      
       setUploadStatus({
         type: 'error',
-        message: 'Network error. Please try again.',
+        message: errorMessage,
       })
     } finally {
       setUploading(false)

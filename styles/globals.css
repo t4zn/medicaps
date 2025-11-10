@@ -313,3 +313,18 @@ span.katex-html {
     height: 0;
   }
 }
+/* Hide scrollbars for mobile tabs */
+.scrollbar-hide {
+  -ms-overflow-style: none;  /* Internet Explorer 10+ */
+  scrollbar-width: none;  /* Firefox */
+}
+.scrollbar-hide::-webkit-scrollbar { 
+  display: none;  /* Safari and Chrome */
+}
+
+/* Ensure tabs don't overflow on mobile */
+@media (max-width: 640px) {
+  .tabs-container {
+    overflow-x: hidden;
+  }
+}

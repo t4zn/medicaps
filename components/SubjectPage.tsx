@@ -1,8 +1,8 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useId } from 'react'
 import Link from 'next/link'
-import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag } from 'react-icons/lu'
+import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { ArticleBreadcrumb } from '@/components/article/breadcrumb'
 import { useAuth } from '@/contexts/AuthContext'
@@ -22,6 +22,7 @@ import {
 } from '@/components/ui/dialog'
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
+import SubjectChat from '@/components/ai/SubjectChat'
 
 interface FileItem {
   id: string
@@ -55,6 +56,7 @@ interface SubjectPageProps {
 
 export default function SubjectPage({ subject }: SubjectPageProps) {
   const { user, isAdmin } = useAuth()
+  const tabsId = useId()
   const [notesFiles, setNotesFiles] = useState<FileItem[]>([])
   const [pyqsFiles, setPyqsFiles] = useState<FileItem[]>([])
   const [formulaFiles, setFormulaFiles] = useState<FileItem[]>([])
@@ -599,11 +601,27 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       </div>
 
       {/* Tabs Section */}
-      <Tabs defaultValue="notes" className="space-y-6">
+      <Tabs defaultValue="notes" className="space-y-6" key={`tabs-${tabsId}`}>
         <TabsList className="w-full justify-start">
-          <TabsTrigger value="notes">Notes</TabsTrigger>
-          <TabsTrigger value="pyqs">PYQs</TabsTrigger>
-          <TabsTrigger value="formula-sheets">Formula Sheets</TabsTrigger>
+          <TabsTrigger value="notes">
+            <span className="hidden sm:inline">Notes</span>
+            <span className="sm:hidden">Notes</span>
+          </TabsTrigger>
+          <TabsTrigger value="pyqs">
+            <span className="hidden sm:inline">PYQs</span>
+            <span className="sm:hidden">PYQs</span>
+          </TabsTrigger>
+          <TabsTrigger value="formula-sheets">
+            <span className="hidden sm:inline">Formula Sheets</span>
+            <span className="sm:hidden">Formulas</span>
+          </TabsTrigger>
+          <TabsTrigger value="ai-tutor">
+            <div className="flex items-center gap-1.5">
+              <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+              <span className="hidden sm:inline">AI Tutor</span>
+              <span className="sm:hidden">AI Chat</span>
+            </div>
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="notes" className="space-y-6">
@@ -667,6 +685,10 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             </div>
           </div>
           {renderFileList(formulaFiles, 'formula sheets')}
+        </TabsContent>
+
+        <TabsContent value="ai-tutor" className="space-y-6">
+          <SubjectChat subject={subject} />
         </TabsContent>
       </Tabs>
     </div>

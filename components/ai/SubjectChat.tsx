@@ -172,6 +172,12 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
 
     setMessages(prev => [...prev, userMessage])
     setInput('')
+    
+    // Reset textarea height when input is cleared
+    if (inputRef.current) {
+      inputRef.current.style.height = '24px'
+    }
+    
     setIsLoading(true)
 
     try {
@@ -221,6 +227,26 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       e.preventDefault()
       handleSubmit(e)
     }
+  }
+
+  // Auto-resize textarea
+  const handleInputChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(e.target.value)
+    
+    // Reset height to auto to get the correct scrollHeight
+    e.target.style.height = 'auto'
+    
+    // Calculate height based on content
+    const scrollHeight = e.target.scrollHeight
+    const lineHeight = 24 // Approximate line height
+    const minHeight = lineHeight // Single line
+    const maxHeight = lineHeight * 5 // 5 lines max
+    
+    // Ensure minimum expansion is visible
+    const contentHeight = Math.max(scrollHeight, minHeight)
+    const newHeight = Math.min(contentHeight, maxHeight)
+    
+    e.target.style.height = `${newHeight}px`
   }
 
   const toggleVoiceRecording = () => {
@@ -305,43 +331,51 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       <div className="absolute bottom-6 left-4 right-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="flex items-center bg-muted/40 rounded-full px-4 py-2 sm:px-5 sm:py-3 gap-2 sm:gap-4 border border-border/50 shadow-lg">
-              <div className="flex-1 flex items-center">
+            <div className="flex items-end bg-muted/40 rounded-3xl px-4 py-3 sm:px-5 sm:py-3 gap-3 sm:gap-4 border border-border/50 shadow-lg transition-all duration-200">
+              <div className="flex-1 min-h-0">
                 <textarea
                   ref={inputRef}
                   value={input}
-                  onChange={(e) => setInput(e.target.value)}
+                  onChange={handleInputChange}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask anything..."
-                  className="w-full resize-none bg-transparent text-sm sm:text-base placeholder:text-sm placeholder:sm:text-base placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[100px] border-0 p-0 leading-5"
+                  className="w-full resize-none bg-transparent text-sm sm:text-base placeholder:text-sm placeholder:sm:text-base placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 border-0 p-0 leading-6 overflow-y-auto scrollbar-hide"
                   rows={1}
                   disabled={isLoading}
+                  style={{ 
+                    height: '24px',
+                    minHeight: '24px',
+                    maxHeight: '120px',
+                    lineHeight: '24px'
+                  }}
                 />
               </div>
               
-              {/* Voice Recording Button */}
-              <button
-                type="button"
-                onClick={toggleVoiceRecording}
-                disabled={isLoading}
-                className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center ${
-                  isListening 
-                    ? 'bg-red-500 text-white' 
-                    : 'hover:bg-muted text-muted-foreground hover:text-foreground'
-                }`}
-              >
-                {isListening ? (
-                  <LuMicOff className="h-4 w-4" />
-                ) : (
-                  <LuMic className="h-4 w-4" />
-                )}
-              </button>
+              {/* Voice Recording Button - Only show when input is empty */}
+              {!input.trim() && (
+                <button
+                  type="button"
+                  onClick={toggleVoiceRecording}
+                  disabled={isLoading}
+                  className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 ${
+                    isListening 
+                      ? 'bg-red-500 text-white' 
+                      : 'hover:bg-muted text-muted-foreground hover:text-foreground'
+                  }`}
+                >
+                  {isListening ? (
+                    <LuMicOff className="h-4 w-4" />
+                  ) : (
+                    <LuMic className="h-4 w-4" />
+                  )}
+                </button>
+              )}
 
               {/* Send Button */}
               <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center ${
+                className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 ${
                   input.trim() && !isLoading
                     ? 'bg-white text-black hover:bg-gray-100'
                     : 'bg-muted text-muted-foreground cursor-not-allowed'

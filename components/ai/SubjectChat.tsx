@@ -264,7 +264,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
   return (
     <div className="relative flex flex-col h-[500px] sm:h-[600px]">
       {/* Messages */}
-      <ScrollArea className="flex-1 px-3 sm:px-2 py-4 pb-20" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 px-3 sm:px-2 py-4 pb-32" ref={scrollAreaRef}>
         <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
           {messages.map((message) => (
             <div key={message.id} className="space-y-2">
@@ -312,7 +312,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask anything..."
-                  className="w-full resize-none bg-transparent text-sm placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[100px] border-0 p-0 leading-5"
+                  className="w-full resize-none bg-transparent text-base placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[100px] border-0 p-0 leading-5"
                   rows={1}
                   disabled={isLoading}
                 />

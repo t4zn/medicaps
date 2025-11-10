@@ -304,7 +304,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       <div className="absolute bottom-6 left-4 right-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="flex items-center bg-muted/40 rounded-full px-5 py-3 gap-4 border border-border/50 shadow-lg">
+            <div className="flex items-center bg-muted/40 rounded-full px-4 py-2 sm:px-5 sm:py-3 gap-2 sm:gap-4 border border-border/50 shadow-lg">
               <div className="flex-1 flex items-center">
                 <textarea
                   ref={inputRef}
@@ -312,7 +312,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                   onChange={(e) => setInput(e.target.value)}
                   onKeyDown={handleKeyDown}
                   placeholder="Ask anything..."
-                  className="w-full resize-none bg-transparent text-base placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[100px] border-0 p-0 leading-5"
+                  className="w-full resize-none bg-transparent text-sm sm:text-base placeholder:text-sm placeholder:sm:text-base placeholder:text-muted-foreground focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50 min-h-[20px] max-h-[100px] border-0 p-0 leading-5"
                   rows={1}
                   disabled={isLoading}
                 />

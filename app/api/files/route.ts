@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { createClient } from '@supabase/supabase-js'
 
 export async function GET(request: NextRequest) {
   try {
@@ -10,27 +10,45 @@ export async function GET(request: NextRequest) {
     const category = searchParams.get('category')
     const search = searchParams.get('search')
 
-    let query = supabase
+    // Create admin client for server-side operations
+    const supabaseAdmin = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!
+    )
+
+    let query = supabaseAdmin
       .from('files')
       .select(`
         *,
         profiles:uploaded_by (
           full_name,
-          email
+          email,
+          avatar_url
         )
       `)
       .eq('is_approved', true)
-      .order('created_at', { ascending: false })
 
     // Apply filters
-    if (program) query = query.eq('program', program)
-    if (year) query = query.eq('year', year)
-    if (subject) query = query.eq('subject', subject)
-    if (category) query = query.eq('category', category)
-    
+    if (program && program !== 'all') {
+      query = query.eq('program', program)
+    }
+    if (year && year !== 'all') {
+      query = query.eq('year', year)
+    }
+    if (subject && subject !== 'all') {
+      query = query.eq('subject', subject)
+    }
+    if (category && category !== 'all') {
+      query = query.eq('category', category)
+    }
+
+    // Apply search
     if (search) {
       query = query.or(`original_name.ilike.%${search}%,subject.ilike.%${search}%`)
     }
+
+    // Order by creation date (newest first)
+    query = query.order('created_at', { ascending: false })
 
     const { data: files, error } = await query
 
@@ -42,10 +60,13 @@ export async function GET(request: NextRequest) {
       )
     }
 
-    return NextResponse.json({ files })
+    return NextResponse.json({
+      success: true,
+      files: files || [],
+    })
 
   } catch (error) {
-    console.error('API error:', error)
+    console.error('Files API error:', error)
     return NextResponse.json(
       { error: 'Internal server error' },
       { status: 500 }

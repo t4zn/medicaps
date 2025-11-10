@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { LuDownload, LuFileText, LuCalendar, LuUser, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag } from 'react-icons/lu'
+import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -32,6 +33,7 @@ interface FileItem {
   created_at: string
   profiles?: {
     full_name: string
+    avatar_url: string | null
   }
   upVotes?: number
   downVotes?: number
@@ -69,7 +71,8 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         .select(`
           *,
           profiles:uploaded_by (
-            full_name
+            full_name,
+            avatar_url
           )
         `)
         .eq('program', subject.program)
@@ -305,8 +308,12 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                       <LuCalendar className="h-3 w-3" />
                       <span className="truncate">{formatDate(file.created_at)}</span>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <LuUser className="h-3 w-3" />
+                    <div className="flex items-center gap-2">
+                      <ProfilePicture 
+                        avatarUrl={file.profiles?.avatar_url} 
+                        fullName={file.profiles?.full_name} 
+                        size={16} 
+                      />
                       <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
                     </div>
                     <span className="truncate">{formatFileSize(file.file_size)}</span>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuUser } from 'react-icons/lu'
+import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
@@ -25,6 +26,7 @@ interface FileItem {
   profiles: {
     full_name: string
     email: string
+    avatar_url: string | null
   }
 }
 
@@ -251,8 +253,12 @@ export default function FileBrowser({
                     </div>
                     
                     <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
-                      <span className="flex items-center gap-1">
-                        <LuUser className="h-3 w-3" />
+                      <span className="flex items-center gap-2">
+                        <ProfilePicture 
+                          avatarUrl={file.profiles.avatar_url} 
+                          fullName={file.profiles.full_name} 
+                          size={16} 
+                        />
                         {file.profiles.full_name || 'Anonymous'}
                       </span>
                       <span className="flex items-center gap-1">

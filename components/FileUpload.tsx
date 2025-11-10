@@ -1,8 +1,9 @@
 'use client'
 
-import { useState, useCallback, useEffect } from 'react'
+import { useState, useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Documents } from '@/settings/documents'
+import { Paths } from '@/lib/pageroutes'
 import { useDropzone } from 'react-dropzone'
 import { 
   LuUpload, 
@@ -27,11 +28,9 @@ import {
   LuCpu,
   LuPalette,
   LuSquare,
-  LuActivity,
   LuCog,
   LuMicroscope,
   LuWrench,
-  LuShuffle,
   LuBrain,
   LuDatabase,
   LuNetwork,
@@ -51,6 +50,22 @@ import { Alert, AlertDescription } from './ui/alert'
 interface FileUploadProps {
   onUploadSuccess?: () => void
 }
+
+interface SubjectItem {
+  value: string
+  label: string
+  icon: React.ComponentType<{ className?: string }>
+}
+
+interface DocumentItem {
+  title: string
+  href: string
+  noLink?: true
+  heading?: string
+  items?: Paths[]
+}
+
+type DocumentSection = Paths
 
 type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file' | 'upload'
 
@@ -111,7 +126,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   }
 
   // Function to get subjects dynamically from sidebar structure
-  const getSubjectsForSelection = () => {
+  const getSubjectsForSelection = useMemo((): SubjectItem[] => {
     const { program, branch, year } = formData
     
     if (program !== 'btech') return []
@@ -120,14 +135,14 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     const rootSection = Documents[0]
     if (!rootSection || !('items' in rootSection) || !rootSection.items) return []
     
-    const btechSection = rootSection.items.find((item: any) => 'title' in item && item.title === 'B.Tech')
+    const btechSection = rootSection.items.find((item: Paths) => 'title' in item && item.title === 'B.Tech')
     if (!btechSection || !('items' in btechSection) || !btechSection.items) return []
     
     // Handle 1st year (common for all branches)
     if (year === '1st-year') {
-      const firstYearSection = btechSection.items.find((item: any) => 'title' in item && item.title === '1st Year')
+      const firstYearSection = btechSection.items.find((item: Paths) => 'title' in item && item.title === '1st Year')
       if (firstYearSection && 'items' in firstYearSection && firstYearSection.items) {
-        return firstYearSection.items.map((subject: any) => ({
+        return firstYearSection.items.filter((item: Paths): item is Extract<Paths, { title: string; href: string }> => 'title' in item && 'href' in item).map((subject) => ({
           value: extractSubjectSlug(subject.href),
           label: subject.title,
           icon: getSubjectIcon(subject.title)
@@ -161,7 +176,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     const branchTitle = branchMapping[branch]
     if (!branchTitle) return []
     
-    branchSection = btechSection.items.find((item: any) => 'title' in item && item.title === branchTitle)
+    branchSection = btechSection.items.find((item: Paths) => 'title' in item && item.title === branchTitle)
     if (!branchSection || !('items' in branchSection) || !branchSection.items) return []
     
     // Find the specific year within the branch
@@ -174,11 +189,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     const yearTitle = yearMapping[year]
     if (!yearTitle) return []
     
-    const yearSection = branchSection.items.find((item: any) => 'title' in item && item.title === yearTitle)
+    const yearSection = branchSection.items.find((item: Paths) => 'title' in item && item.title === yearTitle)
     
     // If year section has individual subject items, return them
     if (yearSection && 'items' in yearSection && yearSection.items && yearSection.items.length > 0) {
-      return yearSection.items.map((subject: any) => ({
+      return yearSection.items.filter((item: Paths): item is Extract<Paths, { title: string; href: string }> => 'title' in item && 'href' in item).map((subject) => ({
         value: extractSubjectSlug(subject.href),
         label: subject.title,
         icon: getSubjectIcon(subject.title)
@@ -187,7 +202,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     
     // If year section exists but has no items (just a link), return empty array
     return []
-  }
+  }, [formData.program, formData.branch, formData.year])
 
   // Check if coming from subject page (has pre-filled parameters)
   const isFromSubjectPage = searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
@@ -224,13 +239,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   // Reset subject when branch or year changes
   useEffect(() => {
     if (formData.subject) {
-      const availableSubjects = getSubjectsForSelection()
-      const isSubjectAvailable = availableSubjects.some((s: any) => s.value === formData.subject)
+      const isSubjectAvailable = getSubjectsForSelection.some((s: SubjectItem) => s.value === formData.subject)
       if (!isSubjectAvailable) {
         setFormData(prev => ({ ...prev, subject: '' }))
       }
     }
-  }, [formData.branch, formData.year, formData.program])
+  }, [formData.subject, getSubjectsForSelection])
 
   const steps: { key: Step; title: string; required: boolean }[] = [
     { key: 'category', title: 'What type of material?', required: true },
@@ -723,7 +737,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         )
 
       case 'subject':
-        const availableSubjects = getSubjectsForSelection()
+        const availableSubjects = getSubjectsForSelection
         return (
           <div className="space-y-4">
             <Select
@@ -740,7 +754,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 className="max-h-[200px] overflow-y-auto w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]"
               >
                 {availableSubjects.length > 0 ? (
-                  availableSubjects.map((subject: any) => (
+                  availableSubjects.map((subject: SubjectItem) => (
                     <SelectItem key={subject.value} value={subject.value}>
                       <div className="flex items-center gap-2">
                         <subject.icon className="h-4 w-4" />

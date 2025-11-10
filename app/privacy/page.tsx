@@ -43,7 +43,7 @@ export default function PrivacyPage() {
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground ml-6">
                 <li>• Pages visited and time spent on platform</li>
-                <li>• Files downloaded and uploaded</li>
+                <li>• Files accessed via Google Drive links and links shared</li>
                 <li>• Search queries and interaction patterns</li>
                 <li>• Device information (browser type, operating system)</li>
                 <li>• IP address and general location (country/region level)</li>
@@ -55,9 +55,9 @@ export default function PrivacyPage() {
                 Content and Files
               </h3>
               <ul className="space-y-2 text-sm text-muted-foreground ml-6">
-                <li>• Study materials you upload (notes, assignments, etc.)</li>
-                <li>• File metadata (name, size, upload date)</li>
-                <li>• Comments and ratings on content</li>
+                <li>• Google Drive links to study materials you share</li>
+                <li>• File metadata (name, description, category, share date)</li>
+                <li>• Comments and ratings on shared content</li>
                 <li>• Chat messages with AI assistant</li>
               </ul>
             </div>
@@ -75,8 +75,8 @@ export default function PrivacyPage() {
             <div>
               <h3 className="font-semibold mb-2">Educational Services</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
-                <li>• Provide access to study materials and resources</li>
-                <li>• Enable file sharing within the academic community</li>
+                <li>• Provide access to study materials via Google Drive integration</li>
+                <li>• Enable resource sharing through secure Google Drive links</li>
                 <li>• Facilitate AI-powered educational assistance</li>
                 <li>• Organize content by academic programs and subjects</li>
               </ul>
@@ -175,8 +175,9 @@ export default function PrivacyPage() {
             <div>
               <h3 className="font-semibold mb-2">Public Content</h3>
               <p className="text-sm text-muted-foreground ml-4">
-                Study materials you upload are shared with the academic community. 
-                Your name may be associated with uploaded content unless you choose to remain anonymous.
+                Google Drive links you share are made available to the academic community. 
+                Your name may be associated with shared content unless you choose to remain anonymous.
+                Note: Files remain stored in your personal Google Drive account.
               </p>
             </div>
           </CardContent>
@@ -194,7 +195,7 @@ export default function PrivacyPage() {
               <h3 className="font-semibold mb-2">Access and Portability</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
                 <li>• Request a copy of all personal data we hold</li>
-                <li>• Export your uploaded content and account data</li>
+                <li>• Export your shared Google Drive links and account data</li>
                 <li>• Receive data in a machine-readable format</li>
               </ul>
             </div>
@@ -210,7 +211,7 @@ export default function PrivacyPage() {
               <h3 className="font-semibold mb-2">Deletion and Restriction</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
                 <li>• Delete your account and associated personal data</li>
-                <li>• Request removal of specific uploaded content</li>
+                <li>• Request removal of specific shared Google Drive links</li>
                 <li>• Restrict processing of your personal information</li>
                 <li>• Opt-out of non-essential communications</li>
               </ul>
@@ -230,9 +231,10 @@ export default function PrivacyPage() {
               <h3 className="font-semibold mb-2">Retention Periods</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
                 <li>• Account data: Retained while account is active + 2 years after deletion</li>
-                <li>• Uploaded content: Retained indefinitely for educational purposes (unless removed)</li>
+                <li>• Shared Google Drive links: Retained indefinitely for educational purposes (unless removed)</li>
                 <li>• Usage analytics: Aggregated data retained for 5 years</li>
                 <li>• Support communications: Retained for 3 years</li>
+                <li>• Note: Actual files remain in your Google Drive and are controlled by your Google account settings</li>
               </ul>
             </div>
             <div>

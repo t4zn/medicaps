@@ -52,7 +52,7 @@ export default function TermsPage() {
             <div>
               <h3 className="font-semibold mb-2">Permitted Educational Uses</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
-                <li>• Sharing study materials, notes, and educational resources</li>
+                <li>• Sharing Google Drive links to study materials, notes, and educational resources</li>
                 <li>• Collaborative learning and academic discussion</li>
                 <li>• Research and reference for academic purposes</li>
                 <li>• Personal study and skill development</li>
@@ -61,7 +61,7 @@ export default function TermsPage() {
             <div>
               <h3 className="font-semibold mb-2">Academic Integrity Standards</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
-                <li>• Do not upload or share current exam questions or answers</li>
+                <li>• Do not share Google Drive links to current exam questions or answers</li>
                 <li>• Respect your institution&rsquo;s honor code and academic policies</li>
                 <li>• Properly attribute sources and give credit to original authors</li>
                 <li>• Do not facilitate academic dishonesty or plagiarism</li>
@@ -92,11 +92,12 @@ export default function TermsPage() {
             <div>
               <h3 className="font-semibold mb-2">Content Standards</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
-                <li>• Upload only educational content relevant to academic subjects</li>
-                <li>• Ensure all content is appropriate for an academic environment</li>
-                <li>• Verify you have the right to share any uploaded materials</li>
-                <li>• Provide accurate descriptions and categorization of content</li>
+                <li>• Share only Google Drive links to educational content relevant to academic subjects</li>
+                <li>• Ensure all shared content is appropriate for an academic environment</li>
+                <li>• Verify you have the right to share any materials via Google Drive links</li>
+                <li>• Provide accurate descriptions and categorization of shared content</li>
                 <li>• Respect copyright, trademark, and intellectual property rights</li>
+                <li>• Maintain proper Google Drive sharing permissions (view-only access)</li>
               </ul>
             </div>
             <div>
@@ -123,12 +124,14 @@ export default function TermsPage() {
             <div>
               <h3 className="font-semibold mb-2">Strictly Prohibited Content</h3>
               <ul className="space-y-1 text-sm text-muted-foreground ml-4">
-                <li>• Malware, viruses, or other harmful software</li>
+                <li>• Links to files containing malware, viruses, or other harmful software</li>
                 <li>• Copyrighted material without proper authorization</li>
                 <li>• Current exam questions, answer keys, or graded assignments</li>
                 <li>• Inappropriate, offensive, or discriminatory content</li>
                 <li>• Personal information of others without consent</li>
                 <li>• Commercial advertisements or promotional materials</li>
+                <li>• Invalid or broken Google Drive links</li>
+                <li>• Links to files with restricted access permissions</li>
               </ul>
             </div>
             <div>
@@ -163,9 +166,10 @@ export default function TermsPage() {
             <div>
               <h3 className="font-semibold mb-2">Your Content Rights</h3>
               <p className="text-sm text-muted-foreground ml-4">
-                You retain ownership of all intellectual property rights in content you create and upload. 
-                However, by uploading content, you grant us a non-exclusive, worldwide, royalty-free license 
-                to store, display, reproduce, and distribute your content for educational purposes on our platform.
+                You retain full ownership of all files stored in your Google Drive. By sharing Google Drive links 
+                on our platform, you grant us a non-exclusive, worldwide, royalty-free license to display 
+                the link information and metadata for educational purposes. The actual files remain under 
+                your control in your Google Drive account.
               </p>
             </div>
             <div>
@@ -263,7 +267,8 @@ export default function TermsPage() {
               <p className="text-sm text-muted-foreground ml-4">
                 You may close your account at any time through your profile settings. 
                 Upon closure, your personal data will be deleted according to our Privacy Policy, 
-                but uploaded educational content may remain available to the community.
+                but shared Google Drive links may remain available to the community. 
+                You can revoke access to your files by changing Google Drive sharing permissions.
               </p>
             </div>
             <div>

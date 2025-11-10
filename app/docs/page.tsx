@@ -29,8 +29,8 @@ export default function DocsPage() {
               <p className="text-sm text-muted-foreground">Explore notes, formula sheets, and previous year questions by program and subject</p>
             </div>
             <div>
-              <h3 className="font-semibold mb-2">3. Upload & Share</h3>
-              <p className="text-sm text-muted-foreground">Contribute your own study materials to help the community</p>
+              <h3 className="font-semibold mb-2">3. Share Google Drive Links</h3>
+              <p className="text-sm text-muted-foreground">Share Google Drive links to your study materials to help the community</p>
             </div>
           </CardContent>
         </Card>
@@ -58,15 +58,15 @@ export default function DocsPage() {
             <div className="flex items-start gap-3">
               <Upload className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div>
-                <h3 className="font-semibold mb-2">File Upload</h3>
-                <p className="text-sm text-muted-foreground">Share your study materials with the community</p>
+                <h3 className="font-semibold mb-2">Google Drive Integration</h3>
+                <p className="text-sm text-muted-foreground">Share Google Drive links to your study materials with the community</p>
               </div>
             </div>
             <div className="flex items-start gap-3">
               <User className="h-5 w-5 text-muted-foreground mt-0.5" />
               <div>
                 <h3 className="font-semibold mb-2">Profile Management</h3>
-                <p className="text-sm text-muted-foreground">Track your uploads and manage your account settings</p>
+                <p className="text-sm text-muted-foreground">Track your shared Google Drive links and manage your account settings</p>
               </div>
             </div>
           </CardContent>
@@ -83,12 +83,13 @@ export default function DocsPage() {
           <CardContent>
             <Accordion type="single" collapsible className="w-full">
               <AccordionItem value="item-1">
-                <AccordionTrigger variant="plus">How do I upload study materials?</AccordionTrigger>
+                <AccordionTrigger variant="plus">How do I share study materials?</AccordionTrigger>
                 <AccordionContent>
                   <p className="text-muted-foreground">
-                    To upload study materials, navigate to your profile page and click on the &ldquo;Upload&rdquo; button. 
-                    Select your files, choose the appropriate program, year, and subject, then submit. 
-                    Your materials will be reviewed and made available to the community.
+                    To share study materials, first upload your files to Google Drive and set sharing permissions to 
+                    &ldquo;Anyone with the link can view&rdquo;. Then navigate to the upload page, paste the Google Drive link, 
+                    add file details, choose the appropriate program, year, and subject, then submit. 
+                    Your shared links will be reviewed and made available to the community.
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -97,8 +98,9 @@ export default function DocsPage() {
                 <AccordionTrigger variant="plus">What file formats are supported?</AccordionTrigger>
                 <AccordionContent>
                   <p className="text-muted-foreground">
-                    We support PDF, DOC, DOCX, PPT, PPTX, and image files (JPG, PNG). 
-                    Files should be under 50MB in size. For best results, use PDF format for documents.
+                    We support Google Drive links to PDF files. Your files should be uploaded to Google Drive 
+                    with proper sharing permissions set to &ldquo;Anyone with the link can view&rdquo;. 
+                    For best results, use PDF format for documents and ensure files are properly named.
                   </p>
                 </AccordionContent>
               </AccordionItem>
@@ -117,7 +119,8 @@ export default function DocsPage() {
                 <AccordionTrigger variant="plus">Can I download materials for offline use?</AccordionTrigger>
                 <AccordionContent>
                   <p className="text-muted-foreground">
-                    Yes, you can download any study material by clicking the download button on the file. 
+                    Yes, you can download any study material by clicking the Google Drive link which will take you 
+                    directly to the file. From there, you can download the file using Google Drive&rsquo;s download feature. 
                     Downloaded files can be used offline for your studies.
                   </p>
                 </AccordionContent>

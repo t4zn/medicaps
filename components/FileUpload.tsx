@@ -41,7 +41,6 @@ import {
   LuServer,
   LuBot,
   LuLink,
-  LuExternalLink
 } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -49,7 +48,6 @@ import { Card, CardContent } from './ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Alert, AlertDescription } from './ui/alert'
 import { Input } from './ui/input'
-import { Label } from './ui/label'
 
 interface FileUploadProps {
   onUploadSuccess?: () => void

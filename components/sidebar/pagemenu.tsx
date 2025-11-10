@@ -7,7 +7,8 @@ import { Separator } from "@/components/ui/separator"
 import SubLink from "@/components/sidebar/sublink"
 import Search from "@/components/navigation/search"
 import { Input } from "@/components/ui/input"
-import { LuSearch, LuFilter } from "react-icons/lu"
+import { LuSearch, LuFilter, LuPlus } from "react-icons/lu"
+import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import {
   DropdownMenu,
@@ -159,7 +160,19 @@ export function PageMenu({ isSheet = false }) {
         return (
           <div key={item.title + index}>
             {item.heading && (
-              <div className="mb-4 text-sm font-bold">{item.heading}</div>
+              <>
+                <div className="mb-4 text-sm font-bold">{item.heading}</div>
+                {/* Add Subject link right after Resources heading */}
+                {item.heading === "Resources" && (
+                  <Link 
+                    href="/settings/subject-requests" 
+                    className="flex items-center gap-2 py-2 mb-3 text-sm text-muted-foreground hover:text-foreground hover:bg-accent rounded-md transition-colors"
+                  >
+                    <LuPlus className="h-4 w-4" />
+                    Add Subject
+                  </Link>
+                )}
+              </>
             )}
             <SubLink
               {...{

@@ -204,26 +204,35 @@ const subjectConfigs: Record<string, SubjectConfig> = {
   }
 }
 
-// Program configurations
-const programConfigs: Record<string, string> = {
-  'btech': 'B.Tech',
-  'bsc': 'B.Sc',
-  'bba': 'BBA',
-  'bcom': 'B.Com',
-  'mtech': 'M.Tech',
-  'mba': 'MBA'
+// Branch configurations
+const branchConfigs: Record<string, string> = {
+  'cse': 'Computer Science and Engineering',
+  'cse-ai': 'CSE - Artificial Intelligence',
+  'cse-ds': 'CSE - Data Science',
+  'cse-networks': 'CSE - Networks',
+  'cse-aiml': 'CSE - AI & ML',
+  'cyber-security': 'Cyber Security',
+  'cse-iot': 'CSE - IoT',
+  'csbs': 'Computer Science and Business Systems',
+  'ece': 'Electronics and Communication Engineering',
+  'civil': 'Civil Engineering',
+  'electrical': 'Electrical Engineering',
+  'automobile-ev': 'Automobile Engineering (EV)',
+  'it': 'Information Technology',
+  'mechanical': 'Mechanical Engineering',
+  'robotics-automation': 'Robotics & Automation'
 }
 
 type PageProps = {
   params: Promise<{
-    program: string
+    branch: string
     year: string
     subject: string
   }>
 }
 
-function SubjectNotFoundPage({ program, year, subject }: { program: string, year: string, subject: string }) {
-  const requestUrl = getSubjectRequestUrl(program, null, year, subject)
+function SubjectNotFoundPage({ branch, year, subject }: { branch: string, year: string, subject: string }) {
+  const requestUrl = getSubjectRequestUrl('btech', branch, year, subject)
 
   return (
     <div className="flex items-center justify-center min-h-[60vh]">
@@ -237,19 +246,19 @@ function SubjectNotFoundPage({ program, year, subject }: { program: string, year
   )
 }
 
-export default async function DynamicSubjectPage({ params }: PageProps) {
-  const { program, year, subject } = await params
+export default async function BTechSubjectPage({ params }: PageProps) {
+  const { branch, year, subject } = await params
   
-  // Validate program
-  if (!programConfigs[program]) {
+  // Validate branch
+  if (!branchConfigs[branch]) {
     notFound()
   }
   
   // Check if subject exists in documents.ts
-  const subjectExists = validateSubjectExists(program, null, year, subject)
+  const subjectExists = validateSubjectExists('btech', branch, year, subject)
   
   if (!subjectExists) {
-    return <SubjectNotFoundPage program={program} year={year} subject={subject} />
+    return <SubjectNotFoundPage branch={branch} year={year} subject={subject} />
   }
   
   // Get subject config or create default
@@ -263,46 +272,19 @@ export default async function DynamicSubjectPage({ params }: PageProps) {
   const subjectData = {
     name: subjectConfig.name,
     description: subjectConfig.description,
-    program: program,
+    program: 'btech',
+    branch: branch,
     year: year,
-    category: 'notes', // Default to notes, can be made dynamic
+    category: 'notes',
     code: subjectConfig.code,
-    slug: subject // Add the original subject slug
+    slug: subject
   }
 
   return <SubjectPage subject={subjectData} />
 }
 
-// Generate static params for known combinations
-export function generateStaticParams() {
-  const programs = ['btech', 'bsc', 'bba', 'bcom']
-  const years = ['1st-year', '2nd-year', '3rd-year', '4th-year']
-  const subjects = Object.keys(subjectConfigs)
-  
-  const params = []
-  
-  for (const program of programs) {
-    for (const year of years) {
-      // Skip 4th year for programs that don't have it
-      if (year === '4th-year' && !['btech', 'bcom'].includes(program)) {
-        continue
-      }
-      
-      for (const subject of subjects) {
-        params.push({
-          program,
-          year,
-          subject
-        })
-      }
-    }
-  }
-  
-  return params
-}
-
 export async function generateMetadata({ params }: PageProps) {
-  const { program, year, subject } = await params
+  const { branch, year, subject } = await params
   
   const subjectConfig = subjectConfigs[subject] || {
     name: subject.split('-').map(word => 
@@ -310,15 +292,16 @@ export async function generateMetadata({ params }: PageProps) {
     ).join(' ')
   }
   
-  const programName = programConfigs[program] || program.toUpperCase()
+  const branchName = branchConfigs[branch] || branch.toUpperCase()
   const yearName = year.replace('-', ' ')
   
   return {
-    title: `${subjectConfig.name} - ${programName} ${yearName} Notes`,
+    title: `${subjectConfig.name} - B.Tech ${branchName} ${yearName} Notes`,
     description: subjectConfig.description || `Study materials for ${subjectConfig.name}`,
     keywords: [
       subjectConfig.name,
-      programName,
+      'B.Tech',
+      branchName,
       yearName,
       'notes',
       'study materials',

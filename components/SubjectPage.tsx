@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles } from 'react-icons/lu'
+import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles, LuUser } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { ArticleBreadcrumb } from '@/components/article/breadcrumb'
 import { useAuth } from '@/contexts/AuthContext'
@@ -47,6 +47,7 @@ interface SubjectPageProps {
     name: string
     description: string
     program: string
+    branch?: string
     year: string
     category: string
     code?: string
@@ -618,7 +619,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             <span className="hidden sm:inline">Formula Sheets</span>
             <span className="sm:hidden">Formulas</span>
           </TabsTrigger>
-          {user && subject.name.toLowerCase() !== 'mix' && (
+          {subject.name.toLowerCase() !== 'mix' && (
             <TabsTrigger value="ai-tutor">
               <div className="flex items-center gap-1">
                 <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -692,9 +693,27 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
           {renderFileList(formulaFiles, 'formula sheets')}
         </TabsContent>
 
-        {user && subject.name.toLowerCase() !== 'mix' && (
+        {subject.name.toLowerCase() !== 'mix' && (
           <TabsContent value="ai-tutor" className="space-y-6">
-            <SubjectChat subject={subject} />
+            {user ? (
+              <SubjectChat subject={subject} />
+            ) : (
+              <div className="flex items-center justify-center min-h-[400px]">
+                <div className="text-center">
+                  <LuSparkles className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
+                  <h3 className="text-lg font-semibold mb-2">AI Tutor</h3>
+                  <p className="text-muted-foreground mb-6 max-w-md mx-auto">
+                    Get personalized help and explanations for {subject.name}. Sign in to start chatting with your AI tutor.
+                  </p>
+                  <Link href="/auth">
+                    <Button>
+                      <LuUser className="h-4 w-4 mr-2" />
+                      Sign In to Access AI Tutor
+                    </Button>
+                  </Link>
+                </div>
+              </div>
+            )}
           </TabsContent>
         )}
       </Tabs>

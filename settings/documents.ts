@@ -74,7 +74,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSE",
-            href: "/computer-science-and-engineering",
+            href: "/cse",
             noLink: true,
             items: [
               {
@@ -84,63 +84,63 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Discrete Maths",
-                    href: "/notes/btech/2nd-year/discrete-mathematics",
+                    href: "/notes/btech/cse/2nd-year/discrete-mathematics",
                   },
                   {
                     title: "Data Comm",
-                    href: "/notes/btech/2nd-year/data-communication",
+                    href: "/notes/btech/cse/2nd-year/data-communication",
                   },
                   {
                     title: "OOP",
-                    href: "/notes/btech/2nd-year/object-oriented-programming",
+                    href: "/notes/btech/cse/2nd-year/object-oriented-programming",
                   },
                   {
                     title: "Data Structures",
-                    href: "/notes/btech/2nd-year/data-structures",
+                    href: "/notes/btech/cse/2nd-year/data-structures",
                   },
                   {
                     title: "Java",
-                    href: "/notes/btech/2nd-year/java-programming",
+                    href: "/notes/btech/cse/2nd-year/java-programming",
                   },
                   {
                     title: "Digital Electronics",
-                    href: "/notes/btech/2nd-year/digital-electronics",
+                    href: "/notes/btech/cse/2nd-year/digital-electronics",
                   },
                   {
                     title: "Computer Architecture",
-                    href: "/notes/btech/2nd-year/computer-system-architecture",
+                    href: "/notes/btech/cse/2nd-year/computer-system-architecture",
                   },
                   {
                     title: "Soft Skills-I",
-                    href: "/notes/btech/2nd-year/soft-skills-1",
+                    href: "/notes/btech/cse/2nd-year/soft-skills-1",
                   },
                   {
                     title: "Microprocessor",
-                    href: "/notes/btech/2nd-year/microprocessor-and-interfacing",
+                    href: "/notes/btech/cse/2nd-year/microprocessor-and-interfacing",
                   },
                   {
                     title: "Advanced Java",
-                    href: "/notes/btech/2nd-year/advanced-java-programming",
+                    href: "/notes/btech/cse/2nd-year/advanced-java-programming",
                   },
                   {
                     title: "DBMS",
-                    href: "/notes/btech/2nd-year/database-management-systems",
+                    href: "/notes/btech/cse/2nd-year/database-management-systems",
                   },
                   {
                     title: "Theory of Computation",
-                    href: "/notes/btech/2nd-year/theory-of-computation",
+                    href: "/notes/btech/cse/2nd-year/theory-of-computation",
                   },
                   {
                     title: "Operating Systems",
-                    href: "/notes/btech/2nd-year/operating-systems",
+                    href: "/notes/btech/cse/2nd-year/operating-systems",
                   },
                   {
                     title: "Soft Skills-II",
-                    href: "/notes/btech/2nd-year/soft-skills-2",
+                    href: "/notes/btech/cse/2nd-year/soft-skills-2",
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse/2nd-year/mix",
                   },
                 ],
               },
@@ -151,39 +151,39 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Software Engineering",
-                    href: "/notes/btech/3rd-year/software-engineering",
+                    href: "/notes/btech/cse/3rd-year/software-engineering",
                   },
                   {
                     title: "Computer Networks",
-                    href: "/notes/btech/3rd-year/computer-networks",
+                    href: "/notes/btech/cse/3rd-year/computer-networks",
                   },
                   {
                     title: "Economics",
-                    href: "/notes/btech/3rd-year/economics",
+                    href: "/notes/btech/cse/3rd-year/economics",
                   },
                   {
                     title: "Soft Skills-III",
-                    href: "/notes/btech/3rd-year/soft-skills-3",
+                    href: "/notes/btech/cse/3rd-year/soft-skills-3",
                   },
                   {
                     title: "Compiler Design",
-                    href: "/notes/btech/3rd-year/compiler-design",
+                    href: "/notes/btech/cse/3rd-year/compiler-design",
                   },
                   {
                     title: "Algorithm Design",
-                    href: "/notes/btech/3rd-year/design-and-analysis-of-algorithms",
+                    href: "/notes/btech/cse/3rd-year/design-and-analysis-of-algorithms",
                   },
                   {
                     title: "Research Methods",
-                    href: "/notes/btech/3rd-year/research-methodology",
+                    href: "/notes/btech/cse/3rd-year/research-methodology",
                   },
                   {
                     title: "Soft Skills-IV",
-                    href: "/notes/btech/3rd-year/soft-skills-4",
+                    href: "/notes/btech/cse/3rd-year/soft-skills-4",
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse/3rd-year/mix",
                   },
                 ],
               },
@@ -194,11 +194,11 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Industrial Training",
-                    href: "/notes/btech/4th-year/industrial-training",
+                    href: "/notes/btech/cse/4th-year/industrial-training",
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse/4th-year/mix",
                   },
                 ],
               },
@@ -206,7 +206,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSE - AI",
-            href: "/cse-artificial-intelligence",
+            href: "/cse-ai",
             noLink: true,
             items: [
               {
@@ -216,59 +216,59 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Discrete Maths",
-                    href: "/notes/btech/2nd-year/discrete-mathematics",
+                    href: "/notes/btech/cse-ai/2nd-year/discrete-mathematics",
                   },
                   {
                     title: "Data Comm",
-                    href: "/notes/btech/2nd-year/data-communication",
+                    href: "/notes/btech/cse-ai/2nd-year/data-communication",
                   },
                   {
                     title: "Data Structures",
-                    href: "/notes/btech/2nd-year/data-structures",
+                    href: "/notes/btech/cse-ai/2nd-year/data-structures",
                   },
                   {
                     title: "Digital Electronics",
-                    href: "/notes/btech/2nd-year/digital-electronics",
+                    href: "/notes/btech/cse-ai/2nd-year/digital-electronics",
                   },
                   {
                     title: "Computer Architecture",
-                    href: "/notes/btech/2nd-year/computer-system-architecture",
+                    href: "/notes/btech/cse-ai/2nd-year/computer-system-architecture",
                   },
                   {
                     title: "AI Principles",
-                    href: "/notes/btech/2nd-year/principles-of-artificial-intelligence",
+                    href: "/notes/btech/cse-ai/2nd-year/principles-of-artificial-intelligence",
                   },
                   {
                     title: "Soft Skills-I",
-                    href: "/notes/btech/2nd-year/soft-skills-1",
+                    href: "/notes/btech/cse-ai/2nd-year/soft-skills-1",
                   },
                   {
                     title: "Operating Systems",
-                    href: "/notes/btech/2nd-year/operating-systems",
+                    href: "/notes/btech/cse-ai/2nd-year/operating-systems",
                   },
                   {
                     title: "Advanced Java/Python",
-                    href: "/notes/btech/2nd-year/advanced-java-or-python-programming",
+                    href: "/notes/btech/cse-ai/2nd-year/advanced-java-or-python-programming",
                   },
                   {
                     title: "Theory of Computation",
-                    href: "/notes/btech/2nd-year/theory-of-computation",
+                    href: "/notes/btech/cse-ai/2nd-year/theory-of-computation",
                   },
                   {
                     title: "DBMS",
-                    href: "/notes/btech/2nd-year/database-management-systems",
+                    href: "/notes/btech/cse-ai/2nd-year/database-management-systems",
                   },
                   {
                     title: "ML Fundamentals",
-                    href: "/notes/btech/2nd-year/machine-learning-fundamentals",
+                    href: "/notes/btech/cse-ai/2nd-year/machine-learning-fundamentals",
                   },
                   {
                     title: "Soft Skills-II",
-                    href: "/notes/btech/2nd-year/soft-skills-2",
+                    href: "/notes/btech/cse-ai/2nd-year/soft-skills-2",
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse-ai/2nd-year/mix",
                   },
                 ],
               },
@@ -279,7 +279,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse-ai/3rd-year/mix",
                   },
                 ],
               },
@@ -290,7 +290,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse-ai/4th-year/mix",
                   },
                 ],
               },
@@ -298,7 +298,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSE - DS",
-            href: "/cse-data-science",
+            href: "/cse-ds",
             noLink: true,
             items: [
               {
@@ -308,7 +308,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse-ds/2nd-year/mix",
                   },
                 ],
               },
@@ -319,7 +319,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse-ds/3rd-year/mix",
                   },
                 ],
               },
@@ -330,7 +330,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse-ds/4th-year/mix",
                   },
                 ],
               },
@@ -348,7 +348,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse-networks/2nd-year/mix",
                   },
                 ],
               },
@@ -359,7 +359,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse-networks/3rd-year/mix",
                   },
                 ],
               },
@@ -370,7 +370,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse-networks/4th-year/mix",
                   },
                 ],
               },
@@ -378,7 +378,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSE - AI & ML",
-            href: "/cse-artificial-intelligence-and-machine-learning",
+            href: "/cse-aiml",
             noLink: true,
             items: [
               {
@@ -388,7 +388,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse-aiml/2nd-year/mix",
                   },
                 ],
               },
@@ -399,7 +399,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse-aiml/3rd-year/mix",
                   },
                 ],
               },
@@ -410,7 +410,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse-aiml/4th-year/mix",
                   },
                 ],
               },
@@ -418,7 +418,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Cyber Security",
-            href: "/cse-cyber-security",
+            href: "/cyber-security",
             noLink: true,
             items: [
               {
@@ -428,7 +428,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cyber-security/2nd-year/mix",
                   },
                 ],
               },
@@ -439,7 +439,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cyber-security/3rd-year/mix",
                   },
                 ],
               },
@@ -450,7 +450,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cyber-security/4th-year/mix",
                   },
                 ],
               },
@@ -458,7 +458,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSE - IoT",
-            href: "/cse-internet-of-things",
+            href: "/cse-iot",
             noLink: true,
             items: [
               {
@@ -468,7 +468,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/cse-iot/2nd-year/mix",
                   },
                 ],
               },
@@ -479,7 +479,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/cse-iot/3rd-year/mix",
                   },
                 ],
               },
@@ -490,7 +490,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/cse-iot/4th-year/mix",
                   },
                 ],
               },
@@ -498,7 +498,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "CSBS",
-            href: "/csbs-computer-science-and-business-systems",
+            href: "/csbs",
             noLink: true,
             items: [
               {
@@ -508,7 +508,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/csbs/2nd-year/mix",
                   },
                 ],
               },
@@ -519,7 +519,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/csbs/3rd-year/mix",
                   },
                 ],
               },
@@ -530,7 +530,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/csbs/4th-year/mix",
                   },
                 ],
               },
@@ -538,7 +538,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "ECE",
-            href: "/ece-electronics-communication-engineering",
+            href: "/ece",
             noLink: true,
             items: [
               {
@@ -548,7 +548,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/ece/2nd-year/mix",
                   },
                 ],
               },
@@ -559,7 +559,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/ece/3rd-year/mix",
                   },
                 ],
               },
@@ -570,7 +570,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/ece/4th-year/mix",
                   },
                 ],
               },
@@ -578,7 +578,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Civil",
-            href: "/ce-civil-engineering",
+            href: "/civil",
             noLink: true,
             items: [
               {
@@ -588,7 +588,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/civil/2nd-year/mix",
                   },
                 ],
               },
@@ -599,7 +599,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/civil/3rd-year/mix",
                   },
                 ],
               },
@@ -610,7 +610,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/civil/4th-year/mix",
                   },
                 ],
               },
@@ -618,7 +618,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Electrical",
-            href: "/ee-electrical-engineering",
+            href: "/electrical",
             noLink: true,
             items: [
               {
@@ -628,7 +628,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/electrical/2nd-year/mix",
                   },
                 ],
               },
@@ -639,7 +639,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/electrical/3rd-year/mix",
                   },
                 ],
               },
@@ -650,7 +650,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/electrical/4th-year/mix",
                   },
                 ],
               },
@@ -658,7 +658,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Automobile (EV)",
-            href: "/au-ev-automobile-engineering-electric-vehicle",
+            href: "/automobile-ev",
             noLink: true,
             items: [
               {
@@ -668,7 +668,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/automobile-ev/2nd-year/mix",
                   },
                 ],
               },
@@ -679,7 +679,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/automobile-ev/3rd-year/mix",
                   },
                 ],
               },
@@ -690,7 +690,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/automobile-ev/4th-year/mix",
                   },
                 ],
               },
@@ -698,7 +698,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "IT",
-            href: "/it-information-technology",
+            href: "/it",
             noLink: true,
             items: [
               {
@@ -708,7 +708,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/it/2nd-year/mix",
                   },
                 ],
               },
@@ -719,7 +719,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/it/3rd-year/mix",
                   },
                 ],
               },
@@ -730,7 +730,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/it/4th-year/mix",
                   },
                 ],
               },
@@ -738,7 +738,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Mechanical",
-            href: "/mechanical-engineering",
+            href: "/mechanical",
             noLink: true,
             items: [
               {
@@ -748,7 +748,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/mechanical/2nd-year/mix",
                   },
                 ],
               },
@@ -759,7 +759,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/mechanical/3rd-year/mix",
                   },
                 ],
               },
@@ -770,7 +770,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/mechanical/4th-year/mix",
                   },
                 ],
               },
@@ -778,7 +778,7 @@ export const Documents: Paths[] = [
           },
           {
             title: "Robotics & Automation",
-            href: "/ra-robotics-and-automation",
+            href: "/robotics-automation",
             noLink: true,
             items: [
               {
@@ -788,7 +788,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/2nd-year/mix",
+                    href: "/notes/btech/robotics-automation/2nd-year/mix",
                   },
                 ],
               },
@@ -799,7 +799,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/3rd-year/mix",
+                    href: "/notes/btech/robotics-automation/3rd-year/mix",
                   },
                 ],
               },
@@ -810,7 +810,7 @@ export const Documents: Paths[] = [
                 items: [
                   {
                     title: "Mix",
-                    href: "/notes/btech/4th-year/mix",
+                    href: "/notes/btech/robotics-automation/4th-year/mix",
                   },
                 ],
               },

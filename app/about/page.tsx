@@ -82,8 +82,8 @@ export default function AboutPage() {
                   </h2>
                   <div className="space-y-4 text-gray-600 dark:text-gray-400 leading-relaxed">
                     <p>
-                      Hello! I'm Taizun Kaptan, a passionate AI developer and the creator of Medicaps Resources. 
-                      I'm currently pursuing my studies at Medicaps University while building innovative solutions 
+                      Hello! I&apos;m Taizun Kaptan, a passionate AI developer and the creator of Medicaps Resources. 
+                      I&apos;m currently pursuing my studies at Medicaps University while building innovative solutions 
                       that bridge the gap between technology and education.
                     </p>
                     <p>
@@ -114,7 +114,7 @@ export default function AboutPage() {
                 </div>
 
                 <div>
-                  <h3 className="text-xl font-semibold mb-4">Key Features I've Built</h3>
+                  <h3 className="text-xl font-semibold mb-4">Key Features I&apos;ve Built</h3>
                   <div className="grid md:grid-cols-2 gap-4">
                     <div className="p-4 border border-gray-200 dark:border-gray-800 rounded-lg">
                       <h4 className="font-medium mb-2">AI-Powered Chat Assistant</h4>
@@ -165,9 +165,9 @@ export default function AboutPage() {
                   <h3 className="text-xl font-semibold mb-4">Philosophy</h3>
                   <div className="bg-gray-50 dark:bg-gray-900 p-6 rounded-lg border-l-4 border-gray-300 dark:border-gray-700">
                     <p className="text-gray-600 dark:text-gray-400 leading-relaxed italic">
-                      "Technology should serve humanity, not the other way around. Every line of code I write 
-                      is aimed at making someone's life easier, their learning more effective, or their goals more achievable. 
-                      The best AI solutions are those that feel natural and empower users rather than replace them."
+                      &ldquo;Technology should serve humanity, not the other way around. Every line of code I write 
+                      is aimed at making someone&rsquo;s life easier, their learning more effective, or their goals more achievable. 
+                      The best AI solutions are those that feel natural and empower users rather than replace them.&rdquo;
                     </p>
                   </div>
                 </div>

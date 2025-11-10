@@ -13,7 +13,7 @@ export function LayoutContent({ children }: LayoutContentProps) {
   const pathname = usePathname()
   
   // Don't show sidebar on homepage, auth, profile, and static pages
-  const hideSidebarPaths = ['/', '/auth', '/profile', '/upload', '/about', '/privacy', '/terms', '/docs']
+  const hideSidebarPaths = ['/', '/auth', '/profile', '/upload', '/about', '/privacy', '/terms', '/docs', '/settings/subject-requests']
   const showSidebar = !hideSidebarPaths.includes(pathname)
 
   return (

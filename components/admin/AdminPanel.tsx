@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
+import { SubjectRequestsAdmin } from '@/components/admin/SubjectRequestsAdmin'
 
 interface PendingFile {
   id: string
@@ -185,7 +186,7 @@ export default function AdminPanel() {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="files" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-2">
+        <TabsList className="grid w-full grid-cols-3">
           <TabsTrigger value="files" className="flex items-center gap-2">
             <LuFileText className="h-4 w-4" />
             Pending Files ({pendingFiles.length})
@@ -193,6 +194,10 @@ export default function AdminPanel() {
           <TabsTrigger value="reports" className="flex items-center gap-2">
             <LuFlag className="h-4 w-4" />
             Reports ({reports.length})
+          </TabsTrigger>
+          <TabsTrigger value="subjects" className="flex items-center gap-2">
+            <LuUser className="h-4 w-4" />
+            Subject Requests
           </TabsTrigger>
         </TabsList>
 
@@ -433,6 +438,10 @@ export default function AdminPanel() {
           )}
         </CardContent>
       </Card>
+    </TabsContent>
+
+    <TabsContent value="subjects">
+      <SubjectRequestsAdmin />
     </TabsContent>
   </Tabs>
 </div>

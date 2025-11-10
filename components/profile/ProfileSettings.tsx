@@ -8,7 +8,8 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '../ui/label'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuUser, LuSave, LuCamera } from 'react-icons/lu'
+import { LuUser, LuSave, LuCamera, LuPlus } from 'react-icons/lu'
+import Link from 'next/link'
 
 export default function ProfileSettings() {
   const { user, profile } = useAuth()
@@ -163,6 +164,19 @@ export default function ProfileSettings() {
           {loading ? 'Saving...' : 'Save Profile'}
         </Button>
       </form>
+
+      {/* Quick Actions */}
+      <div className="border-t pt-6">
+        <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
+        <div className="space-y-2">
+          <Button asChild variant="outline" className="w-full justify-start">
+            <Link href="/settings/subject-requests">
+              <LuPlus className="h-4 w-4 mr-2" />
+              Request New Subject
+            </Link>
+          </Button>
+        </div>
+      </div>
     </div>
   )
 }

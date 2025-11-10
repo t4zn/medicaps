@@ -331,8 +331,9 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       <div className="absolute bottom-6 left-4 right-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="flex items-end bg-muted/40 rounded-3xl px-4 py-3 sm:px-5 sm:py-3 gap-3 sm:gap-4 border border-border/50 shadow-lg transition-all duration-200">
-              <div className="flex-1 min-h-0">
+            <div className="bg-muted/40 rounded-3xl px-4 py-3 sm:px-5 sm:py-3 border border-border/50 shadow-lg transition-all duration-200">
+              {/* Text Area */}
+              <div className="mb-2">
                 <textarea
                   ref={inputRef}
                   value={input}
@@ -351,8 +352,9 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                 />
               </div>
               
-              {/* Voice Recording Button - Only show when input is empty */}
-              {!input.trim() && (
+              {/* Buttons Row */}
+              <div className="flex items-center justify-end gap-3">
+                {/* Voice Recording Button */}
                 <button
                   type="button"
                   onClick={toggleVoiceRecording}
@@ -369,28 +371,28 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                     <LuMic className="h-4 w-4" />
                   )}
                 </button>
-              )}
 
-              {/* Send Button */}
-              <button
-                type="submit"
-                disabled={!input.trim() || isLoading}
-                className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 ${
-                  input.trim() && !isLoading
-                    ? 'bg-white text-black hover:bg-gray-100'
-                    : 'bg-muted text-muted-foreground cursor-not-allowed'
-                }`}
-              >
-                <svg 
-                  className="w-4 h-4" 
-                  viewBox="0 0 24 24" 
-                  fill="none" 
-                  stroke="currentColor" 
-                  strokeWidth="2"
+                {/* Send Button */}
+                <button
+                  type="submit"
+                  disabled={!input.trim() || isLoading}
+                  className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 ${
+                    input.trim() && !isLoading
+                      ? 'bg-white text-black hover:bg-gray-100'
+                      : 'bg-muted text-muted-foreground cursor-not-allowed'
+                  }`}
                 >
-                  <path d="M12 19V5M5 12l7-7 7 7" />
-                </svg>
-              </button>
+                  <svg 
+                    className="w-4 h-4" 
+                    viewBox="0 0 24 24" 
+                    fill="none" 
+                    stroke="currentColor" 
+                    strokeWidth="2"
+                  >
+                    <path d="M12 19V5M5 12l7-7 7 7" />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </form>

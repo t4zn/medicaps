@@ -63,7 +63,7 @@ interface SubjectItem {
 
 
 
-type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file' | 'upload'
+type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file'
 
 export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const { user } = useAuth()
@@ -250,7 +250,6 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     { key: 'year', title: 'Which year?', required: true },
     { key: 'subject', title: 'Which subject?', required: true },
     { key: 'file', title: 'Add your Google Drive link', required: true },
-    { key: 'upload', title: 'Ready to add link', required: false },
   ]
 
   const getCurrentStepIndex = () => steps.findIndex(step => step.key === currentStep)
@@ -262,7 +261,6 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       case 'year': return !!formData.year
       case 'subject': return !!formData.subject
       case 'file': return !!googleDriveUrl && !!filename
-      case 'upload': return false
       default: return false
     }
   }
@@ -842,54 +840,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 </div>
               </div>
             )}
-          </div>
-        )
 
-      case 'upload':
-        return (
-          <div className="space-y-6">
-            <div className="text-center space-y-4">
-              <LuCheck className="h-16 w-16 mx-auto text-green-500" />
-              <div>
-                <h3 className="text-lg font-semibold">Ready to Add Link!</h3>
-                <p className="text-muted-foreground">Review your details below</p>
-              </div>
-            </div>
-
-            <div className="space-y-3 p-4 bg-muted/30 rounded-lg">
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Type:</span>
-                <span className="capitalize">{formData.category.replace('-', ' ')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Program:</span>
-                <span className="uppercase">{formData.program}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Branch:</span>
-                <span className="capitalize">{formData.branch.replace(/-/g, ' ')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Year:</span>
-                <span>{formData.year.replace('-', ' ')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Subject:</span>
-                <span className="capitalize">{formData.subject.replace('-', ' ')}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">File:</span>
-                <span className="truncate max-w-32">{filename}</span>
-              </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Link:</span>
-                <span className="truncate max-w-32 text-blue-600">Google Drive</span>
-              </div>
-            </div>
-
+            {/* Upload Button */}
             <Button
               onClick={handleUpload}
-              disabled={uploading}
+              disabled={uploading || !googleDriveUrl || !filename || !validateGoogleDriveUrl(googleDriveUrl)}
               className="w-full h-12"
               size="lg"
             >
@@ -956,7 +911,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         )}
 
         {/* Navigation */}
-        {currentStep !== 'upload' && (
+        {currentStep !== 'file' && (
           <div className="flex flex-col sm:flex-row gap-3 sm:justify-between">
             <Button
               variant="outline"
@@ -973,20 +928,20 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               disabled={!canProceed() || currentIndex === steps.length - 1}
               className="w-full sm:w-auto order-1 sm:order-2"
             >
-              {currentIndex === steps.length - 2 ? 'Review' : 'Next'}
+              Next
               <LuArrowRight className="h-4 w-4 ml-2" />
             </Button>
           </div>
         )}
 
-        {currentStep === 'upload' && (
+        {currentStep === 'file' && (
           <Button
             variant="outline"
             onClick={prevStep}
             className="w-full"
           >
             <LuArrowLeft className="h-4 w-4 mr-2" />
-            Back to Edit
+            Back
           </Button>
         )}
       </CardContent>

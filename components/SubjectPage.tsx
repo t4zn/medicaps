@@ -618,7 +618,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             <span className="hidden sm:inline">Formula Sheets</span>
             <span className="sm:hidden">Formulas</span>
           </TabsTrigger>
-          {user && (
+          {user && subject.name.toLowerCase() !== 'mix' && (
             <TabsTrigger value="ai-tutor">
               <div className="flex items-center gap-1">
                 <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -692,7 +692,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
           {renderFileList(formulaFiles, 'formula sheets')}
         </TabsContent>
 
-        {user && (
+        {user && subject.name.toLowerCase() !== 'mix' && (
           <TabsContent value="ai-tutor" className="space-y-6">
             <SubjectChat subject={subject} />
           </TabsContent>

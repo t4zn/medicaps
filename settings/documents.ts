@@ -138,6 +138,10 @@ export const Documents: Paths[] = [
                     title: "Soft Skills-II",
                     href: "/notes/btech/2nd-year/soft-skills-2",
                   },
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
                 ],
               },
               {
@@ -177,6 +181,10 @@ export const Documents: Paths[] = [
                     title: "Soft Skills-IV",
                     href: "/notes/btech/3rd-year/soft-skills-4",
                   },
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
                 ],
               },
               {
@@ -187,6 +195,10 @@ export const Documents: Paths[] = [
                   {
                     title: "Industrial Training",
                     href: "/notes/btech/4th-year/industrial-training",
+                  },
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
                   },
                 ],
               },
@@ -254,15 +266,33 @@ export const Documents: Paths[] = [
                     title: "Soft Skills-II",
                     href: "/notes/btech/2nd-year/soft-skills-2",
                   },
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
                 ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-artificial-intelligence/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-artificial-intelligence/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -273,15 +303,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-data-science/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-data-science/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-data-science/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -292,15 +343,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-networks/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-networks/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-networks/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -311,15 +383,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-artificial-intelligence-and-machine-learning/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-artificial-intelligence-and-machine-learning/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-artificial-intelligence-and-machine-learning/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -330,15 +423,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-cyber-security/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-cyber-security/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-cyber-security/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -349,15 +463,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/cse-internet-of-things/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/cse-internet-of-things/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/cse-internet-of-things/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -368,15 +503,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/csbs-computer-science-and-business-systems/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/csbs-computer-science-and-business-systems/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/csbs-computer-science-and-business-systems/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -387,15 +543,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/ece-electronics-communication-engineering/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/ece-electronics-communication-engineering/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/ece-electronics-communication-engineering/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -406,15 +583,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/ce-civil-engineering/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/ce-civil-engineering/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/ce-civil-engineering/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -425,15 +623,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/ee-electrical-engineering/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/ee-electrical-engineering/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/ee-electrical-engineering/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -444,15 +663,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/au-ev-automobile-engineering-electric-vehicle/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/au-ev-automobile-engineering-electric-vehicle/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/au-ev-automobile-engineering-electric-vehicle/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -463,15 +703,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/it-information-technology/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/it-information-technology/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/it-information-technology/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -482,15 +743,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/mechanical-engineering/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/mechanical-engineering/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/mechanical-engineering/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },
@@ -501,15 +783,36 @@ export const Documents: Paths[] = [
             items: [
               {
                 title: "2nd Year",
-                href: "/notes/btech/ra-robotics-and-automation/2nd-year",
+                href: "/2nd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/2nd-year/mix",
+                  },
+                ],
               },
               {
                 title: "3rd Year",
-                href: "/notes/btech/ra-robotics-and-automation/3rd-year",
+                href: "/3rd-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/3rd-year/mix",
+                  },
+                ],
               },
               {
                 title: "4th Year",
-                href: "/notes/btech/ra-robotics-and-automation/4th-year",
+                href: "/4th-year",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/4th-year/mix",
+                  },
+                ],
               },
             ],
           },

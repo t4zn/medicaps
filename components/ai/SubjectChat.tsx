@@ -303,6 +303,20 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
 
   return (
     <div className="relative flex flex-col h-[500px] sm:h-[600px]">
+      {/* Header with Clear Button */}
+      <div className="flex justify-end p-3 border-b border-border/50">
+        <button
+          type="button"
+          onClick={clearChat}
+          disabled={messages.length <= 1}
+          className="flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          title="Clear chat history"
+        >
+          <LuTrash2 className="h-3 w-3" />
+          <span className="hidden sm:inline">Clear Chat</span>
+        </button>
+      </div>
+
       {/* Messages */}
       <ScrollArea className="flex-1 px-3 sm:px-2 py-4 pb-32" ref={scrollAreaRef}>
         <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
@@ -370,17 +384,6 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
               
               {/* Buttons Row */}
               <div className="flex items-center justify-end gap-3">
-                {/* Clear Chat Button */}
-                <button
-                  type="button"
-                  onClick={clearChat}
-                  disabled={isLoading || messages.length <= 1}
-                  className="w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 hover:bg-muted text-muted-foreground hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
-                  title="Clear chat"
-                >
-                  <LuTrash2 className="h-3 w-3" />
-                </button>
-
                 {/* Voice Recording Button */}
                 <button
                   type="button"

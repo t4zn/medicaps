@@ -22,11 +22,11 @@ export default function Home() {
       </div>
       <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
         <span className="sm:hidden">
-          Find notes, PYQs, and study materials for Medicaps University students.
+          Find notes, PYQs, study materials, and get instant AI tutoring for Medicaps University students.
         </span>
         <span className="hidden sm:inline">
           Find notes, PYQs, cheat sheets, and study materials for Medicaps University. 
-          Your comprehensive resource hub for academic success.
+          Get instant AI tutoring help for any subject. Your comprehensive resource hub for academic success.
         </span>
       </p>
 

@@ -47,8 +47,8 @@ export async function GET(request: NextRequest) {
       query = query.or(`original_name.ilike.%${search}%,subject.ilike.%${search}%`)
     }
 
-    // Order by creation date (newest first)
-    query = query.order('created_at', { ascending: false })
+    // Order by downloads (most downloaded first), then by creation date
+    query = query.order('downloads', { ascending: false }).order('created_at', { ascending: false })
 
     const { data: files, error } = await query
 

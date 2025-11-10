@@ -50,6 +50,7 @@ export default function MyUploads() {
         .from('files')
         .select('*')
         .eq('uploaded_by', user.id)
+        .order('downloads', { ascending: false })
         .order('created_at', { ascending: false })
 
       if (error) throw error

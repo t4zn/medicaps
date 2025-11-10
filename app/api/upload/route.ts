@@ -25,10 +25,17 @@ export async function POST(request: NextRequest) {
     // Validate Google Drive URL format
     const googleDriveRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view\?(usp=sharing|pli=1)$/
     if (!googleDriveRegex.test(googleDriveUrl)) {
-      return NextResponse.json(
-        { error: 'Please provide a valid Google Drive sharing link' },
-        { status: 400 }
-      )
+      if (googleDriveUrl.includes('drive.google.com')) {
+        return NextResponse.json(
+          { error: 'Please make sure your Google Drive file is public and use the sharing link' },
+          { status: 400 }
+        )
+      } else {
+        return NextResponse.json(
+          { error: 'Please provide a valid Google Drive sharing link' },
+          { status: 400 }
+        )
+      }
     }
 
     // Create admin client for server-side operations

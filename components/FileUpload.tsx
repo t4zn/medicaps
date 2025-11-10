@@ -295,10 +295,18 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const handleUrlChange = (url: string) => {
     setGoogleDriveUrl(url)
     if (url && !validateGoogleDriveUrl(url)) {
-      setUploadStatus({
-        type: 'error',
-        message: 'Please provide a valid Google Drive sharing link (must end with /view?usp=sharing or /view?pli=1)',
-      })
+      // Check if it looks like a Google Drive link but might be private
+      if (url.includes('drive.google.com')) {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please make sure your Google Drive file is set to public and use the sharing link',
+        })
+      } else {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please provide a valid Google Drive sharing link',
+        })
+      }
     } else {
       setUploadStatus({ type: null, message: '' })
     }
@@ -311,10 +319,17 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     // Validate Google Drive URL
     if (!validateGoogleDriveUrl(googleDriveUrl)) {
-      setUploadStatus({
-        type: 'error',
-        message: 'Please provide a valid Google Drive sharing link',
-      })
+      if (googleDriveUrl.includes('drive.google.com')) {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please make sure your Google Drive file is public and use the sharing link',
+        })
+      } else {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please provide a valid Google Drive sharing link',
+        })
+      }
       return
     }
 
@@ -423,52 +438,45 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       <Card className="max-w-lg mx-auto">
         <CardContent className="p-4 sm:p-6">
           {/* Header */}
-          <div className="text-center mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold">Add File Link</h2>
-            <div className="mt-2 space-y-1 text-xs sm:text-sm text-muted-foreground">
-              <div>Program: <span className="font-medium uppercase">{formData.program}</span></div>
-              <div>Branch: <span className="font-medium capitalize">{formData.branch.replace('-', ' ')}</span></div>
-              <div>Year: <span className="font-medium">{formData.year.replace('-', ' ')}</span></div>
-              <div>Subject: <span className="font-medium capitalize">{formData.subject.replace('-', ' ')}</span></div>
-              <div>Type: <span className="font-medium capitalize">{formData.category.replace('-', ' ')}</span></div>
-            </div>
+          <div className="text-center mb-6">
+            <h2 className="text-xl font-semibold mb-2">Add File Link</h2>
+            <p className="text-sm text-muted-foreground">
+              {formData.program.toUpperCase()} • {formData.year.replace('-', ' ')} • {formData.subject.replace('-', ' ')} • {formData.category.replace('-', ' ')}
+            </p>
           </div>
 
           {/* File Upload */}
-          <div className="mb-4 sm:mb-6 space-y-4">
+          <div className="mb-6 space-y-4">
             <div>
-              <Label htmlFor="filename-simple">File Name</Label>
               <Input
-                id="filename-simple"
-                placeholder="Enter the name of your file (e.g., Chapter 1 Notes.pdf)"
+                placeholder="File name (e.g., Chapter 1 Notes.pdf)"
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
-                className="mt-1"
+                className="h-12"
               />
             </div>
             
             <div>
-              <Label htmlFor="googleDriveUrl-simple">Google Drive Link</Label>
               <Input
-                id="googleDriveUrl-simple"
-                placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing"
+                placeholder="Google Drive sharing link"
                 value={googleDriveUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                className="mt-1"
+                className="h-12"
               />
-              <p className="text-xs text-muted-foreground mt-1">
-                Make sure your Google Drive file is set to &quot;Anyone with the link can view&quot;
+              <p className="text-xs text-muted-foreground mt-2">
+                Make sure your file is public and shareable
               </p>
             </div>
 
-            {googleDriveUrl && filename && validateGoogleDriveUrl(googleDriveUrl) && (
-              <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
-                  <LuCheck className="h-4 w-4" />
-                  <span className="text-sm font-medium">Ready to upload!</span>
-                </div>
-              </div>
-            )}
+            {/* Quick Guide */}
+            <div className="p-4 bg-muted/30 rounded-lg border">
+              <h4 className="text-sm font-medium mb-2">Quick Guide:</h4>
+              <ol className="text-xs text-muted-foreground space-y-1">
+                <li>1. Upload your PDF to <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
+                <li>2. Right-click → Share → Anyone with link</li>
+                <li>3. Copy the link and paste above</li>
+              </ol>
+            </div>
           </div>
 
           {/* Status Messages */}
@@ -798,62 +806,42 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         return (
           <div className="space-y-4">
             <div className="space-y-4">
-              <div>
-                <Label htmlFor="filename">File Name</Label>
-                <Input
-                  id="filename"
-                  placeholder="Enter the name of your file (e.g., Chapter 1 Notes.pdf)"
-                  value={filename}
-                  onChange={(e) => setFilename(e.target.value)}
-                  className="mt-1"
-                />
-              </div>
+              <Input
+                placeholder="File name (e.g., Chapter 1 Notes.pdf)"
+                value={filename}
+                onChange={(e) => setFilename(e.target.value)}
+                className="h-12"
+              />
               
-              <div>
-                <Label htmlFor="googleDriveUrl">Google Drive Link</Label>
-                <Input
-                  id="googleDriveUrl"
-                  placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing"
-                  value={googleDriveUrl}
-                  onChange={(e) => handleUrlChange(e.target.value)}
-                  className="mt-1"
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  Make sure your Google Drive file is set to &quot;Anyone with the link can view&quot;
-                </p>
-              </div>
+              <Input
+                placeholder="Google Drive sharing link"
+                value={googleDriveUrl}
+                onChange={(e) => handleUrlChange(e.target.value)}
+                className="h-12"
+              />
+              <p className="text-xs text-muted-foreground text-center">
+                Make sure your file is public and shareable
+              </p>
+            </div>
+
+            {/* Quick Guide */}
+            <div className="p-4 bg-muted/30 rounded-lg border">
+              <h4 className="text-sm font-medium mb-2 text-center">Quick Guide:</h4>
+              <ol className="text-xs text-muted-foreground space-y-1 text-center">
+                <li>1. Upload your PDF to <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
+                <li>2. Right-click → Share → Anyone with link</li>
+                <li>3. Copy the link and paste above</li>
+              </ol>
             </div>
 
             {googleDriveUrl && filename && validateGoogleDriveUrl(googleDriveUrl) && (
-              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
-                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
-                  <LuCheck className="h-5 w-5" />
-                  <span className="font-medium">Ready to upload!</span>
-                </div>
-                <div className="mt-2 text-sm text-green-600 dark:text-green-400">
-                  <div>File: {filename}</div>
-                  <div className="flex items-center gap-1 mt-1">
-                    <LuExternalLink className="h-3 w-3" />
-                    <span className="truncate">Google Drive link validated</span>
-                  </div>
+              <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="flex items-center gap-2 text-green-700 dark:text-green-300 justify-center">
+                  <LuCheck className="h-4 w-4" />
+                  <span className="text-sm font-medium">Ready to add!</span>
                 </div>
               </div>
             )}
-
-            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
-              <div className="flex items-start gap-2">
-                <LuLink className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
-                <div className="text-sm text-blue-700 dark:text-blue-300">
-                  <div className="font-medium mb-1">How to get a Google Drive sharing link:</div>
-                  <ol className="list-decimal list-inside space-y-1 text-xs">
-                    <li>Upload your PDF to Google Drive</li>
-                    <li>Right-click the file and select &quot;Share&quot;</li>
-                    <li>Change access to &quot;Anyone with the link can view&quot;</li>
-                    <li>Copy the link and paste it above</li>
-                  </ol>
-                </div>
-              </div>
-            </div>
           </div>
         )
 

@@ -82,6 +82,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         .eq('subject', subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-'))
         .eq('category', category)
         .eq('is_approved', true)
+        .order('downloads', { ascending: false })
         .order('created_at', { ascending: false })
 
       if (error) throw error

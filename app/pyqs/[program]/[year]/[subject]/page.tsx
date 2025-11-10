@@ -238,7 +238,8 @@ export default async function DynamicPYQPage({ params }: PageProps) {
     program: program,
     year: year,
     category: 'pyqs',
-    code: subjectConfig.code
+    code: subjectConfig.code,
+    slug: subject // Add the original subject slug
   }
 
   return <SubjectPage subject={subjectData} />

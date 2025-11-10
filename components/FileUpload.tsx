@@ -236,15 +236,15 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     }
   }, [searchParams])
 
-  // Reset subject when branch or year changes
+  // Reset subject when branch or year changes (but not when coming from subject page)
   useEffect(() => {
-    if (formData.subject) {
+    if (formData.subject && !isFromSubjectPage) {
       const isSubjectAvailable = getSubjectsForSelection.some((s: SubjectItem) => s.value === formData.subject)
       if (!isSubjectAvailable) {
         setFormData(prev => ({ ...prev, subject: '' }))
       }
     }
-  }, [formData.subject, getSubjectsForSelection])
+  }, [formData.subject, getSubjectsForSelection, isFromSubjectPage])
 
   const steps: { key: Step; title: string; required: boolean }[] = [
     { key: 'category', title: 'What type of material?', required: true },
@@ -317,15 +317,25 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     const { program, branch, year, subject, category } = formData
 
-    // Branch is only required for 2nd year and above
-    const isBranchRequired = year !== '1st-year'
-    
-    if (!program || !year || !subject || !category || (isBranchRequired && !branch)) {
-      setUploadStatus({
-        type: 'error',
-        message: 'Please complete all required steps.',
-      })
-      return
+    // When coming from subject page, we only need the basic fields
+    if (isFromSubjectPage) {
+      // For subject page uploads, only validate essential fields (check for both empty string and undefined)
+      if (!program?.trim() || !year?.trim() || !subject?.trim() || !category?.trim()) {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please complete all required steps.',
+        })
+        return
+      }
+    } else {
+      // For step-by-step flow, validate all required fields including branch for non-1st-year
+      if (!program?.trim() || !year?.trim() || !subject?.trim() || !category?.trim() || (year !== '1st-year' && !branch?.trim())) {
+        setUploadStatus({
+          type: 'error',
+          message: 'Please complete all required steps.',
+        })
+        return
+      }
     }
 
     setUploading(true)
@@ -335,7 +345,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       const uploadFormData = new FormData()
       uploadFormData.append('file', selectedFile)
       uploadFormData.append('program', program)
-      uploadFormData.append('branch', branch)
+      uploadFormData.append('branch', branch || '') // Handle empty branch
       uploadFormData.append('year', year)
       uploadFormData.append('subject', subject)
       uploadFormData.append('category', category)
@@ -354,8 +364,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           message: result.message,
         })
         
-        // Redirect to subject page after successful upload
-        const subjectUrl = `/${category}/${program}/${year}/${subject}`
+        // Always redirect to notes page after successful upload (user can switch tabs there)
+        const subjectUrl = `/notes/${program}/${year}/${subject}`
         
         // Show success message briefly then redirect
         setTimeout(() => {

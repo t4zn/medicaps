@@ -237,7 +237,8 @@ export default async function DynamicFormulaSheetPage({ params }: PageProps) {
     program: program,
     year: year,
     category: 'formula-sheet',
-    code: subjectConfig.code
+    code: subjectConfig.code,
+    slug: subject // Add the original subject slug
   }
 
   return <SubjectPage subject={subjectData} />

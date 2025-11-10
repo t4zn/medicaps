@@ -46,6 +46,7 @@ interface SubjectPageProps {
     year: string
     category: string
     code?: string
+    slug?: string
   }
 }
 
@@ -73,7 +74,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         `)
         .eq('program', subject.program)
         .eq('year', subject.year)
-        .eq('subject', subject.name.toLowerCase().replace(/\s+/g, '-'))
+        .eq('subject', subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-'))
         .eq('category', category)
         .eq('is_approved', true)
         .order('created_at', { ascending: false })
@@ -263,7 +264,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     if (files.length === 0) {
       // Create upload URL with pre-filled parameters
       const categoryParam = category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category
-      const subjectParam = subject.name.toLowerCase().replace(/\s+/g, '-')
+      const subjectParam = subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-')
       const uploadUrl = `/upload?program=${subject.program}&year=${subject.year}&subject=${subjectParam}&category=${categoryParam}`
 
       return (
@@ -469,7 +470,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
               </span>
               {user && (
                 <Link
-                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=notes`}
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-')}&category=notes`}
                   className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                   title="Upload Notes"
                 >
@@ -490,7 +491,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
               </span>
               {user && (
                 <Link
-                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=pyqs`}
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-')}&category=pyqs`}
                   className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                   title="Upload PYQs"
                 >
@@ -511,7 +512,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
               </span>
               {user && (
                 <Link
-                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=formula-sheet`}
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.slug || subject.name.toLowerCase().replace(/\s+/g, '-')}&category=formula-sheet`}
                   className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
                   title="Upload Formula Sheet"
                 >

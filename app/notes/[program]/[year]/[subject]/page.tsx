@@ -241,7 +241,8 @@ export default async function DynamicSubjectPage({ params }: PageProps) {
     program: program,
     year: year,
     category: 'notes', // Default to notes, can be made dynamic
-    code: subjectConfig.code
+    code: subjectConfig.code,
+    slug: subject // Add the original subject slug
   }
 
   return <SubjectPage subject={subjectData} />

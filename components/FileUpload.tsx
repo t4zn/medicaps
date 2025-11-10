@@ -1,7 +1,8 @@
 'use client'
 
 import { useState, useCallback, useEffect } from 'react'
-import { useSearchParams } from 'next/navigation'
+import { useSearchParams, useRouter } from 'next/navigation'
+import { Documents } from '@/settings/documents'
 import { useDropzone } from 'react-dropzone'
 import { 
   LuUpload, 
@@ -55,9 +56,9 @@ type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file' | 'u
 
 export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const { user } = useAuth()
+  const router = useRouter()
   const searchParams = useSearchParams()
   const [currentStep, setCurrentStep] = useState<Step>('category')
-  const [isClient, setIsClient] = useState(false)
   const [uploading, setUploading] = useState(false)
   const [uploadStatus, setUploadStatus] = useState<{
     type: 'success' | 'error' | null
@@ -74,10 +75,124 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   const [selectedFile, setSelectedFile] = useState<File | null>(null)
 
+  // Function to get icon for a subject based on its name/type
+  const getSubjectIcon = (subjectName: string) => {
+    const name = subjectName.toLowerCase()
+    if (name.includes('programming') || name.includes('java') || name.includes('python') || name.includes('oop')) return LuCode
+    if (name.includes('mathematics') || name.includes('maths')) return LuSquare
+    if (name.includes('communication') || name.includes('data comm')) return LuNetwork
+    if (name.includes('database') || name.includes('dbms')) return LuDatabase
+    if (name.includes('electronics') || name.includes('digital')) return LuCpu
+    if (name.includes('architecture') || name.includes('computer')) return LuServer
+    if (name.includes('skills') || name.includes('communication')) return LuMessageSquare
+    if (name.includes('ai') || name.includes('artificial') || name.includes('ml') || name.includes('machine learning') || name.includes('algorithm')) return LuBrain
+    if (name.includes('operating') || name.includes('systems')) return LuServer
+    if (name.includes('theory')) return LuBrain
+    if (name.includes('microprocessor')) return LuCpu
+    if (name.includes('software') || name.includes('compiler')) return LuCode
+    if (name.includes('networks')) return LuNetwork
+    if (name.includes('economics')) return LuDollarSign
+    if (name.includes('research')) return LuMicroscope
+    if (name.includes('industrial') || name.includes('training')) return LuBriefcase
+    if (name.includes('chemistry')) return LuAtom
+    if (name.includes('physics')) return LuAtom
+    if (name.includes('electrical')) return LuZap
+    if (name.includes('civil')) return LuHammer
+    if (name.includes('mechanical')) return LuCog
+    if (name.includes('graphics')) return LuPalette
+    if (name.includes('workshop')) return LuWrench
+    return LuFileText // Default icon
+  }
+
+  // Function to extract subject slug from href
+  const extractSubjectSlug = (href: string) => {
+    const parts = href.split('/')
+    return parts[parts.length - 1] // Get the last part of the URL
+  }
+
+  // Function to get subjects dynamically from sidebar structure
+  const getSubjectsForSelection = () => {
+    const { program, branch, year } = formData
+    
+    if (program !== 'btech') return []
+    
+    // Find the B.Tech section in Documents
+    const rootSection = Documents[0]
+    if (!rootSection || !('items' in rootSection) || !rootSection.items) return []
+    
+    const btechSection = rootSection.items.find((item: any) => 'title' in item && item.title === 'B.Tech')
+    if (!btechSection || !('items' in btechSection) || !btechSection.items) return []
+    
+    // Handle 1st year (common for all branches)
+    if (year === '1st-year') {
+      const firstYearSection = btechSection.items.find((item: any) => 'title' in item && item.title === '1st Year')
+      if (firstYearSection && 'items' in firstYearSection && firstYearSection.items) {
+        return firstYearSection.items.map((subject: any) => ({
+          value: extractSubjectSlug(subject.href),
+          label: subject.title,
+          icon: getSubjectIcon(subject.title)
+        }))
+      }
+      return []
+    }
+    
+    // Handle other years - find the specific branch
+    let branchSection = null
+    
+    // Map branch values to sidebar titles
+    const branchMapping: Record<string, string> = {
+      'computer-science-and-engineering': 'CSE',
+      'cse-artificial-intelligence': 'CSE - AI',
+      'cse-data-science': 'CSE - DS',
+      'cse-networks': 'CSE - Networks',
+      'cse-artificial-intelligence-and-machine-learning': 'CSE - AI & ML',
+      'cse-cyber-security': 'Cyber Security',
+      'cse-internet-of-things': 'CSE - IoT',
+      'csbs-computer-science-and-business-systems': 'CSBS',
+      'ece-electronics-communication-engineering': 'ECE',
+      'ce-civil-engineering': 'Civil',
+      'ee-electrical-engineering': 'Electrical',
+      'mechanical-engineering': 'Mechanical',
+      'au-ev-automobile-engineering-electric-vehicle': 'Automobile (EV)',
+      'it-information-technology': 'IT',
+      'ra-robotics-and-automation': 'Robotics & Automation'
+    }
+    
+    const branchTitle = branchMapping[branch]
+    if (!branchTitle) return []
+    
+    branchSection = btechSection.items.find((item: any) => 'title' in item && item.title === branchTitle)
+    if (!branchSection || !('items' in branchSection) || !branchSection.items) return []
+    
+    // Find the specific year within the branch
+    const yearMapping: Record<string, string> = {
+      '2nd-year': '2nd Year',
+      '3rd-year': '3rd Year', 
+      '4th-year': '4th Year'
+    }
+    
+    const yearTitle = yearMapping[year]
+    if (!yearTitle) return []
+    
+    const yearSection = branchSection.items.find((item: any) => 'title' in item && item.title === yearTitle)
+    
+    // If year section has individual subject items, return them
+    if (yearSection && 'items' in yearSection && yearSection.items && yearSection.items.length > 0) {
+      return yearSection.items.map((subject: any) => ({
+        value: extractSubjectSlug(subject.href),
+        label: subject.title,
+        icon: getSubjectIcon(subject.title)
+      }))
+    }
+    
+    // If year section exists but has no items (just a link), return empty array
+    return []
+  }
+
   // Check if coming from subject page (has pre-filled parameters)
   const isFromSubjectPage = searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
 
-  // Auto-populate form data from URL parameters
+  // Auto-populate form data from URL parameters and skip to file step if all required fields are filled
   useEffect(() => {
     const program = searchParams.get('program')
     const branch = searchParams.get('branch')
@@ -86,16 +201,36 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     const category = searchParams.get('category')
 
     if (program || branch || year || subject || category) {
+      const newFormData = {
+        program: program || '',
+        branch: branch || '',
+        year: year || '',
+        subject: subject || '',
+        category: category || '',
+      }
+      
       setFormData(prev => ({
         ...prev,
-        ...(program && { program }),
-        ...(branch && { branch }),
-        ...(year && { year }),
-        ...(subject && { subject }),
-        ...(category && { category }),
+        ...newFormData,
       }))
+
+      // If all required fields are filled from URL params, skip to file step
+      if (program && year && subject && category) {
+        setCurrentStep('file')
+      }
     }
   }, [searchParams])
+
+  // Reset subject when branch or year changes
+  useEffect(() => {
+    if (formData.subject) {
+      const availableSubjects = getSubjectsForSelection()
+      const isSubjectAvailable = availableSubjects.some((s: any) => s.value === formData.subject)
+      if (!isSubjectAvailable) {
+        setFormData(prev => ({ ...prev, subject: '' }))
+      }
+    }
+  }, [formData.branch, formData.year, formData.program])
 
   const steps: { key: Step; title: string; required: boolean }[] = [
     { key: 'category', title: 'What type of material?', required: true },
@@ -112,7 +247,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     switch (step) {
       case 'category': return !!formData.category
       case 'program': return !!formData.program
-      case 'branch': return !!formData.branch
+      case 'branch': return !!formData.branch || formData.year === '1st-year' // Branch not required for 1st year
       case 'year': return !!formData.year
       case 'subject': return !!formData.subject
       case 'file': return !!selectedFile
@@ -168,7 +303,10 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     const { program, branch, year, subject, category } = formData
 
-    if (!program || !branch || !year || !subject || !category) {
+    // Branch is only required for 2nd year and above
+    const isBranchRequired = year !== '1st-year'
+    
+    if (!program || !year || !subject || !category || (isBranchRequired && !branch)) {
       setUploadStatus({
         type: 'error',
         message: 'Please complete all required steps.',
@@ -201,9 +339,15 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           type: 'success',
           message: result.message,
         })
-        setSelectedFile(null)
-        setFormData({ program: '', branch: '', year: '', subject: '', category: '' })
-        setCurrentStep('category')
+        
+        // Redirect to subject page after successful upload
+        const subjectUrl = `/${category}/${program}/${year}/${subject}`
+        
+        // Show success message briefly then redirect
+        setTimeout(() => {
+          router.push(subjectUrl)
+        }, 1500)
+        
         onUploadSuccess?.()
       } else {
         setUploadStatus({
@@ -569,6 +713,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         )
 
       case 'subject':
+        const availableSubjects = getSubjectsForSelection()
         return (
           <div className="space-y-4">
             <Select
@@ -579,87 +724,22 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <SelectValue placeholder="Choose subject" />
               </SelectTrigger>
               <SelectContent>
-                {formData.program === 'btech' && formData.year === '1st-year' && (
-                  <>
-                    <SelectItem value="c-programming">
+                {availableSubjects.length > 0 ? (
+                  availableSubjects.map((subject: any) => (
+                    <SelectItem key={subject.value} value={subject.value}>
                       <div className="flex items-center gap-2">
-                        <LuCode className="h-4 w-4" />
-                        C Programming
+                        <subject.icon className="h-4 w-4" />
+                        {subject.label}
                       </div>
                     </SelectItem>
-                    <SelectItem value="chemistry">
-                      <div className="flex items-center gap-2">
-                        <LuAtom className="h-4 w-4" />
-                        Chemistry
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="civil">
-                      <div className="flex items-center gap-2">
-                        <LuHammer className="h-4 w-4" />
-                        Civil
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="communication-skills">
-                      <div className="flex items-center gap-2">
-                        <LuMessageSquare className="h-4 w-4" />
-                        Communication Skills
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="electrical">
-                      <div className="flex items-center gap-2">
-                        <LuZap className="h-4 w-4" />
-                        Electrical
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="electronics">
-                      <div className="flex items-center gap-2">
-                        <LuCpu className="h-4 w-4" />
-                        Electronics
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="graphics">
-                      <div className="flex items-center gap-2">
-                        <LuPalette className="h-4 w-4" />
-                        Graphics
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="maths-1">
-                      <div className="flex items-center gap-2">
-                        <LuSquare className="h-4 w-4" />
-                        Maths I
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="maths-2">
-                      <div className="flex items-center gap-2">
-                        <LuActivity className="h-4 w-4" />
-                        Maths II
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="mechanical">
-                      <div className="flex items-center gap-2">
-                        <LuCog className="h-4 w-4" />
-                        Mechanical
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="physics">
-                      <div className="flex items-center gap-2">
-                        <LuMicroscope className="h-4 w-4" />
-                        Physics
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="workshop">
-                      <div className="flex items-center gap-2">
-                        <LuWrench className="h-4 w-4" />
-                        Workshop
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="mix">
-                      <div className="flex items-center gap-2">
-                        <LuShuffle className="h-4 w-4" />
-                        Mix
-                      </div>
-                    </SelectItem>
-                  </>
+                  ))
+                ) : (
+                  <SelectItem value="no-subjects" disabled>
+                    <div className="flex items-center gap-2 opacity-50">
+                      <LuFileText className="h-4 w-4" />
+                      No subjects available for {formData.branch?.replace(/-/g, ' ').toUpperCase()} - {formData.year?.replace('-', ' ')}
+                    </div>
+                  </SelectItem>
                 )}
               </SelectContent>
             </Select>

@@ -463,9 +463,20 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         <TabsContent value="notes" className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Notes</h2>
-            <span className="text-sm text-muted-foreground">
-              {notesFiles.length} {notesFiles.length === 1 ? 'file' : 'files'} available
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                {notesFiles.length} {notesFiles.length === 1 ? 'file' : 'files'} available
+              </span>
+              {user && (
+                <Link
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=notes`}
+                  className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                  title="Upload Notes"
+                >
+                  <LuUpload className="h-4 w-4 text-primary" />
+                </Link>
+              )}
+            </div>
           </div>
           {renderFileList(notesFiles, 'notes')}
         </TabsContent>
@@ -473,9 +484,20 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         <TabsContent value="pyqs" className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Previous Year Questions</h2>
-            <span className="text-sm text-muted-foreground">
-              {pyqsFiles.length} {pyqsFiles.length === 1 ? 'file' : 'files'} available
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                {pyqsFiles.length} {pyqsFiles.length === 1 ? 'file' : 'files'} available
+              </span>
+              {user && (
+                <Link
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=pyqs`}
+                  className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                  title="Upload PYQs"
+                >
+                  <LuUpload className="h-4 w-4 text-primary" />
+                </Link>
+              )}
+            </div>
           </div>
           {renderFileList(pyqsFiles, 'PYQs')}
         </TabsContent>
@@ -483,9 +505,20 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
         <TabsContent value="formula-sheets" className="space-y-6">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Formula Sheets</h2>
-            <span className="text-sm text-muted-foreground">
-              {formulaFiles.length} {formulaFiles.length === 1 ? 'file' : 'files'} available
-            </span>
+            <div className="flex items-center gap-3">
+              <span className="text-sm text-muted-foreground">
+                {formulaFiles.length} {formulaFiles.length === 1 ? 'file' : 'files'} available
+              </span>
+              {user && (
+                <Link
+                  href={`/upload?program=${subject.program}&year=${subject.year}&subject=${subject.name.toLowerCase().replace(/\s+/g, '-')}&category=formula-sheet`}
+                  className="inline-flex items-center justify-center h-8 w-8 rounded-full bg-primary/10 hover:bg-primary/20 transition-colors"
+                  title="Upload Formula Sheet"
+                >
+                  <LuUpload className="h-4 w-4 text-primary" />
+                </Link>
+              )}
+            </div>
           </div>
           {renderFileList(formulaFiles, 'formula sheets')}
         </TabsContent>

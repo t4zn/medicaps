@@ -88,18 +88,45 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
 
   // Initialize messages on client side to avoid hydration mismatch
   useEffect(() => {
-    if (!isInitialized) {
-      setMessages([
-        {
-          id: '1',
-          content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
-          role: 'assistant',
-          timestamp: new Date()
+    if (!isInitialized && user) {
+      const chatKey = `ai-chat-${subject.program}-${subject.year}-${subject.name.toLowerCase().replace(/\s+/g, '-')}`
+      
+      // Try to load existing conversation from localStorage
+      const savedMessages = localStorage.getItem(chatKey)
+      
+      if (savedMessages) {
+        try {
+          const parsedMessages = JSON.parse(savedMessages).map((msg: any) => ({
+            ...msg,
+            timestamp: new Date(msg.timestamp)
+          }))
+          setMessages(parsedMessages)
+        } catch (error) {
+          console.error('Error parsing saved messages:', error)
+          // Fall back to default message
+          setMessages([
+            {
+              id: '1',
+              content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
+              role: 'assistant',
+              timestamp: new Date()
+            }
+          ])
         }
-      ])
+      } else {
+        // No saved conversation, start with default message
+        setMessages([
+          {
+            id: '1',
+            content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
+            role: 'assistant',
+            timestamp: new Date()
+          }
+        ])
+      }
       setIsInitialized(true)
     }
-  }, [subject.name, isInitialized])
+  }, [subject.name, subject.program, subject.year, isInitialized, user])
 
   // Initialize speech recognition
   useEffect(() => {
@@ -135,6 +162,14 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
     }
   }, [messages])
+
+  // Save messages to localStorage whenever messages change
+  useEffect(() => {
+    if (isInitialized && user && messages.length > 0) {
+      const chatKey = `ai-chat-${subject.program}-${subject.year}-${subject.name.toLowerCase().replace(/\s+/g, '-')}`
+      localStorage.setItem(chatKey, JSON.stringify(messages))
+    }
+  }, [messages, isInitialized, user, subject.program, subject.year, subject.name])
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -227,9 +262,9 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
   }
 
   return (
-    <div className="flex flex-col h-[500px] sm:h-[600px]">
+    <div className="relative flex flex-col h-[500px] sm:h-[600px]">
       {/* Messages */}
-      <ScrollArea className="flex-1 px-3 sm:px-2 py-4" ref={scrollAreaRef}>
+      <ScrollArea className="flex-1 px-3 sm:px-2 py-4 pb-20" ref={scrollAreaRef}>
         <div className="space-y-4 sm:space-y-6 max-w-4xl mx-auto">
           {messages.map((message) => (
             <div key={message.id} className="space-y-2">
@@ -265,11 +300,11 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
         </div>
       </ScrollArea>
 
-      {/* Input */}
-      <div className="px-6 py-6">
+      {/* Floating Input */}
+      <div className="absolute bottom-6 left-4 right-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
-            <div className="flex items-center bg-muted/40 rounded-full px-5 py-3 sm:py-3 gap-4 border border-border/50">
+            <div className="flex items-center bg-muted/40 rounded-full px-5 py-3 gap-4 border border-border/50 shadow-lg">
               <div className="flex-1 flex items-center">
                 <textarea
                   ref={inputRef}

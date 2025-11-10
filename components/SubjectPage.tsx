@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useId } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
@@ -56,7 +56,6 @@ interface SubjectPageProps {
 
 export default function SubjectPage({ subject }: SubjectPageProps) {
   const { user, isAdmin } = useAuth()
-  const tabsId = useId()
   const [notesFiles, setNotesFiles] = useState<FileItem[]>([])
   const [pyqsFiles, setPyqsFiles] = useState<FileItem[]>([])
   const [formulaFiles, setFormulaFiles] = useState<FileItem[]>([])
@@ -601,7 +600,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       </div>
 
       {/* Tabs Section */}
-      <Tabs defaultValue="notes" className="space-y-6" key={`tabs-${tabsId}`}>
+      <Tabs defaultValue="notes" className="space-y-6">
         <TabsList className="w-full justify-start">
           <TabsTrigger value="notes">
             <span className="hidden sm:inline">Notes</span>
@@ -615,13 +614,15 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
             <span className="hidden sm:inline">Formula Sheets</span>
             <span className="sm:hidden">Formulas</span>
           </TabsTrigger>
-          <TabsTrigger value="ai-tutor">
-            <div className="flex items-center gap-1.5">
-              <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
-              <span className="hidden sm:inline">AI Tutor</span>
-              <span className="sm:hidden">AI Chat</span>
-            </div>
-          </TabsTrigger>
+          {user && (
+            <TabsTrigger value="ai-tutor">
+              <div className="flex items-center gap-1.5">
+                <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
+                <span className="hidden sm:inline">AI Tutor</span>
+                <span className="sm:hidden">AI Chat</span>
+              </div>
+            </TabsTrigger>
+          )}
         </TabsList>
 
         <TabsContent value="notes" className="space-y-6">
@@ -687,9 +688,11 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
           {renderFileList(formulaFiles, 'formula sheets')}
         </TabsContent>
 
-        <TabsContent value="ai-tutor" className="space-y-6">
-          <SubjectChat subject={subject} />
-        </TabsContent>
+        {user && (
+          <TabsContent value="ai-tutor" className="space-y-6">
+            <SubjectChat subject={subject} />
+          </TabsContent>
+        )}
       </Tabs>
     </div>
   )

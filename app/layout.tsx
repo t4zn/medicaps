@@ -24,6 +24,12 @@ export const metadata: Metadata = {
   metadataBase: new URL(baseUrl),
   description: Settings.description,
   keywords: Settings.keywords,
+  viewport: {
+    width: 'device-width',
+    initialScale: 1,
+    maximumScale: 1,
+    userScalable: false,
+  },
   openGraph: {
     type: Settings.openGraph.type,
     url: baseUrl,

@@ -77,6 +77,9 @@ importers:
       lib:
         specifier: ^5.1.0
         version: 5.1.0
+      lucide-react:
+        specifier: ^0.553.0
+        version: 0.553.0(react@19.2.0)
       mermaid:
         specifier: ^11.12.0
         version: 11.12.0
@@ -2874,6 +2877,11 @@ packages:
 
   lowlight@1.20.0:
     resolution: {integrity: sha512-8Ktj+prEb1RoCPkEOrPMYUN/nCggB7qAWe3a7OpMjWQkh3l2RD5wKRQ+o8Q8YuI9RG/xs95waaI/E6ym/7NsTw==}
+
+  lucide-react@0.553.0:
+    resolution: {integrity: sha512-BRgX5zrWmNy/lkVAe0dXBgd7XQdZ3HTf+Hwe3c9WK6dqgnj9h+hxV+MDncM88xDWlCq27+TKvHGE70ViODNILw==}
+    peerDependencies:
+      react: ^16.5.1 || ^17.0.0 || ^18.0.0 || ^19.0.0
 
   magic-string@0.30.19:
     resolution: {integrity: sha512-2N21sPY9Ws53PZvsEpVtNuSW+ScYbQdp4b9qUaL+9QkHUrGFKo56Lg9Emg5s9V/qrtNBmiR01sYhUOwu3H+VOw==}
@@ -6883,6 +6891,10 @@ snapshots:
     dependencies:
       fault: 1.0.4
       highlight.js: 10.7.3
+
+  lucide-react@0.553.0(react@19.2.0):
+    dependencies:
+      react: 19.2.0
 
   magic-string@0.30.19:
     dependencies:

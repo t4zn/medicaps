@@ -1,4 +1,3 @@
-import Image from "next/image"
 import Link from "next/link"
 
 import { Settings } from "@/types/settings"
@@ -18,27 +17,17 @@ export function Footer() {
         </Link>
         .
       </p>
-      {Settings.branding !== false && (
-        <div className="hidden items-center md:block">
-          <Link
-            className="font-semibold"
-            href="https://taizun.site"
-            title="Taizun"
-            aria-label="Taizun"
-            target="_blank"
-          >
-            <Image
-              src="/logo.svg"
-              alt="Taizun logo"
-              title="Taizun logo"
-              aria-label="Taizun logo"
-              priority={false}
-              width={30}
-              height={30}
-            />
-          </Link>
-        </div>
-      )}
+      <div className="flex items-center gap-3 text-xs text-muted-foreground">
+        <Link href="/docs" className="hover:text-foreground transition-colors">
+          Docs
+        </Link>
+        <Link href="/privacy" className="hover:text-foreground transition-colors">
+          Privacy
+        </Link>
+        <Link href="/terms" className="hover:text-foreground transition-colors">
+          Terms
+        </Link>
+      </div>
     </footer>
   )
 }

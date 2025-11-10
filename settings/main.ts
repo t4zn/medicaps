@@ -21,7 +21,7 @@ export const urlimage = "/images/og-image.png"
 export const imagealt = "Medicaps Resources"
 export const twitterhandle = "@t4zn"
 
-export const companyname = "Medicaps Resources by Taizun"
+export const companyname = "Medicaps Resources"
 export const companylink = "https://github.com/t4zn"
 
 export const branding = true

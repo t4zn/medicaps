@@ -68,17 +68,10 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <LuUserPlus className="h-5 w-5" />
-          Sign Up
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
           <div>
-            <Label htmlFor="fullName">Full Name</Label>
             <Input
               id="fullName"
               type="text"
@@ -87,12 +80,12 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
                 setFormData({ ...formData, fullName: e.target.value })
               }
               required
-              placeholder="Your full name"
+              placeholder="Full name"
+              className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors"
             />
           </div>
 
           <div>
-            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -101,12 +94,12 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
                 setFormData({ ...formData, email: e.target.value })
               }
               required
-              placeholder="your.email@example.com"
+              placeholder="Email address"
+              className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors"
             />
           </div>
 
           <div>
-            <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -116,8 +109,9 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
                   setFormData({ ...formData, password: e.target.value })
                 }
                 required
-                placeholder="Enter your password"
+                placeholder="Password"
                 minLength={6}
+                className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors pr-10"
               />
               <Button
                 type="button"
@@ -127,16 +121,15 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <LuEyeOff className="h-4 w-4" />
+                  <LuEyeOff className="h-4 w-4 text-gray-400" />
                 ) : (
-                  <LuEye className="h-4 w-4" />
+                  <LuEye className="h-4 w-4 text-gray-400" />
                 )}
               </Button>
             </div>
           </div>
 
           <div>
-            <Label htmlFor="confirmPassword">Confirm Password</Label>
             <Input
               id="confirmPassword"
               type="password"
@@ -145,38 +138,42 @@ export default function SignUpForm({ onSuccess, onSwitchToLogin }: SignUpFormPro
                 setFormData({ ...formData, confirmPassword: e.target.value })
               }
               required
-              placeholder="Confirm your password"
+              placeholder="Confirm password"
+              className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors"
             />
           </div>
+        </div>
 
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          {success && (
-            <Alert>
-              <AlertDescription>{success}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Creating account...' : 'Sign Up'}
-          </Button>
-
-          <div className="text-center">
-            <Button
-              type="button"
-              variant="link"
-              onClick={onSwitchToLogin}
-              className="text-sm"
-            >
-              Already have an account? Sign in
-            </Button>
+        {error && (
+          <div className="text-red-500 text-sm text-center">
+            {error}
           </div>
-        </form>
-      </CardContent>
-    </Card>
+        )}
+
+        {success && (
+          <div className="text-green-600 dark:text-green-400 text-sm text-center">
+            {success}
+          </div>
+        )}
+
+        <Button 
+          type="submit" 
+          className="w-full h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 rounded-none font-normal" 
+          disabled={loading}
+        >
+          {loading ? 'Creating account...' : 'Create Account'}
+        </Button>
+
+        <div className="text-center pt-4">
+          <button
+            type="button"
+            onClick={onSwitchToLogin}
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+          >
+            Already have an account? <span className="underline">Sign in</span>
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }

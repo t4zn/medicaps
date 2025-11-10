@@ -22,8 +22,17 @@ export default function AuthPage() {
   }
 
   return (
-    <div className="container mx-auto py-8">
-      <div className="max-w-md mx-auto">
+    <div className="min-h-screen bg-white dark:bg-black flex items-center justify-center p-4">
+      <div className="w-full max-w-sm">
+        <div className="text-center mb-8">
+          <h1 className="text-2xl font-light text-black dark:text-white mb-2">
+            {isLogin ? 'Welcome back' : 'Create account'}
+          </h1>
+          <p className="text-gray-600 dark:text-gray-400 text-sm">
+            {isLogin ? 'Sign in to your account' : 'Join Medicaps Resources'}
+          </p>
+        </div>
+
         {isLogin ? (
           <LoginForm
             onSuccess={() => router.push('/')}

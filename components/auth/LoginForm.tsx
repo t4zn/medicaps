@@ -45,17 +45,10 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <LuLogIn className="h-5 w-5" />
-          Sign In
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        <form onSubmit={handleSubmit} className="space-y-4">
+    <div className="w-full">
+      <form onSubmit={handleSubmit} className="space-y-6">
+        <div className="space-y-4">
           <div>
-            <Label htmlFor="email">Email</Label>
             <Input
               id="email"
               type="email"
@@ -64,12 +57,12 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
                 setFormData({ ...formData, email: e.target.value })
               }
               required
-              placeholder="your.email@example.com"
+              placeholder="Email address"
+              className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors"
             />
           </div>
 
           <div>
-            <Label htmlFor="password">Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -79,7 +72,8 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
                   setFormData({ ...formData, password: e.target.value })
                 }
                 required
-                placeholder="Enter your password"
+                placeholder="Password"
+                className="h-12 border-0 border-b border-gray-200 dark:border-gray-800 rounded-none bg-transparent focus:border-black dark:focus:border-white transition-colors pr-10"
               />
               <Button
                 type="button"
@@ -89,36 +83,39 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
                 onClick={() => setShowPassword(!showPassword)}
               >
                 {showPassword ? (
-                  <LuEyeOff className="h-4 w-4" />
+                  <LuEyeOff className="h-4 w-4 text-gray-400" />
                 ) : (
-                  <LuEye className="h-4 w-4" />
+                  <LuEye className="h-4 w-4 text-gray-400" />
                 )}
               </Button>
             </div>
           </div>
+        </div>
 
-          {error && (
-            <Alert variant="destructive">
-              <AlertDescription>{error}</AlertDescription>
-            </Alert>
-          )}
-
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? 'Signing in...' : 'Sign In'}
-          </Button>
-
-          <div className="text-center">
-            <Button
-              type="button"
-              variant="link"
-              onClick={onSwitchToSignUp}
-              className="text-sm"
-            >
-              Don&apos;t have an account? Sign up
-            </Button>
+        {error && (
+          <div className="text-red-500 text-sm text-center">
+            {error}
           </div>
-        </form>
-      </CardContent>
-    </Card>
+        )}
+
+        <Button 
+          type="submit" 
+          className="w-full h-12 bg-black dark:bg-white text-white dark:text-black hover:bg-gray-800 dark:hover:bg-gray-200 rounded-none font-normal" 
+          disabled={loading}
+        >
+          {loading ? 'Signing in...' : 'Sign In'}
+        </Button>
+
+        <div className="text-center pt-4">
+          <button
+            type="button"
+            onClick={onSwitchToSignUp}
+            className="text-sm text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+          >
+            Don&apos;t have an account? <span className="underline">Sign up</span>
+          </button>
+        </div>
+      </form>
+    </div>
   )
 }

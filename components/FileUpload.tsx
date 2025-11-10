@@ -531,7 +531,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               <SelectTrigger className="h-12">
                 <SelectValue placeholder="Choose your program" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent 
+                position="popper" 
+                sideOffset={4}
+                align="start"
+                className="max-h-[200px] overflow-y-auto w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]"
+              >
                 <SelectItem value="btech">
                   <div className="flex items-center gap-2">
                     <LuGraduationCap className="h-4 w-4" />
@@ -584,7 +589,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <SelectTrigger className="h-12">
                   <SelectValue placeholder="Choose your branch" />
                 </SelectTrigger>
-                <SelectContent>
+                <SelectContent 
+                  position="popper" 
+                  sideOffset={4}
+                  align="start"
+                  className="max-h-[200px] overflow-y-auto w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]"
+                >
                   <SelectItem value="computer-science-and-engineering">
                     <div className="flex items-center gap-2">
                       <LuCode className="h-4 w-4" />
@@ -723,7 +733,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               <SelectTrigger className="h-12">
                 <SelectValue placeholder="Choose subject" />
               </SelectTrigger>
-              <SelectContent>
+              <SelectContent 
+                position="popper" 
+                sideOffset={4}
+                align="start"
+                className="max-h-[200px] overflow-y-auto w-[var(--radix-select-trigger-width)] min-w-[var(--radix-select-trigger-width)]"
+              >
                 {availableSubjects.length > 0 ? (
                   availableSubjects.map((subject: any) => (
                     <SelectItem key={subject.value} value={subject.value}>

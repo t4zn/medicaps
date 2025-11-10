@@ -35,17 +35,17 @@ export default function Home() {
       </div>
 
       <div className="flex flex-col sm:flex-row items-center gap-4">
-        <Link href="/upload">
-          <Button size="lg" className="w-full sm:w-auto">
-            <LuUpload className="mr-2 h-5 w-5" />
-            Upload Files
-          </Button>
-        </Link>
         <Link
           href="/docs/basic-setup"
           className={buttonVariants({ variant: "outline", className: "px-6 w-full sm:w-auto", size: "lg" })}
         >
           Get Started
+        </Link>
+        <Link href="/upload">
+          <Button size="lg" className="w-full sm:w-auto">
+            <LuUpload className="mr-2 h-5 w-5" />
+            Upload Files
+          </Button>
         </Link>
       </div>
     </section>

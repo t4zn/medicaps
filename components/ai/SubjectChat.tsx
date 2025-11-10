@@ -5,6 +5,7 @@ import { LuBot, LuLoader, LuMic, LuMicOff } from 'react-icons/lu'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useAuth } from '@/contexts/AuthContext'
+import { MarkdownWithActions } from '@/components/ui/markdown-with-actions'
 
 // Type definitions for Speech Recognition API
 interface SpeechRecognitionEvent {
@@ -44,20 +45,7 @@ declare global {
   }
 }
 
-// Simple markdown parser for basic formatting
-const parseMarkdown = (text: string) => {
-  return text
-    // Bold text **text** or __text__
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/__(.*?)__/g, '<strong>$1</strong>')
-    // Italic text *text* or _text_
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/_(.*?)_/g, '<em>$1</em>')
-    // Code `code`
-    .replace(/`(.*?)`/g, '<code class="bg-muted px-1 py-0.5 rounded text-xs">$1</code>')
-    // Line breaks
-    .replace(/\n/g, '<br>')
-}
+
 
 interface Message {
   id: string
@@ -247,6 +235,16 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     }
   }
 
+  const handleLike = (messageId: string) => {
+    console.log('Liked message:', messageId)
+    // You can implement analytics or feedback storage here
+  }
+
+  const handleDislike = (messageId: string) => {
+    console.log('Disliked message:', messageId)
+    // You can implement analytics or feedback storage here
+  }
+
   if (!user) {
     return (
       <Card>
@@ -279,10 +277,13 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                   }`}
                 >
                   {message.role === 'assistant' ? (
-                    <div 
-                      className="break-words [&>strong]:font-semibold [&>em]:italic [&>code]:bg-muted [&>code]:px-1 [&>code]:py-0.5 [&>code]:rounded [&>code]:text-xs [&>h1]:text-base [&>h1]:font-semibold [&>h1]:mb-2 [&>h2]:text-sm [&>h2]:font-semibold [&>h2]:mb-1 [&>h3]:text-sm [&>h3]:font-medium [&>h3]:mb-1"
-                      dangerouslySetInnerHTML={{ __html: parseMarkdown(message.content) }}
-                    />
+                    <MarkdownWithActions
+                      messageId={message.id}
+                      onLike={handleLike}
+                      onDislike={handleDislike}
+                    >
+                      {message.content}
+                    </MarkdownWithActions>
                   ) : (
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
                   )}

@@ -5,7 +5,17 @@ import * as TabsPrimitive from "@radix-ui/react-tabs"
 
 import { cn } from "@/lib/utils"
 
-const Tabs = TabsPrimitive.Root
+const Tabs = React.forwardRef<
+  React.ElementRef<typeof TabsPrimitive.Root>,
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.Root>
+>(({ ...props }, ref) => (
+  <TabsPrimitive.Root
+    ref={ref}
+    suppressHydrationWarning
+    {...props}
+  />
+))
+Tabs.displayName = TabsPrimitive.Root.displayName
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
@@ -29,7 +39,7 @@ const TabsTrigger = React.forwardRef<
   <TabsPrimitive.Trigger
     ref={ref}
     className={cn(
-      "flex items-center justify-center whitespace-nowrap px-2 sm:px-4 md:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative border-b-2 border-transparent data-[state=active]:text-primary data-[state=active]:border-primary hover:text-foreground flex-1 min-w-0",
+      "flex items-center justify-center whitespace-nowrap px-1 sm:px-4 md:px-6 py-2 sm:py-3 text-xs sm:text-sm font-medium ring-offset-background transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 relative border-b-2 border-transparent data-[state=active]:text-primary data-[state=active]:border-primary hover:text-foreground flex-1 min-w-fit",
       className
     )}
     {...props}

@@ -616,10 +616,10 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
           </TabsTrigger>
           {user && (
             <TabsTrigger value="ai-tutor">
-              <div className="flex items-center gap-1.5">
+              <div className="flex items-center gap-1">
                 <LuSparkles className="h-3 w-3 sm:h-4 sm:w-4" />
                 <span className="hidden sm:inline">AI Tutor</span>
-                <span className="sm:hidden">AI Chat</span>
+                <span className="sm:hidden text-xs">AI</span>
               </div>
             </TabsTrigger>
           )}

@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { LuDownload, LuFileText, LuCalendar, LuUser, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag } from 'react-icons/lu'
+import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -112,7 +112,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       console.error('Error fetching files:', error)
       return []
     }
-  }, [subject.program, subject.year, subject.name, user])
+  }, [subject.program, subject.year, subject.name, subject.slug, user])
 
   const fetchAllFiles = useCallback(async () => {
     setLoading(true)

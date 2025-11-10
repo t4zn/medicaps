@@ -4,7 +4,7 @@ import { useState, useCallback, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Documents } from '@/settings/documents'
 import { Paths } from '@/lib/pageroutes'
-import { useDropzone } from 'react-dropzone'
+import { useDropzone, FileRejection } from 'react-dropzone'
 import { 
   LuUpload, 
   LuCheck, 
@@ -57,15 +57,7 @@ interface SubjectItem {
   icon: React.ComponentType<{ className?: string }>
 }
 
-interface DocumentItem {
-  title: string
-  href: string
-  noLink?: true
-  heading?: string
-  items?: Paths[]
-}
 
-type DocumentSection = Paths
 
 type Step = 'category' | 'program' | 'branch' | 'year' | 'subject' | 'file' | 'upload'
 
@@ -290,18 +282,18 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     }
   }
 
-  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: any[]) => {
+  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
     // Handle rejected files first
     if (rejectedFiles.length > 0) {
       const rejection = rejectedFiles[0]
-      if (rejection.errors.some((e: any) => e.code === 'file-too-large')) {
+      if (rejection.errors.some((e) => e.code === 'file-too-large')) {
         setUploadStatus({
           type: 'error',
           message: 'File too large. Please select a file smaller than 50MB.',
         })
         return
       }
-      if (rejection.errors.some((e: any) => e.code === 'file-invalid-type')) {
+      if (rejection.errors.some((e) => e.code === 'file-invalid-type')) {
         setUploadStatus({
           type: 'error',
           message: 'Please select a PDF file only.',

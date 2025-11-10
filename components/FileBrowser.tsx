@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuUser } from 'react-icons/lu'
+import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'

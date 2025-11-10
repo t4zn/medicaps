@@ -12,13 +12,14 @@ interface SimpleBreadcrumbItem {
 interface SimpleBreadcrumbProps {
   items: SimpleBreadcrumbItem[]
   className?: string
+  homeHref?: string
 }
 
-export function SimpleBreadcrumb({ items, className }: SimpleBreadcrumbProps) {
+export function SimpleBreadcrumb({ items, className, homeHref = "/" }: SimpleBreadcrumbProps) {
   return (
     <nav className={cn("flex items-center space-x-1 text-sm text-muted-foreground mb-6", className)}>
       <Link 
-        href="/" 
+        href={homeHref} 
         className="flex items-center hover:text-foreground transition-colors"
       >
         <Home className="h-4 w-4" />

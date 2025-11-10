@@ -6,7 +6,7 @@ import { BookOpen, Bot, Upload, User, HelpCircle } from "lucide-react"
 export default function DocsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <SimpleBreadcrumb items={[{ label: "Documentation" }]} />
+      <SimpleBreadcrumb items={[{ label: "Documentation" }]} homeHref="/welcome" />
       
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Documentation</h1>

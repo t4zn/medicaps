@@ -12,8 +12,8 @@ interface LayoutContentProps {
 export function LayoutContent({ children }: LayoutContentProps) {
   const pathname = usePathname()
   
-  // Don't show sidebar on homepage, login, signup, and profile pages
-  const hideSidebarPaths = ['/', '/login', '/signup', '/profile', '/upload']
+  // Don't show sidebar on homepage, auth, profile, and static pages
+  const hideSidebarPaths = ['/', '/auth', '/profile', '/upload', '/about', '/privacy', '/terms', '/docs']
   const showSidebar = !hideSidebarPaths.includes(pathname)
 
   return (

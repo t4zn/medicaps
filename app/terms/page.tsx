@@ -5,7 +5,7 @@ import { FileText, Shield, Users, AlertTriangle, Scale, BookOpen, Gavel, Clock }
 export default function TermsPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <SimpleBreadcrumb items={[{ label: "Terms of Service" }]} />
+      <SimpleBreadcrumb items={[{ label: "Terms of Service" }]} homeHref="/welcome" />
       
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Terms of Service</h1>

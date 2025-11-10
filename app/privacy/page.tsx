@@ -5,7 +5,7 @@ import { Shield, Database, Users, Lock, Eye, FileText, Mail, AlertTriangle } fro
 export default function PrivacyPage() {
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
-      <SimpleBreadcrumb items={[{ label: "Privacy Policy" }]} />
+      <SimpleBreadcrumb items={[{ label: "Privacy Policy" }]} homeHref="/welcome" />
       
       <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Privacy Policy</h1>

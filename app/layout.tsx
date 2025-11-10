@@ -5,6 +5,7 @@ import { Providers } from "@/providers"
 import { GoogleTagManager } from "@next/third-parties/google"
 import { AuthProvider } from "@/contexts/AuthContext"
 import { Analytics } from "@vercel/analytics/next"
+import { SpeedInsights } from "@vercel/speed-insights/next"
 
 import { Settings } from "@/types/settings"
 import { SidebarProvider } from "@/contexts/SidebarContext"
@@ -86,6 +87,7 @@ export default function RootLayout({
           </AuthProvider>
         </Providers>
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   )

@@ -60,11 +60,12 @@ CREATE TABLE files (
   id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
   filename TEXT NOT NULL,
   original_name TEXT NOT NULL,
-  file_path TEXT NOT NULL,
-  github_url TEXT,
-  cdn_url TEXT,
+  file_path TEXT, -- Legacy field, now optional
+  github_url TEXT, -- Legacy field
+  cdn_url TEXT, -- Legacy field
+  google_drive_url TEXT NOT NULL, -- New field for Google Drive links
   file_size BIGINT,
-  mime_type TEXT,
+  mime_type TEXT DEFAULT 'application/pdf',
   program TEXT NOT NULL, -- btech, bsc, bba, etc.
   year TEXT NOT NULL, -- 1st-year, 2nd-year, etc.
   subject TEXT, -- chemistry, physics, etc.

@@ -58,9 +58,27 @@ export async function POST(
       console.error('Download count update error:', updateError)
     }
 
+    // Use Google Drive URL if available, fallback to legacy cdn_url
+    const downloadUrl = file.google_drive_url || file.cdn_url
+    
+    console.log('File data:', { 
+      id: file.id, 
+      google_drive_url: file.google_drive_url, 
+      cdn_url: file.cdn_url,
+      downloadUrl 
+    }) // Debug log
+
+    // Check if we have a valid download URL
+    if (!downloadUrl || downloadUrl === 'null' || downloadUrl.trim() === '') {
+      return NextResponse.json({
+        success: false,
+        error: 'Download link not available for this file. Please contact the uploader to update the file with a Google Drive link.',
+      })
+    }
+
     return NextResponse.json({
       success: true,
-      downloadUrl: file.cdn_url,
+      downloadUrl: downloadUrl,
       filename: file.original_name,
     })
 

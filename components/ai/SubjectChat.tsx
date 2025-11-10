@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { LuBot, LuLoader, LuMic, LuMicOff } from 'react-icons/lu'
+import { LuBot, LuLoader, LuMic, LuMicOff, LuTrash2 } from 'react-icons/lu'
 import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useAuth } from '@/contexts/AuthContext'
@@ -271,6 +271,22 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     // You can implement analytics or feedback storage here
   }
 
+  const clearChat = () => {
+    if (confirm('Are you sure you want to clear the chat? This action cannot be undone.')) {
+      const initialMessage: Message = {
+        id: '1',
+        content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
+        role: 'assistant',
+        timestamp: new Date()
+      }
+      setMessages([initialMessage])
+      
+      // Clear from localStorage
+      const chatKey = `ai-chat-${subject.program}-${subject.year}-${subject.name.toLowerCase().replace(/\s+/g, '-')}`
+      localStorage.removeItem(chatKey)
+    }
+  }
+
   if (!user) {
     return (
       <Card>
@@ -354,6 +370,17 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
               
               {/* Buttons Row */}
               <div className="flex items-center justify-end gap-3">
+                {/* Clear Chat Button */}
+                <button
+                  type="button"
+                  onClick={clearChat}
+                  disabled={isLoading || messages.length <= 1}
+                  className="w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 hover:bg-muted text-muted-foreground hover:text-red-600 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Clear chat"
+                >
+                  <LuTrash2 className="h-3 w-3" />
+                </button>
+
                 {/* Voice Recording Button */}
                 <button
                   type="button"

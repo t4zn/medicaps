@@ -14,9 +14,10 @@ interface FileItem {
   id: string
   filename: string
   original_name: string
-  file_path: string
-  cdn_url: string
-  file_size: number
+  file_path: string | null
+  cdn_url: string | null
+  google_drive_url: string | null
+  file_size: number | null
   program: string
   year: string
   subject: string | null
@@ -83,8 +84,8 @@ export default function FileBrowser({
 
   const handleDownload = async (file: FileItem) => {
     try {
-      // Track download
-      await fetch(`/api/download/${file.id}`, {
+      // Track download and get download URL
+      const response = await fetch(`/api/download/${file.id}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -94,20 +95,25 @@ export default function FileBrowser({
         }),
       })
 
-      // Open download link
-      window.open(file.cdn_url, '_blank')
+      const data = await response.json()
+      
+      console.log('Download API response:', data) // Debug log
+      
+      if (data.success && data.downloadUrl && data.downloadUrl !== 'null' && data.downloadUrl.trim() !== '') {
+        console.log('Opening URL:', data.downloadUrl) // Debug log
+        // Open Google Drive link in new tab
+        window.open(data.downloadUrl, '_blank')
+      } else {
+        console.error('Failed to get download URL:', data)
+        const errorMessage = data.error || 'Download link not available. Please contact support.'
+        alert(errorMessage)
+      }
     } catch (error) {
       console.error('Download error:', error)
     }
   }
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -250,6 +256,11 @@ export default function FileBrowser({
                       <Badge className={getCategoryColor(file.category)}>
                         {file.category.replace('-', ' ')}
                       </Badge>
+                      {!file.google_drive_url && !file.cdn_url && (
+                        <Badge variant="outline" className="text-orange-600 border-orange-200">
+                          No Download Link
+                        </Badge>
+                      )}
                     </div>
                     
                     <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground mb-3">
@@ -265,8 +276,10 @@ export default function FileBrowser({
                         <LuCalendar className="h-3 w-3" />
                         {formatDate(file.created_at)}
                       </span>
-                      <span>{formatFileSize(file.file_size)}</span>
-                      <span>{file.downloads} downloads</span>
+                      <div className="flex items-center gap-1">
+                        <LuDownload className="h-3 w-3" />
+                        <span>{file.downloads}</span>
+                      </div>
                     </div>
 
                     <div className="flex flex-wrap gap-2">
@@ -287,9 +300,11 @@ export default function FileBrowser({
                   <Button
                     onClick={() => handleDownload(file)}
                     className="ml-4 flex-shrink-0"
+                    disabled={!file.google_drive_url && !file.cdn_url}
+                    variant={!file.google_drive_url && !file.cdn_url ? "outline" : "default"}
                   >
                     <LuDownload className="h-4 w-4 mr-2" />
-                    Download
+                    {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Download'}
                   </Button>
                 </div>
               </CardContent>

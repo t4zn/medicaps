@@ -13,7 +13,6 @@ import {
   LuTrash2, 
   LuUpload, 
   LuCalendar, 
-  LuFolder, 
   LuArrowDown, 
   LuTag 
 } from 'react-icons/lu'
@@ -23,9 +22,10 @@ interface UploadedFile {
   id: string
   filename: string
   original_name: string
-  file_path: string
-  cdn_url: string
-  file_size: number
+  file_path: string | null
+  cdn_url: string | null
+  google_drive_url: string | null
+  file_size: number | null
   program: string
   year: string
   subject: string | null
@@ -87,13 +87,7 @@ export default function MyUploads() {
     }
   }
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -138,12 +132,12 @@ export default function MyUploads() {
             <LuFileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
             <h3 className="text-lg font-semibold mb-2">No files uploaded yet</h3>
             <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              You haven&apos;t uploaded any files yet. Start sharing your notes, PYQs, and study materials with the community.
+              You haven&apos;t added any file links yet. Start sharing your notes, PYQs, and study materials with the community using Google Drive links.
             </p>
             <Link href="/upload">
               <Button size="lg">
                 <LuUpload className="h-4 w-4 mr-2" />
-                Upload Your First File
+                Add Your First File Link
               </Button>
             </Link>
           </div>
@@ -175,12 +169,8 @@ export default function MyUploads() {
                         {formatDate(file.created_at)}
                       </span>
                       <span className="flex items-center gap-1">
-                        <LuFolder className="h-3 w-3" />
-                        {formatFileSize(file.file_size)}
-                      </span>
-                      <span className="flex items-center gap-1">
                         <LuArrowDown className="h-3 w-3" />
-                        {file.downloads} downloads
+                        {file.downloads}
                       </span>
                       <span className="flex items-center gap-1 capitalize">
                         <LuTag className="h-3 w-3" />
@@ -203,7 +193,14 @@ export default function MyUploads() {
                       <Button
                         variant="outline"
                         size="sm"
-                        onClick={() => window.open(file.cdn_url, '_blank')}
+                        onClick={() => {
+                          const downloadUrl = file.google_drive_url || file.cdn_url
+                          if (downloadUrl && downloadUrl !== 'null' && downloadUrl.trim() !== '') {
+                            window.open(downloadUrl, '_blank')
+                          } else {
+                            alert('Download link not available. Please update your file with a valid Google Drive link.')
+                          }
+                        }}
                         className="flex-1 sm:flex-none"
                       >
                         <LuDownload className="h-4 w-4 mr-2 sm:mr-0" />

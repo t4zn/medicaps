@@ -1,10 +1,10 @@
 'use client'
 
-import { useState, useCallback, useEffect, useMemo } from 'react'
+import { useState, useEffect, useMemo } from 'react'
 import { useSearchParams, useRouter } from 'next/navigation'
 import { Documents } from '@/settings/documents'
 import { Paths } from '@/lib/pageroutes'
-import { useDropzone, FileRejection } from 'react-dropzone'
+
 import { 
   LuUpload, 
   LuCheck, 
@@ -39,13 +39,17 @@ import {
   LuBuilding,
   LuCar,
   LuServer,
-  LuBot
+  LuBot,
+  LuLink,
+  LuExternalLink
 } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent } from './ui/card'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Alert, AlertDescription } from './ui/alert'
+import { Input } from './ui/input'
+import { Label } from './ui/label'
 
 interface FileUploadProps {
   onUploadSuccess?: () => void
@@ -80,7 +84,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     category: '',
   })
 
-  const [selectedFile, setSelectedFile] = useState<File | null>(null)
+  const [googleDriveUrl, setGoogleDriveUrl] = useState('')
+  const [filename, setFilename] = useState('')
 
   // Function to get icon for a subject based on its name/type
   const getSubjectIcon = (subjectName: string) => {
@@ -194,7 +199,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     
     // If year section exists but has no items (just a link), return empty array
     return []
-  }, [formData.program, formData.branch, formData.year])
+  }, [formData])
 
   // Check if coming from subject page (has pre-filled parameters)
   const isFromSubjectPage = searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
@@ -244,8 +249,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     { key: 'branch', title: 'Which branch?', required: true },
     { key: 'year', title: 'Which year?', required: true },
     { key: 'subject', title: 'Which subject?', required: true },
-    { key: 'file', title: 'Select your file', required: true },
-    { key: 'upload', title: 'Ready to upload', required: false },
+    { key: 'file', title: 'Add your Google Drive link', required: true },
+    { key: 'upload', title: 'Ready to add link', required: false },
   ]
 
   const getCurrentStepIndex = () => steps.findIndex(step => step.key === currentStep)
@@ -256,7 +261,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       case 'branch': return !!formData.branch || formData.year === '1st-year' // Branch not required for 1st year
       case 'year': return !!formData.year
       case 'subject': return !!formData.subject
-      case 'file': return !!selectedFile
+      case 'file': return !!googleDriveUrl && !!filename
       case 'upload': return false
       default: return false
     }
@@ -282,74 +287,33 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     }
   }
 
-  const onDrop = useCallback((acceptedFiles: File[], rejectedFiles: FileRejection[]) => {
-    // Handle rejected files first
-    if (rejectedFiles.length > 0) {
-      const rejection = rejectedFiles[0]
-      if (rejection.errors.some((e) => e.code === 'file-too-large')) {
-        setUploadStatus({
-          type: 'error',
-          message: 'File too large. Please select a file smaller than 50MB.',
-        })
-        return
-      }
-      if (rejection.errors.some((e) => e.code === 'file-invalid-type')) {
-        setUploadStatus({
-          type: 'error',
-          message: 'Please select a PDF file only.',
-        })
-        return
-      }
-    }
+  const validateGoogleDriveUrl = (url: string) => {
+    const googleDriveRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view\?(usp=sharing|pli=1)$/
+    return googleDriveRegex.test(url)
+  }
 
-    const file = acceptedFiles[0]
-    if (file && file.type === 'application/pdf') {
-      // Double-check file size on mobile (sometimes dropzone doesn't catch it)
-      if (file.size > 50 * 1024 * 1024) {
-        setUploadStatus({
-          type: 'error',
-          message: 'File too large. Please select a file smaller than 50MB.',
-        })
-        return
-      }
-      
-      setSelectedFile(file)
-      setUploadStatus({ type: null, message: '' })
-    } else {
+  const handleUrlChange = (url: string) => {
+    setGoogleDriveUrl(url)
+    if (url && !validateGoogleDriveUrl(url)) {
       setUploadStatus({
         type: 'error',
-        message: 'Please select a PDF file only.',
+        message: 'Please provide a valid Google Drive sharing link (must end with /view?usp=sharing or /view?pli=1)',
       })
+    } else {
+      setUploadStatus({ type: null, message: '' })
     }
-  }, [])
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({
-    onDrop,
-    accept: {
-      'application/pdf': ['.pdf'],
-    },
-    maxFiles: 1,
-    maxSize: 50 * 1024 * 1024, // 50MB
-  })
+  }
 
   const handleUpload = async () => {
-    if (!selectedFile || !user) return
+    if (!googleDriveUrl || !filename || !user) return
 
     const { program, branch, year, subject, category } = formData
 
-    // Additional mobile-friendly validations
-    if (selectedFile.size > 50 * 1024 * 1024) {
+    // Validate Google Drive URL
+    if (!validateGoogleDriveUrl(googleDriveUrl)) {
       setUploadStatus({
         type: 'error',
-        message: 'File size must be less than 50MB.',
-      })
-      return
-    }
-
-    if (selectedFile.type !== 'application/pdf') {
-      setUploadStatus({
-        type: 'error',
-        message: 'Only PDF files are allowed.',
+        message: 'Please provide a valid Google Drive sharing link',
       })
       return
     }
@@ -379,45 +343,28 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     setUploadStatus({ type: null, message: '' })
 
     try {
-      const uploadFormData = new FormData()
-      uploadFormData.append('file', selectedFile)
-      uploadFormData.append('program', program)
-      uploadFormData.append('branch', branch || '') // Handle empty branch
-      uploadFormData.append('year', year)
-      uploadFormData.append('subject', subject)
-      uploadFormData.append('category', category)
-      uploadFormData.append('userId', user.id)
-
-      const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 120000) // 2 minute timeout for mobile
-
       const response = await fetch('/api/upload', {
         method: 'POST',
-        body: uploadFormData,
-        signal: controller.signal,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          googleDriveUrl,
+          filename,
+          program,
+          branch: branch || '',
+          year,
+          subject,
+          category,
+          userId: user.id,
+        }),
       })
 
-      clearTimeout(timeoutId)
-
       if (!response.ok) {
-        // Handle HTTP errors with specific messages
-        let errorMessage = 'Upload failed. Please try again.'
-        
-        if (response.status === 413) {
-          errorMessage = 'File too large. Please select a file smaller than 50MB or try compressing your PDF.'
-        } else if (response.status === 408) {
-          errorMessage = 'Upload timeout. Please check your internet connection and try again.'
-        } else if (response.status === 400) {
-          const errorData = await response.json().catch(() => ({}))
-          errorMessage = errorData.error || 'Invalid file or missing information.'
-        } else if (response.status >= 500) {
-          errorMessage = 'Server error. Please try again in a few moments.'
-        }
-        
-        console.error('Upload HTTP error:', response.status)
+        const errorData = await response.json().catch(() => ({}))
         setUploadStatus({
           type: 'error',
-          message: errorMessage,
+          message: errorData.error || 'Upload failed. Please try again.',
         })
         return
       }
@@ -431,7 +378,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         })
         
         // Always redirect to notes page after successful upload (user can switch tabs there)
-        const subjectUrl = `/notes/${program}/${year}/${subject}`
+        const subjectUrl = subject && subject !== 'null' 
+          ? `/notes/${program}/${year}/${subject}`
+          : `/notes/${program}/${year}`
         
         // Show success message briefly then redirect
         setTimeout(() => {
@@ -448,22 +397,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     } catch (error) {
       console.error('Upload error:', error)
       
-      // Provide more specific error messages
-      let errorMessage = 'Network error. Please try again.'
-      
-      if (error instanceof Error) {
-        if (error.name === 'AbortError') {
-          errorMessage = 'Upload timeout. Please check your connection and try again.'
-        } else if (error.message.includes('fetch')) {
-          errorMessage = 'Connection failed. Check your internet connection.'
-        } else {
-          errorMessage = `Upload error: ${error.message}`
-        }
-      }
-      
       setUploadStatus({
         type: 'error',
-        message: errorMessage,
+        message: 'Network error. Please try again.',
       })
     } finally {
       setUploading(false)
@@ -475,7 +411,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       <Card className="max-w-md mx-auto">
         <CardContent className="pt-6 text-center">
           <LuUpload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-muted-foreground">Please sign in to upload files.</p>
+          <p className="text-muted-foreground">Please sign in to add file links.</p>
         </CardContent>
       </Card>
     )
@@ -488,7 +424,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         <CardContent className="p-4 sm:p-6">
           {/* Header */}
           <div className="text-center mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold">Upload File</h2>
+            <h2 className="text-lg sm:text-xl font-semibold">Add File Link</h2>
             <div className="mt-2 space-y-1 text-xs sm:text-sm text-muted-foreground">
               <div>Program: <span className="font-medium uppercase">{formData.program}</span></div>
               <div>Branch: <span className="font-medium capitalize">{formData.branch.replace('-', ' ')}</span></div>
@@ -499,53 +435,40 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           </div>
 
           {/* File Upload */}
-          <div className="mb-4 sm:mb-6">
-            <div
-              {...getRootProps()}
-              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-                isDragActive
-                  ? 'border-primary bg-primary/5'
-                  : 'border-muted-foreground/25 hover:border-primary/50'
-              }`}
-            >
-              <input {...getInputProps()} />
-              {selectedFile ? (
-                <div className="space-y-3">
-                  <LuCheck className="h-12 w-12 mx-auto text-green-500" />
-                  <div>
-                    <div className="font-medium">{selectedFile.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedFile(null)
-                    }}
-                  >
-                    <LuX className="h-4 w-4 mr-2" />
-                    Remove
-                  </Button>
-                </div>
-              ) : (
-                <div className="space-y-3">
-                  <LuUpload className="h-12 w-12 mx-auto text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">
-                      {isDragActive ? 'Drop your PDF here' : 'Upload your PDF file'}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Drag & drop or click to browse • Max 50MB
-                      <br />
-                      <span className="text-xs">Tip: Compress large PDFs for faster upload</span>
-                    </p>
-                  </div>
-                </div>
-              )}
+          <div className="mb-4 sm:mb-6 space-y-4">
+            <div>
+              <Label htmlFor="filename-simple">File Name</Label>
+              <Input
+                id="filename-simple"
+                placeholder="Enter the name of your file (e.g., Chapter 1 Notes.pdf)"
+                value={filename}
+                onChange={(e) => setFilename(e.target.value)}
+                className="mt-1"
+              />
             </div>
+            
+            <div>
+              <Label htmlFor="googleDriveUrl-simple">Google Drive Link</Label>
+              <Input
+                id="googleDriveUrl-simple"
+                placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing"
+                value={googleDriveUrl}
+                onChange={(e) => handleUrlChange(e.target.value)}
+                className="mt-1"
+              />
+              <p className="text-xs text-muted-foreground mt-1">
+                Make sure your Google Drive file is set to &quot;Anyone with the link can view&quot;
+              </p>
+            </div>
+
+            {googleDriveUrl && filename && validateGoogleDriveUrl(googleDriveUrl) && (
+              <div className="p-3 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
+                  <LuCheck className="h-4 w-4" />
+                  <span className="text-sm font-medium">Ready to upload!</span>
+                </div>
+              </div>
+            )}
           </div>
 
           {/* Status Messages */}
@@ -563,19 +486,19 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           {/* Upload Button */}
           <Button
             onClick={handleUpload}
-            disabled={uploading || !selectedFile}
+            disabled={uploading || !googleDriveUrl || !filename || !validateGoogleDriveUrl(googleDriveUrl)}
             className="w-full h-10 sm:h-12"
             size="lg"
           >
             {uploading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Uploading...
+                Adding Link...
               </>
             ) : (
               <>
-                <LuUpload className="h-4 w-4 mr-2" />
-                Upload File
+                <LuLink className="h-4 w-4 mr-2" />
+                Add File Link
               </>
             )}
           </Button>
@@ -874,51 +797,62 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       case 'file':
         return (
           <div className="space-y-4">
-            <div
-              {...getRootProps()}
-              className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-                isDragActive
-                  ? 'border-primary bg-primary/5'
-                  : 'border-muted-foreground/25 hover:border-primary/50'
-              }`}
-            >
-              <input {...getInputProps()} />
-              {selectedFile ? (
-                <div className="space-y-3">
-                  <LuCheck className="h-12 w-12 mx-auto text-green-500" />
-                  <div>
-                    <div className="font-medium">{selectedFile.name}</div>
-                    <div className="text-sm text-muted-foreground">
-                      {(selectedFile.size / 1024 / 1024).toFixed(2)} MB
-                    </div>
-                  </div>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      setSelectedFile(null)
-                    }}
-                  >
-                    <LuX className="h-4 w-4 mr-2" />
-                    Remove
-                  </Button>
+            <div className="space-y-4">
+              <div>
+                <Label htmlFor="filename">File Name</Label>
+                <Input
+                  id="filename"
+                  placeholder="Enter the name of your file (e.g., Chapter 1 Notes.pdf)"
+                  value={filename}
+                  onChange={(e) => setFilename(e.target.value)}
+                  className="mt-1"
+                />
+              </div>
+              
+              <div>
+                <Label htmlFor="googleDriveUrl">Google Drive Link</Label>
+                <Input
+                  id="googleDriveUrl"
+                  placeholder="https://drive.google.com/file/d/your-file-id/view?usp=sharing"
+                  value={googleDriveUrl}
+                  onChange={(e) => handleUrlChange(e.target.value)}
+                  className="mt-1"
+                />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Make sure your Google Drive file is set to &quot;Anyone with the link can view&quot;
+                </p>
+              </div>
+            </div>
+
+            {googleDriveUrl && filename && validateGoogleDriveUrl(googleDriveUrl) && (
+              <div className="p-4 bg-green-50 dark:bg-green-900/20 rounded-lg border border-green-200 dark:border-green-800">
+                <div className="flex items-center gap-2 text-green-700 dark:text-green-300">
+                  <LuCheck className="h-5 w-5" />
+                  <span className="font-medium">Ready to upload!</span>
                 </div>
-              ) : (
-                <div className="space-y-3">
-                  <LuUpload className="h-12 w-12 mx-auto text-muted-foreground" />
-                  <div>
-                    <p className="font-medium">
-                      {isDragActive ? 'Drop your PDF here' : 'Upload your PDF file'}
-                    </p>
-                    <p className="text-sm text-muted-foreground">
-                      Drag & drop or click to browse • Max 50MB
-                      <br />
-                      <span className="text-xs">Tip: Compress large PDFs for faster upload</span>
-                    </p>
+                <div className="mt-2 text-sm text-green-600 dark:text-green-400">
+                  <div>File: {filename}</div>
+                  <div className="flex items-center gap-1 mt-1">
+                    <LuExternalLink className="h-3 w-3" />
+                    <span className="truncate">Google Drive link validated</span>
                   </div>
                 </div>
-              )}
+              </div>
+            )}
+
+            <div className="p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg border border-blue-200 dark:border-blue-800">
+              <div className="flex items-start gap-2">
+                <LuLink className="h-5 w-5 text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0" />
+                <div className="text-sm text-blue-700 dark:text-blue-300">
+                  <div className="font-medium mb-1">How to get a Google Drive sharing link:</div>
+                  <ol className="list-decimal list-inside space-y-1 text-xs">
+                    <li>Upload your PDF to Google Drive</li>
+                    <li>Right-click the file and select &quot;Share&quot;</li>
+                    <li>Change access to &quot;Anyone with the link can view&quot;</li>
+                    <li>Copy the link and paste it above</li>
+                  </ol>
+                </div>
+              </div>
             </div>
           </div>
         )
@@ -929,7 +863,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             <div className="text-center space-y-4">
               <LuCheck className="h-16 w-16 mx-auto text-green-500" />
               <div>
-                <h3 className="text-lg font-semibold">Ready to Upload!</h3>
+                <h3 className="text-lg font-semibold">Ready to Add Link!</h3>
                 <p className="text-muted-foreground">Review your details below</p>
               </div>
             </div>
@@ -957,7 +891,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">File:</span>
-                <span className="truncate max-w-32">{selectedFile?.name}</span>
+                <span className="truncate max-w-32">{filename}</span>
+              </div>
+              <div className="flex justify-between">
+                <span className="text-muted-foreground">Link:</span>
+                <span className="truncate max-w-32 text-blue-600">Google Drive</span>
               </div>
             </div>
 
@@ -970,12 +908,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               {uploading ? (
                 <>
                   <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                  Uploading...
+                  Adding Link...
                 </>
               ) : (
                 <>
-                  <LuUpload className="h-4 w-4 mr-2" />
-                  Upload File
+                  <LuLink className="h-4 w-4 mr-2" />
+                  Add File Link
                 </>
               )}
             </Button>

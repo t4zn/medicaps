@@ -29,7 +29,7 @@ interface FileItem {
   filename: string
   original_name: string
   cdn_url: string
-  file_size: number
+  file_size: number | null
   downloads: number
   uploaded_by: string
   created_at: string
@@ -139,15 +139,26 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
 
   const handleDownload = async (file: FileItem) => {
     try {
-      // Track download
-      await fetch(`/api/download/${file.id}`, {
+      // Track download and get download URL
+      const response = await fetch(`/api/download/${file.id}`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ userId: user?.id }),
       })
 
-      // Open file in new tab
-      window.open(file.cdn_url, '_blank')
+      const data = await response.json()
+      
+      console.log('Download API response:', data) // Debug log
+      
+      if (data.success && data.downloadUrl && data.downloadUrl !== 'null' && data.downloadUrl.trim() !== '') {
+        console.log('Opening URL:', data.downloadUrl) // Debug log
+        // Open Google Drive link in new tab
+        window.open(data.downloadUrl, '_blank')
+      } else {
+        console.error('Failed to get download URL:', data)
+        const errorMessage = data.error || 'Download link not available. Please contact support.'
+        alert(errorMessage)
+      }
     } catch (error) {
       console.error('Download error:', error)
     }
@@ -241,13 +252,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
     }
   }
 
-  const formatFileSize = (bytes: number) => {
-    if (bytes === 0) return '0 Bytes'
-    const k = 1024
-    const sizes = ['Bytes', 'KB', 'MB', 'GB']
-    const i = Math.floor(Math.log(bytes) / Math.log(k))
-    return parseFloat((bytes / Math.pow(k, i)).toFixed(2)) + ' ' + sizes[i]
-  }
+
 
   const formatDate = (dateString: string) => {
     return new Date(dateString).toLocaleDateString('en-US', {
@@ -324,9 +329,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                     />
                     <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
                   </div>
-                  <div className="text-xs text-muted-foreground text-right">
-                    <div>{formatFileSize(file.file_size)}</div>
-                  </div>
+
                 </div>
 
                 <div className="flex items-center justify-start">
@@ -353,8 +356,9 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                     </Button>
                     <div className="flex items-center h-6 px-1 text-muted-foreground">
                       <LuDownload className="h-3 w-3 mr-1" />
-                      <span className="text-xs">{file.downloads || 0}</span>
+                      <span className="text-xs">{file.downloads}</span>
                     </div>
+
                     {isAdmin && (
                       <Button
                         onClick={() => handleAdminDelete(file.id, category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
@@ -453,7 +457,6 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                       />
                       <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
                     </div>
-                    <span className="truncate">{formatFileSize(file.file_size)}</span>
                     <span className="truncate">{file.downloads} downloads</span>
                   </div>
                   

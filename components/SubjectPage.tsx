@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
 import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
+import { ArticleBreadcrumb } from '@/components/article/breadcrumb'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -440,6 +441,9 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
 
   return (
     <div className="container mx-auto py-8 px-4 max-w-4xl">
+      {/* Breadcrumb */}
+      <ArticleBreadcrumb paths={[subject.program, subject.year, subject.name]} />
+      
       {/* Header */}
       <div className="mb-8">
         <div className="space-y-4">

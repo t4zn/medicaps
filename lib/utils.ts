@@ -330,11 +330,60 @@ const subjectData = [
   { title: "Machine Learning Fundamentals", href: "/notes/btech/2nd-year/machine-learning-fundamentals", code: "CS3CO40", category: "CSE AI 2nd Year" },
 ]
 
-function searchSubjects(query: string): search[] {
+function searchSubjects(query: string, filters?: { year: string; branch: string }): search[] {
   const lowerQuery = query.toLowerCase().trim()
   const queryWords = lowerQuery.split(/\s+/)
   
   return subjectData
+    .filter((subject) => {
+      // Apply filters if provided
+      if (filters) {
+        // Filter by year
+        if (filters.year !== 'all') {
+          const yearMap: Record<string, string> = {
+            '1st-year': '1st Year',
+            '2nd-year': '2nd Year',
+            '3rd-year': '3rd Year',
+            '4th-year': '4th Year'
+          }
+          const yearText = yearMap[filters.year]
+          if (yearText && !subject.category.includes(yearText)) {
+            return false
+          }
+        }
+        
+        // Filter by branch
+        if (filters.branch !== 'all') {
+          const branchMap: Record<string, string[]> = {
+            'cse': ['CSE'],
+            'cse-ai': ['CSE AI'],
+            'cse-ds': ['CSE DS'],
+            'cse-networks': ['CSE Networks'],
+            'cse-aiml': ['CSE AI', 'CSE ML'],
+            'cyber-security': ['Cyber Security'],
+            'cse-iot': ['CSE IoT'],
+            'csbs': ['CSBS'],
+            'ece': ['ECE'],
+            'civil': ['Civil'],
+            'electrical': ['Electrical'],
+            'mechanical': ['Mechanical'],
+            'automobile': ['Automobile'],
+            'it': ['IT'],
+            'robotics': ['Robotics']
+          }
+          
+          const branchTexts = branchMap[filters.branch]
+          if (branchTexts && !branchTexts.some(text => subject.category.includes(text))) {
+            // For 1st year subjects, they apply to all branches
+            if (!subject.category.includes('1st Year')) {
+              return false
+            }
+          }
+        }
+      }
+      
+      return true
+    })
     .map((subject) => {
       let relevance = 0
       
@@ -380,48 +429,16 @@ function searchSubjects(query: string): search[] {
     .sort((a, b) => b.relevance - a.relevance)
 }
 
-export function advanceSearch(query: string) {
+export function advanceSearch(query: string, filters?: { year: string; branch: string }) {
   const lowerQuery = query.toLowerCase().trim()
   const queryWords = lowerQuery.split(/\s+/).filter((word) => word.length >= 2)
 
   if (queryWords.length === 0) return []
 
-  // Search subjects first
-  const subjectResults = searchSubjects(query)
-  
-  // Search documentation
-  const chunks = chunkArray(searchData, 100)
-  const docResults = chunks.flatMap((chunk) =>
-    chunk
-      .map((doc) => {
-        const relevanceScore = calculateRelevance(
-          queryWords.join(" "),
-          doc.title,
-          doc._searchMeta.cleanContent,
-          doc._searchMeta.headings,
-          doc._searchMeta.keywords
-        )
+  // Only search subjects, exclude documentation
+  const subjectResults = searchSubjects(query, filters)
 
-        const snippet = extractSnippet(doc._searchMeta.cleanContent, lowerQuery)
-        const highlightedSnippet = highlight(snippet, queryWords.join(" "))
-
-        return {
-          title: doc.title,
-          href: doc.slug,
-          snippet: highlightedSnippet,
-          description: doc.description || "",
-          relevance: relevanceScore,
-        }
-      })
-      .filter((doc) => doc.relevance > 0)
-      .sort((a, b) => b.relevance - a.relevance)
-  )
-
-  // Combine and sort results
-  const allResults = [...subjectResults, ...docResults]
-    .sort((a, b) => (b.relevance || 0) - (a.relevance || 0))
-
-  return allResults.slice(0, 10)
+  return subjectResults.slice(0, 10)
 }
 
 function chunkArray<T>(array: T[], chunkSize: number): T[][] {

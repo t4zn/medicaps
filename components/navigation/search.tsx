@@ -1,7 +1,6 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { Documents } from "@/settings/documents"
 import { LuFileText, LuSearch } from "react-icons/lu"
 
 import { advanceSearch, cn, debounce, highlight, search } from "@/lib/utils"
@@ -17,29 +16,25 @@ import { Input } from "@/components/ui/input"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import Anchor from "@/components/anchor"
 
-interface Document {
-  title?: string
-  href?: string
-  spacer?: boolean
-  items?: Document[]
-  noLink?: boolean
-}
+
 
 export default function Search() {
   const [searchedInput, setSearchedInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
   const [filteredResults, setFilteredResults] = useState<search[]>([])
   const [isLoading, setIsLoading] = useState(false)
+  const [activeFilters, setActiveFilters] = useState({ program: 'btech', year: 'all', branch: 'all' })
+
+  const performSearch = (input: string, filters: typeof activeFilters) => {
+    setIsLoading(true)
+    const results = advanceSearch(input.trim(), { year: filters.year, branch: filters.branch })
+    setFilteredResults(results)
+    setIsLoading(false)
+  }
 
   const debouncedSearch = useMemo(
-    () =>
-      debounce((input) => {
-        setIsLoading(true)
-        const results = advanceSearch(input.trim())
-        setFilteredResults(results)
-        setIsLoading(false)
-      }, 300),
-    []
+    () => debounce((input: string) => performSearch(input, activeFilters), 300),
+    [] // Remove activeFilters from dependency to prevent infinite loop
   )
 
   useEffect(() => {
@@ -66,50 +61,46 @@ export default function Search() {
 
   useEffect(() => {
     if (searchedInput.length >= 3) {
-      debouncedSearch(searchedInput)
+      performSearch(searchedInput, activeFilters)
     } else {
       setFilteredResults([])
     }
-  }, [searchedInput, debouncedSearch])
+  }, [searchedInput, activeFilters])
 
-  function renderDocuments(
-    documents: Document[],
-    parentHref: string = "/docs"
-  ): React.ReactNode[] {
-    if (!Array.isArray(documents) || documents.length === 0) {
-      return []
+  // Listen for filter changes from sidebar
+  useEffect(() => {
+    const handleFiltersChanged = (event: CustomEvent) => {
+      const newFilters = event.detail
+      setActiveFilters(newFilters)
+      // Re-run search with new filters if there's an active search
+      if (searchedInput.length >= 3) {
+        performSearch(searchedInput, newFilters)
+      }
     }
 
-    return documents.flatMap((doc) => {
-      if ("spacer" in doc && doc.spacer) {
-        return []
+    // Load initial filters from sessionStorage
+    if (typeof window !== 'undefined') {
+      const savedFilters = sessionStorage.getItem('searchFilters')
+      if (savedFilters) {
+        try {
+          const parsedFilters = JSON.parse(savedFilters)
+          setActiveFilters(parsedFilters)
+        } catch (e) {
+          console.error('Error parsing saved filters:', e)
+        }
       }
+      
+      window.addEventListener('filtersChanged', handleFiltersChanged as EventListener)
+    }
 
-      const href = doc.href ? `${parentHref}${doc.href}` : ""
+    return () => {
+      if (typeof window !== 'undefined') {
+        window.removeEventListener('filtersChanged', handleFiltersChanged as EventListener)
+      }
+    }
+  }, [])
 
-      return [
-        !doc.noLink && doc.href && (
-          <DialogClose key={href} asChild>
-            <Anchor
-              className={cn(
-                "flex w-full items-center gap-2.5 rounded-sm px-3 text-[15px] transition-all duration-300 hover:bg-neutral-100 dark:hover:bg-neutral-900"
-              )}
-              href={href}
-            >
-              <div className="flex h-full w-fit items-center gap-1.5 py-3 whitespace-nowrap">
-                <LuFileText className="h-[1.1rem] w-[1.1rem]" /> {doc.title}
-              </div>
-            </Anchor>
-          </DialogClose>
-        ),
 
-        ...renderDocuments(
-          doc.items?.filter((item) => !item.noLink) || [],
-          `${href}`
-        ),
-      ]
-    })
-  }
 
   return (
     <>
@@ -195,7 +186,13 @@ export default function Search() {
                     }
                     return null
                   })
-                : renderDocuments(Documents)}
+                : (
+                  <div className="flex items-center justify-center py-8">
+                    <p className="text-muted-foreground text-sm">
+                      Start typing to search for subjects...
+                    </p>
+                  </div>
+                )}
             </div>
           </ScrollArea>
         </DialogContent>

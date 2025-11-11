@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { canDeleteFiles } from '@/lib/roles'
 
-const OWNER_EMAIL = 'pathforge2025@gmail.com'
-
-async function checkAdminAccess(userId: string) {
+async function checkDeleteAccess(userId: string) {
   const supabaseAdmin = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
@@ -11,14 +10,15 @@ async function checkAdminAccess(userId: string) {
 
   const { data: userProfile } = await supabaseAdmin
     .from('profiles')
-    .select('email')
+    .select('email, role')
     .eq('id', userId)
     .single()
 
-  return userProfile?.email === OWNER_EMAIL
+  if (!userProfile) return false
+
+  return canDeleteFiles(userProfile.email || '', userProfile.role)
 }
 
-// DELETE - Delete any file (admin only)
 export async function DELETE(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url)
@@ -26,11 +26,11 @@ export async function DELETE(request: NextRequest) {
     const userId = searchParams.get('userId')
 
     if (!fileId || !userId) {
-      return NextResponse.json({ error: 'Missing required parameters' }, { status: 400 })
+      return NextResponse.json({ error: 'File ID and User ID required' }, { status: 400 })
     }
 
-    const isAdmin = await checkAdminAccess(userId)
-    if (!isAdmin) {
+    const canDelete = await checkDeleteAccess(userId)
+    if (!canDelete) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 
@@ -42,7 +42,7 @@ export async function DELETE(request: NextRequest) {
     // Get file info before deletion
     const { data: file } = await supabaseAdmin
       .from('files')
-      .select('file_path')
+      .select('file_path, filename')
       .eq('id', fileId)
       .single()
 
@@ -50,27 +50,35 @@ export async function DELETE(request: NextRequest) {
       return NextResponse.json({ error: 'File not found' }, { status: 404 })
     }
 
-    // Delete from storage
+    // Delete from storage if file_path exists
     if (file.file_path) {
-      await supabaseAdmin.storage
+      const { error: storageError } = await supabaseAdmin.storage
         .from('files')
         .remove([file.file_path])
+      
+      if (storageError) {
+        console.error('Error deleting from storage:', storageError)
+        // Continue with database deletion even if storage deletion fails
+      }
     }
 
     // Delete from database
-    const { error } = await supabaseAdmin
+    const { error: dbError } = await supabaseAdmin
       .from('files')
       .delete()
       .eq('id', fileId)
 
-    if (error) {
-      console.error('Error deleting file:', error)
+    if (dbError) {
+      console.error('Error deleting from database:', dbError)
       return NextResponse.json({ error: 'Failed to delete file' }, { status: 500 })
     }
 
-    return NextResponse.json({ success: true, message: 'File deleted successfully' })
+    return NextResponse.json({ 
+      success: true, 
+      message: `File "${file.filename}" deleted successfully` 
+    })
   } catch (error) {
-    console.error('Delete file error:', error)
+    console.error('Admin delete error:', error)
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 })
   }
 }

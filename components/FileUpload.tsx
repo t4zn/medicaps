@@ -330,7 +330,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   }
 
   const handleUpload = async () => {
-    if (!googleDriveUrl || !filename || !user) return
+    if (!googleDriveUrl || !filename || !user || uploading) return
 
     const { program, branch, year, subject, category } = formData
 

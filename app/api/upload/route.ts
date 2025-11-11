@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { canUploadWithoutApproval } from '@/lib/roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -50,14 +51,14 @@ export async function POST(request: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
-    // Check if user is owner (auto-approve their uploads)
+    // Check user role and permissions
     const { data: userProfile } = await supabaseAdmin
       .from('profiles')
-      .select('email')
+      .select('email, role')
       .eq('id', userId)
       .single()
 
-    const isOwner = userProfile?.email === 'pathforge2025@gmail.com'
+    const canAutoApprove = canUploadWithoutApproval(userProfile?.email || '', userProfile?.role)
 
     const timestamp = Date.now()
     const sanitizedName = filename.replace(/[^a-zA-Z0-9.-]/g, '_')
@@ -80,7 +81,10 @@ export async function POST(request: NextRequest) {
         subject,
         category,
         uploaded_by: userId,
-        is_approved: isOwner, // Auto-approve for owner
+        is_approved: canAutoApprove, // Auto-approve based on role
+        requires_approval: !canAutoApprove,
+        approved_at: canAutoApprove ? new Date().toISOString() : null,
+        approved_by: canAutoApprove ? userId : null
       })
       .select()
       .single()
@@ -96,7 +100,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       file: fileRecord,
-      message: isOwner 
+      message: canAutoApprove 
         ? `${isFolder ? 'Folder' : 'File'} link added and published successfully!` 
         : `${isFolder ? 'Folder' : 'File'} link added successfully! It will be available after admin approval.`,
     })

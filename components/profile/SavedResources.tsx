@@ -46,6 +46,7 @@ export default function SavedResources() {
     if (!user) return
 
     try {
+      // First check if the table exists by trying a simple query
       const { data, error } = await supabase
         .from('file_bookmarks')
         .select(`
@@ -74,12 +75,26 @@ export default function SavedResources() {
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
 
-      if (error) throw error
+      if (error) {
+        console.error('Supabase error:', error)
+        // If table doesn't exist or other error, show empty state
+        setSavedFiles([])
+        return
+      }
 
-      const files = (data?.flatMap((item) => item.files).filter(Boolean) || []) as unknown as SavedFile[]
-      setSavedFiles(files)
+      // Handle the nested structure properly
+      const files = data?.map((bookmark) => {
+        const file = Array.isArray(bookmark.files) ? bookmark.files[0] : bookmark.files
+        return {
+          ...file,
+          profiles: file?.profiles || { full_name: 'Unknown', avatar_url: null }
+        }
+      }).filter(Boolean) || []
+      
+      setSavedFiles(files as unknown as SavedFile[])
     } catch (error) {
       console.error('Error fetching saved files:', error)
+      setSavedFiles([]) // Set empty array on error
     } finally {
       setLoading(false)
     }
@@ -178,7 +193,7 @@ export default function SavedResources() {
             Start bookmarking files you want to save for later by clicking the bookmark icon on any file.
           </p>
           <Button asChild>
-            <Link href="/notes">
+            <Link href="/welcome">
               <LuFileText className="h-4 w-4 mr-2" />
               Browse Files
             </Link>

@@ -9,6 +9,8 @@ import { Badge } from '@/components/ui/badge'
 import { Alert, AlertDescription } from '@/components/ui/alert'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { SubjectRequestsAdmin } from '@/components/admin/SubjectRequestsAdmin'
+import { UserManagement } from '@/components/admin/UserManagement'
+import { RoleRequestsAdmin } from '@/components/admin/RoleRequestsAdmin'
 
 interface PendingFile {
   id: string
@@ -186,20 +188,34 @@ export default function AdminPanel() {
   return (
     <div className="space-y-6">
       <Tabs defaultValue="files" className="space-y-6">
-        <TabsList className="grid w-full grid-cols-3">
-          <TabsTrigger value="files" className="flex items-center gap-2">
-            <LuFileText className="h-4 w-4" />
-            Pending Files ({pendingFiles.length})
-          </TabsTrigger>
-          <TabsTrigger value="reports" className="flex items-center gap-2">
-            <LuFlag className="h-4 w-4" />
-            Reports ({reports.length})
-          </TabsTrigger>
-          <TabsTrigger value="subjects" className="flex items-center gap-2">
-            <LuUser className="h-4 w-4" />
-            Subject Requests
-          </TabsTrigger>
-        </TabsList>
+        <div className="w-full overflow-x-auto pb-1">
+          <TabsList className="flex w-max min-w-full h-12 sm:h-10 sm:grid sm:w-full sm:grid-cols-5 gap-1 sm:gap-0">
+            <TabsTrigger value="files" className="flex items-center gap-1 sm:gap-2 whitespace-nowrap px-2 sm:px-4 text-xs sm:text-sm min-w-0 flex-shrink-0">
+              <LuFileText className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="hidden md:inline">Pending Files ({pendingFiles.length})</span>
+              <span className="md:hidden">Files ({pendingFiles.length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="reports" className="flex items-center gap-1 sm:gap-2 whitespace-nowrap px-2 sm:px-4 text-xs sm:text-sm min-w-0 flex-shrink-0">
+              <LuFlag className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="hidden md:inline">Reports ({reports.length})</span>
+              <span className="md:hidden">Reports ({reports.length})</span>
+            </TabsTrigger>
+            <TabsTrigger value="subjects" className="flex items-center gap-1 sm:gap-2 whitespace-nowrap px-2 sm:px-4 text-xs sm:text-sm min-w-0 flex-shrink-0">
+              <LuUser className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="hidden md:inline">Subject Requests</span>
+              <span className="md:hidden">Subjects</span>
+            </TabsTrigger>
+            <TabsTrigger value="users" className="flex items-center gap-1 sm:gap-2 whitespace-nowrap px-2 sm:px-4 text-xs sm:text-sm min-w-0 flex-shrink-0">
+              <LuUser className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span>Users</span>
+            </TabsTrigger>
+            <TabsTrigger value="role-requests" className="flex items-center gap-1 sm:gap-2 whitespace-nowrap px-2 sm:px-4 text-xs sm:text-sm min-w-0 flex-shrink-0">
+              <LuUser className="h-3 w-3 sm:h-4 sm:w-4 flex-shrink-0" />
+              <span className="hidden md:inline">Role Requests</span>
+              <span className="md:hidden">Roles</span>
+            </TabsTrigger>
+          </TabsList>
+        </div>
 
         <TabsContent value="files">
           <Card>
@@ -442,6 +458,14 @@ export default function AdminPanel() {
 
     <TabsContent value="subjects">
       <SubjectRequestsAdmin />
+    </TabsContent>
+
+    <TabsContent value="users">
+      <UserManagement />
+    </TabsContent>
+
+    <TabsContent value="role-requests">
+      <RoleRequestsAdmin />
     </TabsContent>
   </Tabs>
 </div>

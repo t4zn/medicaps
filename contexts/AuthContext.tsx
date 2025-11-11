@@ -3,6 +3,7 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { User, Session, AuthError } from '@supabase/supabase-js'
 import { supabase } from '@/lib/supabase'
+import { UserRole, getUserRole, hasPermission, RolePermissions } from '@/lib/roles'
 
 interface Profile {
   id: string
@@ -19,7 +20,7 @@ interface Profile {
   state?: string
   date_of_birth?: string
   gender?: string
-  role: string
+  role?: string
   created_at: string
   updated_at?: string
 }
@@ -28,7 +29,9 @@ interface AuthContextType {
   user: User | null
   profile: Profile | null
   loading: boolean
+  userRole: UserRole
   isAdmin: boolean
+  hasPermission: (permission: keyof RolePermissions) => boolean
   signIn: (email: string, password: string) => Promise<{ data: any; error: AuthError | null }>
   signUp: (email: string, password: string, fullName: string) => Promise<{ data: any; error: AuthError | null }>
   signOut: () => Promise<void>
@@ -42,8 +45,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [profile, setProfile] = useState<Profile | null>(null)
   const [loading, setLoading] = useState(true)
   
-  // Check if user is admin (owner)
-  const isAdmin = profile?.email === 'pathforge2025@gmail.com'
+  // Get user role
+  const userRole = getUserRole(profile?.email || '', profile?.role)
+  
+  // Check if user is admin (owner or admin role)
+  const isAdmin = userRole === 'owner' || userRole === 'admin'
+  
+  // Permission checker function
+  const checkPermission = (permission: keyof RolePermissions): boolean => {
+    return hasPermission(profile?.email || '', profile?.role, permission)
+  }
 
   useEffect(() => {
     // Get initial session
@@ -125,7 +136,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     user,
     profile,
     loading,
+    userRole,
     isAdmin,
+    hasPermission: checkPermission,
     signIn,
     signUp,
     signOut,

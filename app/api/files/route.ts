@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { canAccessAdminPanel } from '@/lib/roles'
 
 export async function GET(request: NextRequest) {
   try {
@@ -9,12 +10,25 @@ export async function GET(request: NextRequest) {
     const subject = searchParams.get('subject')
     const category = searchParams.get('category')
     const search = searchParams.get('search')
+    const userId = searchParams.get('userId')
 
     // Create admin client for server-side operations
     const supabaseAdmin = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
+
+    // Check if user has admin access to see unapproved files
+    let showUnapproved = false
+    if (userId) {
+      const { data: userProfile } = await supabaseAdmin
+        .from('profiles')
+        .select('email, role')
+        .eq('id', userId)
+        .single()
+      
+      showUnapproved = canAccessAdminPanel(userProfile?.email || '', userProfile?.role)
+    }
 
     let query = supabaseAdmin
       .from('files')
@@ -26,7 +40,11 @@ export async function GET(request: NextRequest) {
           avatar_url
         )
       `)
-      .eq('is_approved', true)
+    
+    // Only show approved files to regular users
+    if (!showUnapproved) {
+      query = query.eq('is_approved', true)
+    }
 
     // Apply filters
     if (program && program !== 'all') {

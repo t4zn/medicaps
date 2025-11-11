@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
+import { canModerateContent } from '@/lib/roles'
 
 export async function POST(request: NextRequest) {
   try {
@@ -87,14 +88,14 @@ export async function GET(request: NextRequest) {
       process.env.SUPABASE_SERVICE_ROLE_KEY!
     )
 
-    // Check if user is admin
+    // Check if user can moderate content
     const { data: userProfile } = await supabaseAdmin
       .from('profiles')
-      .select('email')
+      .select('email, role')
       .eq('id', userId)
       .single()
 
-    if (userProfile?.email !== 'pathforge2025@gmail.com') {
+    if (!userProfile || !canModerateContent(userProfile.email || '', userProfile.role)) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 403 })
     }
 

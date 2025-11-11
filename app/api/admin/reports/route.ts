@@ -1,7 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
-
-const OWNER_EMAIL = 'pathforge2025@gmail.com'
+import { canModerateContent } from '@/lib/roles'
 
 async function checkAdminAccess(userId: string) {
   const supabaseAdmin = createClient(
@@ -11,11 +10,13 @@ async function checkAdminAccess(userId: string) {
 
   const { data: userProfile } = await supabaseAdmin
     .from('profiles')
-    .select('email')
+    .select('email, role')
     .eq('id', userId)
     .single()
 
-  return userProfile?.email === OWNER_EMAIL
+  if (!userProfile) return false
+
+  return canModerateContent(userProfile.email || '', userProfile.role)
 }
 
 // POST - Resolve or dismiss reports

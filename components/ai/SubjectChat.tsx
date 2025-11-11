@@ -6,6 +6,7 @@ import { Card, CardContent } from '@/components/ui/card'
 import { ScrollArea } from '@/components/ui/scroll-area'
 import { useAuth } from '@/contexts/AuthContext'
 import { MarkdownWithActions } from '@/components/ui/markdown-with-actions'
+import { TypewriterText } from '@/components/ui/typewriter-text'
 
 // Type definitions for Speech Recognition API
 interface SpeechRecognitionEvent {
@@ -52,6 +53,7 @@ interface Message {
   content: string
   role: 'user' | 'assistant'
   timestamp: Date
+  isTyping?: boolean
 }
 
 interface SubjectChatProps {
@@ -70,6 +72,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [isInitialized, setIsInitialized] = useState(false)
   const [isListening, setIsListening] = useState(false)
+  const [typingMessageIds, setTypingMessageIds] = useState<Set<string>>(new Set())
   const scrollAreaRef = useRef<HTMLDivElement>(null)
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
@@ -87,7 +90,8 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
         try {
           const parsedMessages = JSON.parse(savedMessages).map((msg: Message & { timestamp: string }) => ({
             ...msg,
-            timestamp: new Date(msg.timestamp)
+            timestamp: new Date(msg.timestamp),
+            isTyping: false // Ensure saved messages are not in typing state
           }))
           setMessages(parsedMessages)
         } catch (error) {
@@ -98,7 +102,8 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
               id: '1',
               content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
               role: 'assistant',
-              timestamp: new Date()
+              timestamp: new Date(),
+              isTyping: false
             }
           ])
         }
@@ -109,7 +114,8 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
             id: '1',
             content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
             role: 'assistant',
-            timestamp: new Date()
+            timestamp: new Date(),
+            isTyping: false
           }
         ])
       }
@@ -145,7 +151,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     }
   }, [])
 
-  // Auto-scroll to bottom when new messages are added
+  // Auto-scroll to bottom when new messages are added or during typing
   useEffect(() => {
     const scrollToBottom = () => {
       if (messagesEndRef.current && scrollAreaRef.current) {
@@ -165,7 +171,25 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     const timeoutId = setTimeout(scrollToBottom, 100)
     
     return () => clearTimeout(timeoutId)
-  }, [messages, isLoading])
+  }, [messages, isLoading, typingMessageIds])
+
+  // Listen for typewriter progress events to maintain scroll position
+  useEffect(() => {
+    const handleTypewriterProgress = () => {
+      if (messagesEndRef.current && scrollAreaRef.current) {
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]')
+        if (viewport) {
+          viewport.scrollTo({
+            top: viewport.scrollHeight,
+            behavior: 'auto' // Use auto for smoother continuous scrolling during typing
+          })
+        }
+      }
+    }
+
+    window.addEventListener('typewriter-progress', handleTypewriterProgress)
+    return () => window.removeEventListener('typewriter-progress', handleTypewriterProgress)
+  }, [])
 
   // Save messages to localStorage whenever messages change
   useEffect(() => {
@@ -221,19 +245,23 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
         id: `assistant-${Date.now()}`,
         content: data.response,
         role: 'assistant',
-        timestamp: new Date()
+        timestamp: new Date(),
+        isTyping: true
       }
 
       setMessages(prev => [...prev, assistantMessage])
+      setTypingMessageIds(prev => new Set([...prev, assistantMessage.id]))
     } catch (error) {
       console.error('Chat error:', error)
       const errorMessage: Message = {
         id: `error-${Date.now()}`,
         content: "I'm sorry, I'm having trouble responding right now. Please try again in a moment.",
         role: 'assistant',
-        timestamp: new Date()
+        timestamp: new Date(),
+        isTyping: true
       }
       setMessages(prev => [...prev, errorMessage])
+      setTypingMessageIds(prev => new Set([...prev, errorMessage.id]))
     } finally {
       setIsLoading(false)
     }
@@ -292,6 +320,19 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     // You can implement analytics or feedback storage here
   }
 
+  const handleTypewriterComplete = (messageId: string) => {
+    setTypingMessageIds(prev => {
+      const newSet = new Set(prev)
+      newSet.delete(messageId)
+      return newSet
+    })
+    
+    // Update the message to mark it as no longer typing
+    setMessages(prev => prev.map(msg => 
+      msg.id === messageId ? { ...msg, isTyping: false } : msg
+    ))
+  }
+
   const clearChat = (e?: React.MouseEvent) => {
     if (e) {
       e.preventDefault()
@@ -302,7 +343,8 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
         id: '1',
         content: `Hi! I'm your AI tutor for ${subject.name}. I can help you with concepts, solve problems, explain topics, and answer questions related to this subject. What would you like to learn about today?`,
         role: 'assistant',
-        timestamp: new Date()
+        timestamp: new Date(),
+        isTyping: false
       }
       setMessages([initialMessage])
       
@@ -358,13 +400,24 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                   }`}
                 >
                   {message.role === 'assistant' ? (
-                    <MarkdownWithActions
-                      messageId={message.id}
-                      onLike={handleLike}
-                      onDislike={handleDislike}
-                    >
-                      {message.content}
-                    </MarkdownWithActions>
+                    message.isTyping ? (
+                      <TypewriterText
+                        text={message.content}
+                        messageId={message.id}
+                        onLike={handleLike}
+                        onDislike={handleDislike}
+                        speed={3}
+                        onComplete={() => handleTypewriterComplete(message.id)}
+                      />
+                    ) : (
+                      <MarkdownWithActions
+                        messageId={message.id}
+                        onLike={handleLike}
+                        onDislike={handleDislike}
+                      >
+                        {message.content}
+                      </MarkdownWithActions>
+                    )
                   ) : (
                     <p className="whitespace-pre-wrap break-words">{message.content}</p>
                   )}

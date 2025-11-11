@@ -297,37 +297,60 @@ const subjectData = [
   { title: "Communication Skills", href: "/notes/btech/1st-year/communication-skills", code: "EN3HS10", category: "1st Year" },
   
   // CSE 2nd Year subjects
-  { title: "Discrete Mathematics", href: "/notes/btech/2nd-year/discrete-mathematics", code: "CS3BS04", category: "CSE 2nd Year" },
-  { title: "Data Communication", href: "/notes/btech/2nd-year/data-communication", code: "CS3CO28", category: "CSE 2nd Year" },
-  { title: "Object Oriented Programming", href: "/notes/btech/2nd-year/object-oriented-programming", code: "CS3CO30", category: "CSE 2nd Year" },
-  { title: "Data Structures", href: "/notes/btech/2nd-year/data-structures", code: "CS3CO31", category: "CSE 2nd Year" },
-  { title: "Java Programming", href: "/notes/btech/2nd-year/java-programming", code: "CS3CO32", category: "CSE 2nd Year" },
-  { title: "Digital Electronics", href: "/notes/btech/2nd-year/digital-electronics", code: "CS3CO33", category: "CSE 2nd Year" },
-  { title: "Computer System Architecture", href: "/notes/btech/2nd-year/computer-system-architecture", code: "CS3CO34", category: "CSE 2nd Year" },
-  { title: "Soft Skills-I", href: "/notes/btech/2nd-year/soft-skills-1", code: "EN3NG03", category: "CSE 2nd Year" },
-  { title: "Microprocessor and Interfacing", href: "/notes/btech/2nd-year/microprocessor-and-interfacing", code: "CS3CO35", category: "CSE 2nd Year" },
-  { title: "Advanced Java Programming", href: "/notes/btech/2nd-year/advanced-java-programming", code: "CS3CO37", category: "CSE 2nd Year" },
-  { title: "Database Management Systems", href: "/notes/btech/2nd-year/database-management-systems", code: "CS3CO39", category: "CSE 2nd Year" },
-  { title: "Theory of Computation", href: "/notes/btech/2nd-year/theory-of-computation", code: "CS3CO46", category: "CSE 2nd Year" },
-  { title: "Operating Systems", href: "/notes/btech/2nd-year/operating-systems", code: "CS3CO47", category: "CSE 2nd Year" },
-  { title: "Soft Skills-II", href: "/notes/btech/2nd-year/soft-skills-2", code: "EN3NG10", category: "CSE 2nd Year" },
+  { title: "Discrete Mathematics", href: "/notes/btech/cse/2nd-year/discrete-mathematics", code: "CS3BS04", category: "CSE 2nd Year" },
+  { title: "Data Communication", href: "/notes/btech/cse/2nd-year/data-communication", code: "CS3CO28", category: "CSE 2nd Year" },
+  { title: "Object Oriented Programming", href: "/notes/btech/cse/2nd-year/object-oriented-programming", code: "CS3CO30", category: "CSE 2nd Year" },
+  { title: "Data Structures", href: "/notes/btech/cse/2nd-year/data-structures", code: "CS3CO31", category: "CSE 2nd Year" },
+  { title: "Java Programming", href: "/notes/btech/cse/2nd-year/java-programming", code: "CS3CO32", category: "CSE 2nd Year" },
+  { title: "Digital Electronics", href: "/notes/btech/cse/2nd-year/digital-electronics", code: "CS3CO33", category: "CSE 2nd Year" },
+  { title: "Computer System Architecture", href: "/notes/btech/cse/2nd-year/computer-system-architecture", code: "CS3CO34", category: "CSE 2nd Year" },
+  { title: "Soft Skills-I", href: "/notes/btech/cse/2nd-year/soft-skills-1", code: "EN3NG03", category: "CSE 2nd Year" },
+  { title: "Microprocessor and Interfacing", href: "/notes/btech/cse/2nd-year/microprocessor-and-interfacing", code: "CS3CO35", category: "CSE 2nd Year" },
+  { title: "Advanced Java Programming", href: "/notes/btech/cse/2nd-year/advanced-java-programming", code: "CS3CO37", category: "CSE 2nd Year" },
+  { title: "Database Management Systems", href: "/notes/btech/cse/2nd-year/database-management-systems", code: "CS3CO39", category: "CSE 2nd Year" },
+  { title: "Theory of Computation", href: "/notes/btech/cse/2nd-year/theory-of-computation", code: "CS3CO46", category: "CSE 2nd Year" },
+  { title: "Operating Systems", href: "/notes/btech/cse/2nd-year/operating-systems", code: "CS3CO47", category: "CSE 2nd Year" },
+  { title: "Soft Skills-II", href: "/notes/btech/cse/2nd-year/soft-skills-2", code: "EN3NG10", category: "CSE 2nd Year" },
   
   // CSE 3rd Year subjects
-  { title: "Software Engineering", href: "/notes/btech/3rd-year/software-engineering", code: "CS3CO40", category: "CSE 3rd Year" },
-  { title: "Computer Networks", href: "/notes/btech/3rd-year/computer-networks", code: "CS3CO43", category: "CSE 3rd Year" },
-  { title: "Economics", href: "/notes/btech/3rd-year/economics", code: "EN3HS04", category: "CSE 3rd Year" },
-  { title: "Soft Skills-III", href: "/notes/btech/3rd-year/soft-skills-3", code: "EN3NG09", category: "CSE 3rd Year" },
-  { title: "Compiler Design", href: "/notes/btech/3rd-year/compiler-design", code: "CS3CO44", category: "CSE 3rd Year" },
-  { title: "Design and Analysis of Algorithms", href: "/notes/btech/3rd-year/design-and-analysis-of-algorithms", code: "CS3CO45", category: "CSE 3rd Year" },
-  { title: "Research Methodology", href: "/notes/btech/3rd-year/research-methodology", code: "CS3ES15", category: "CSE 3rd Year" },
-  { title: "Soft Skills-IV", href: "/notes/btech/3rd-year/soft-skills-4", code: "EN3NG08", category: "CSE 3rd Year" },
+  { title: "Software Engineering", href: "/notes/btech/cse/3rd-year/software-engineering", code: "CS3CO40", category: "CSE 3rd Year" },
+  { title: "Computer Networks", href: "/notes/btech/cse/3rd-year/computer-networks", code: "CS3CO43", category: "CSE 3rd Year" },
+  { title: "Economics", href: "/notes/btech/cse/3rd-year/economics", code: "EN3HS04", category: "CSE 3rd Year" },
+  { title: "Soft Skills-III", href: "/notes/btech/cse/3rd-year/soft-skills-3", code: "EN3NG09", category: "CSE 3rd Year" },
+  { title: "Compiler Design", href: "/notes/btech/cse/3rd-year/compiler-design", code: "CS3CO44", category: "CSE 3rd Year" },
+  { title: "Design and Analysis of Algorithms", href: "/notes/btech/cse/3rd-year/design-and-analysis-of-algorithms", code: "CS3CO45", category: "CSE 3rd Year" },
+  { title: "Research Methodology", href: "/notes/btech/cse/3rd-year/research-methodology", code: "CS3ES15", category: "CSE 3rd Year" },
+  { title: "Soft Skills-IV", href: "/notes/btech/cse/3rd-year/soft-skills-4", code: "EN3NG08", category: "CSE 3rd Year" },
   
   // CSE 4th Year subjects
-  { title: "Industrial Training", href: "/notes/btech/4th-year/industrial-training", code: "CS3PC03", category: "CSE 4th Year" },
+  { title: "Industrial Training", href: "/notes/btech/cse/4th-year/industrial-training", code: "CS3PC03", category: "CSE 4th Year" },
   
   // CSE AI 2nd Year subjects
-  { title: "Principles of Artificial Intelligence", href: "/notes/btech/2nd-year/principles-of-artificial-intelligence", code: "CS3CO35", category: "CSE AI 2nd Year" },
-  { title: "Machine Learning Fundamentals", href: "/notes/btech/2nd-year/machine-learning-fundamentals", code: "CS3CO40", category: "CSE AI 2nd Year" },
+  { title: "Discrete Mathematics", href: "/notes/btech/cse-ai/2nd-year/discrete-mathematics", code: "CS3BS04", category: "CSE AI 2nd Year" },
+  { title: "Data Communication", href: "/notes/btech/cse-ai/2nd-year/data-communication", code: "CS3CO28", category: "CSE AI 2nd Year" },
+  { title: "Data Structures", href: "/notes/btech/cse-ai/2nd-year/data-structures", code: "CS3CO31", category: "CSE AI 2nd Year" },
+  { title: "Digital Electronics", href: "/notes/btech/cse-ai/2nd-year/digital-electronics", code: "CS3CO33", category: "CSE AI 2nd Year" },
+  { title: "Computer System Architecture", href: "/notes/btech/cse-ai/2nd-year/computer-system-architecture", code: "CS3CO34", category: "CSE AI 2nd Year" },
+  { title: "Principles of Artificial Intelligence", href: "/notes/btech/cse-ai/2nd-year/principles-of-artificial-intelligence", code: "CS3CO35", category: "CSE AI 2nd Year" },
+  { title: "Soft Skills-I", href: "/notes/btech/cse-ai/2nd-year/soft-skills-1", code: "EN3NG03", category: "CSE AI 2nd Year" },
+  { title: "Operating Systems", href: "/notes/btech/cse-ai/2nd-year/operating-systems", code: "CS3CO47", category: "CSE AI 2nd Year" },
+  { title: "Advanced Java/Python Programming", href: "/notes/btech/cse-ai/2nd-year/advanced-java-or-python-programming", code: "CS3CO37", category: "CSE AI 2nd Year" },
+  { title: "Theory of Computation", href: "/notes/btech/cse-ai/2nd-year/theory-of-computation", code: "CS3CO46", category: "CSE AI 2nd Year" },
+  { title: "Database Management Systems", href: "/notes/btech/cse-ai/2nd-year/database-management-systems", code: "CS3CO39", category: "CSE AI 2nd Year" },
+  { title: "Machine Learning Fundamentals", href: "/notes/btech/cse-ai/2nd-year/machine-learning-fundamentals", code: "CS3CO40", category: "CSE AI 2nd Year" },
+  { title: "Soft Skills-II", href: "/notes/btech/cse-ai/2nd-year/soft-skills-2", code: "EN3NG10", category: "CSE AI 2nd Year" },
+  
+  // CSE DS 2nd Year subjects
+  { title: "Data Science Fundamentals", href: "/notes/btech/cse-ds/2nd-year/data-science-fundamentals", code: "CS3CO50", category: "CSE DS 2nd Year" },
+  
+  // CSE Networks 2nd Year subjects  
+  { title: "Network Fundamentals", href: "/notes/btech/cse-networks/2nd-year/network-fundamentals", code: "CS3CO60", category: "CSE Networks 2nd Year" },
+  
+  // CSE AI&ML 2nd Year subjects
+  { title: "AI and ML Basics", href: "/notes/btech/cse-aiml/2nd-year/ai-ml-basics", code: "CS3CO70", category: "CSE AI&ML 2nd Year" },
+  
+  // CSE IoT 2nd Year subjects
+  { title: "IoT Fundamentals", href: "/notes/btech/cse-iot/2nd-year/iot-fundamentals", code: "CS3CO80", category: "CSE IoT 2nd Year" },
 ]
 
 function searchSubjects(query: string, filters?: { year: string; branch: string }): search[] {

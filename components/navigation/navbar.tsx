@@ -35,9 +35,9 @@ export function Navbar() {
     canAccessAdminPanelFallback(profile.email || '')
   ) : false
   
-  // Hide search bar and hamburger menu on homepage
+  // Hide search bar on homepage but always show hamburger menu
   const showSearch = pathname !== '/'
-  const showHamburger = pathname !== '/'
+  const showHamburger = true // Always show sidebar
 
   return (
     <nav className="bg-opacity-5 sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between border-b p-1 px-2 backdrop-blur-xl backdrop-filter sm:p-3 md:gap-2 md:px-4">

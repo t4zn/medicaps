@@ -67,7 +67,22 @@ export function PageMenu({ isSheet = false }) {
                 </div>
               </div>
             ) : (
-              <Search />
+              // Desktop sidebar - use a search trigger without "notes" in placeholder
+              <div 
+                className="relative cursor-pointer"
+                onClick={() => {
+                  // Find and click the main search trigger
+                  const searchTrigger = document.querySelector('[data-search-trigger]') as HTMLElement
+                  if (searchTrigger) {
+                    searchTrigger.click()
+                  }
+                }}
+              >
+                <LuSearch className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-500 dark:text-neutral-400 pointer-events-none" />
+                <div className="bg-background h-9 w-full rounded-md border pr-4 pl-10 text-sm shadow flex items-center text-muted-foreground">
+                  Search
+                </div>
+              </div>
             )}
           </div>
           

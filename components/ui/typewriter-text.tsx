@@ -59,6 +59,7 @@ export function TypewriterText({
       messageId={messageId}
       onLike={onLike}
       onDislike={onDislike}
+      isTyping={!isComplete}
     >
       {displayedText}
     </MarkdownWithActions>

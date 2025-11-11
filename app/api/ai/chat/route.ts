@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 
 export async function POST(request: NextRequest) {
   try {
-    const { message, subject, userId } = await request.json()
+    const { message, messages = [], subject, userId } = await request.json()
 
     if (!message || !subject || !userId) {
       return NextResponse.json(
@@ -63,6 +63,7 @@ Remember: You are ONLY a ${subject.name} tutor. Stay strictly within this subjec
             model: 'llama-3.3-70b-versatile', // Best Groq model for educational content
             messages: [
               { role: 'system', content: systemPrompt },
+              ...messages, // Include conversation history
               { role: 'user', content: message }
             ],
             max_tokens: 1000,

@@ -8,6 +8,7 @@ interface MarkdownWithActionsProps {
   children: string
   messageId?: string
   showActions?: boolean
+  isTyping?: boolean
   onLike?: (messageId: string) => void
   onDislike?: (messageId: string) => void
 }
@@ -16,6 +17,7 @@ export function MarkdownWithActions({
   children, 
   messageId, 
   showActions = true,
+  isTyping = false,
   onLike,
   onDislike 
 }: MarkdownWithActionsProps) {
@@ -26,7 +28,7 @@ export function MarkdownWithActions({
       <div ref={contentRef}>
         <Markdown>{children}</Markdown>
       </div>
-      {showActions && messageId && (
+      {showActions && messageId && !isTyping && (
         <MessageActions
           messageId={messageId}
           contentRef={contentRef}

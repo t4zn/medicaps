@@ -227,6 +227,10 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           message: input.trim(),
+          messages: messages.map(msg => ({
+            role: msg.role,
+            content: msg.content
+          })),
           subject: {
             name: subject.name,
             program: subject.program,
@@ -414,6 +418,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                         messageId={message.id}
                         onLike={handleLike}
                         onDislike={handleDislike}
+                        isTyping={false}
                       >
                         {message.content}
                       </MarkdownWithActions>

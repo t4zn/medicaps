@@ -148,11 +148,16 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
   // Auto-scroll to bottom when new messages are added
   useEffect(() => {
     const scrollToBottom = () => {
-      if (messagesEndRef.current) {
-        messagesEndRef.current.scrollIntoView({ 
-          behavior: 'smooth',
-          block: 'end'
-        })
+      if (messagesEndRef.current && scrollAreaRef.current) {
+        // Find the viewport element within the ScrollArea
+        const viewport = scrollAreaRef.current.querySelector('[data-radix-scroll-area-viewport]')
+        if (viewport) {
+          // Scroll the viewport to the bottom smoothly
+          viewport.scrollTo({
+            top: viewport.scrollHeight,
+            behavior: 'smooth'
+          })
+        }
       }
     }
 
@@ -172,6 +177,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
+    e.stopPropagation()
     if (!input.trim() || isLoading || !user) return
 
     const userMessage: Message = {
@@ -260,7 +266,11 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     e.target.style.height = `${newHeight}px`
   }
 
-  const toggleVoiceRecording = () => {
+  const toggleVoiceRecording = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     if (!recognitionRef.current) return
 
     if (isListening) {
@@ -282,7 +292,11 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     // You can implement analytics or feedback storage here
   }
 
-  const clearChat = () => {
+  const clearChat = (e?: React.MouseEvent) => {
+    if (e) {
+      e.preventDefault()
+      e.stopPropagation()
+    }
     if (confirm('Are you sure you want to clear the chat? This action cannot be undone.')) {
       const initialMessage: Message = {
         id: '1',
@@ -318,7 +332,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       <div className="flex justify-end p-3 border-b border-border/50">
         <button
           type="button"
-          onClick={clearChat}
+          onClick={(e) => clearChat(e)}
           disabled={messages.length <= 1}
           className="flex items-center gap-2 px-3 py-1.5 text-xs text-muted-foreground hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-950/20 rounded-md transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
           title="Clear chat history"
@@ -401,7 +415,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
                 {/* Voice Recording Button */}
                 <button
                   type="button"
-                  onClick={toggleVoiceRecording}
+                  onClick={(e) => toggleVoiceRecording(e)}
                   disabled={isLoading}
                   className={`w-8 h-8 rounded-full transition-colors flex items-center justify-center flex-shrink-0 ${
                     isListening 

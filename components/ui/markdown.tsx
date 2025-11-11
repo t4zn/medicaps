@@ -5,39 +5,126 @@ import { CodeBlock } from "./code-block";
 
 const components: Partial<Components> = {
   pre: ({ children }) => {
-    // Extract the code element and its className for Monaco Editor
-    const codeElement = React.Children.toArray(children).find(
-      (child): child is React.ReactElement<{ className?: string; children: React.ReactNode }> =>
-        React.isValidElement(child) && child.type === 'code'
-    );
+    console.log('📝 Markdown pre component called with children:', children)
+    
+    // Handle the case where children is a single React element
+    let codeElement: React.ReactElement<{ className?: string; children: React.ReactNode }> | null = null;
+    
+    if (React.isValidElement(children) && children.type === 'code') {
+      codeElement = children as React.ReactElement<{ className?: string; children: React.ReactNode }>;
+    } else {
+      // Try to find code element in children array
+      const childrenArray = React.Children.toArray(children);
+      codeElement = childrenArray.find(
+        (child): child is React.ReactElement<{ className?: string; children: React.ReactNode }> =>
+          React.isValidElement(child) && child.type === 'code'
+      ) || null;
+    }
 
-    if (codeElement && codeElement.props.className) {
+    console.log('📝 Found code element:', {
+      found: !!codeElement,
+      props: codeElement?.props,
+      type: codeElement?.type
+    })
+
+    if (codeElement && codeElement.props) {
       const codeText = typeof codeElement.props.children === 'string' 
         ? codeElement.props.children 
         : React.Children.toArray(codeElement.props.children).join('');
       
+      console.log('📝 Using CodeBlock with:', {
+        className: codeElement.props.className || 'no-class',
+        codeText: codeText.substring(0, 50) + '...'
+      })
+      
       return (
-        <CodeBlock className={codeElement.props.className}>
+        <CodeBlock className={codeElement.props.className || 'language-text'}>
           {codeText}
         </CodeBlock>
       );
     }
 
-    // Fallback for plain pre without syntax highlighting
+    // Fallback: Force all pre content through Monaco CodeBlock with smart language detection
+    console.log('📝 Using Monaco CodeBlock fallback for all pre content')
+    
+    const fallbackText = typeof children === 'string' 
+      ? children 
+      : React.Children.toArray(children).map(child => {
+          if (typeof child === 'string') return child;
+          if (React.isValidElement(child) && child.props && typeof (child.props as { children?: string }).children === 'string') {
+            return (child.props as { children?: string }).children;
+          }
+          return '';
+        }).join('');
+    
+    console.log('📝 Fallback text:', fallbackText.substring(0, 50) + '...')
+    
+    // Smart language detection based on code content
+    const detectLanguage = (code: string): string => {
+      const trimmedCode = code.trim().toLowerCase();
+      
+      // Python detection
+      if (trimmedCode.includes('def ') || trimmedCode.includes('class ') || 
+          trimmedCode.includes('import ') || trimmedCode.includes('from ') ||
+          trimmedCode.includes('print(') || trimmedCode.includes('if __name__')) {
+        return 'language-python';
+      }
+      
+      // JavaScript/TypeScript detection
+      if (trimmedCode.includes('function ') || trimmedCode.includes('const ') ||
+          trimmedCode.includes('let ') || trimmedCode.includes('var ') ||
+          trimmedCode.includes('console.log') || trimmedCode.includes('=>')) {
+        return trimmedCode.includes('interface ') || trimmedCode.includes('type ') ? 'language-typescript' : 'language-javascript';
+      }
+      
+      // Java detection
+      if (trimmedCode.includes('public class ') || trimmedCode.includes('public static void main') ||
+          trimmedCode.includes('System.out.println')) {
+        return 'language-java';
+      }
+      
+      // C/C++ detection
+      if (trimmedCode.includes('#include') || trimmedCode.includes('int main(') ||
+          trimmedCode.includes('printf(') || trimmedCode.includes('cout <<')) {
+        return trimmedCode.includes('cout') || trimmedCode.includes('std::') ? 'language-cpp' : 'language-c';
+      }
+      
+      // HTML detection
+      if (trimmedCode.includes('<html') || trimmedCode.includes('<!doctype') ||
+          (trimmedCode.includes('<') && trimmedCode.includes('>'))) {
+        return 'language-html';
+      }
+      
+      // CSS detection
+      if (trimmedCode.includes('{') && trimmedCode.includes('}') && 
+          (trimmedCode.includes(':') || trimmedCode.includes('px') || trimmedCode.includes('color'))) {
+        return 'language-css';
+      }
+      
+      // SQL detection
+      if (trimmedCode.includes('select ') || trimmedCode.includes('insert ') ||
+          trimmedCode.includes('update ') || trimmedCode.includes('delete ') ||
+          trimmedCode.includes('create table')) {
+        return 'language-sql';
+      }
+      
+      // Bash/Shell detection
+      if (trimmedCode.startsWith('#!/bin/bash') || trimmedCode.startsWith('#!/bin/sh') ||
+          trimmedCode.includes('echo ') || trimmedCode.includes('cd ') ||
+          trimmedCode.includes('ls ') || trimmedCode.includes('grep ')) {
+        return 'language-bash';
+      }
+      
+      return 'language-text';
+    };
+    
+    const detectedLanguage = detectLanguage(fallbackText);
+    console.log('📝 Detected language:', detectedLanguage);
+    
     return (
-      <div className="w-full min-w-0 overflow-x-auto my-4">
-        <pre 
-          className="bg-muted/80 text-foreground p-3 rounded-lg text-xs sm:text-sm whitespace-pre" 
-          style={{ 
-            whiteSpace: 'pre', 
-            wordBreak: 'keep-all', 
-            wordWrap: 'normal', 
-            minWidth: 'max-content' 
-          }}
-        >
-          {children}
-        </pre>
-      </div>
+      <CodeBlock className={detectedLanguage}>
+        {fallbackText}
+      </CodeBlock>
     );
   },
   code: ({ className, children, ...props }) => {

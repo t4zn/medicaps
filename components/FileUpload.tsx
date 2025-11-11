@@ -41,6 +41,8 @@ import {
   LuServer,
   LuBot,
   LuLink,
+  LuFolder,
+  LuTriangleAlert,
 } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -84,6 +86,21 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
   const [googleDriveUrl, setGoogleDriveUrl] = useState('')
   const [filename, setFilename] = useState('')
+  const [showErrorTooltip, setShowErrorTooltip] = useState(false)
+  const [urlError, setUrlError] = useState('')
+
+  // Close tooltip when clicking outside or when URL changes
+  useEffect(() => {
+    const handleClickOutside = () => setShowErrorTooltip(false)
+    if (showErrorTooltip) {
+      document.addEventListener('click', handleClickOutside)
+      return () => document.removeEventListener('click', handleClickOutside)
+    }
+  }, [showErrorTooltip])
+
+  useEffect(() => {
+    setShowErrorTooltip(false)
+  }, [googleDriveUrl])
 
   // Function to get icon for a subject based on its name/type
   const getSubjectIcon = (subjectName: string) => {
@@ -199,34 +216,37 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     return []
   }, [formData])
 
-  // Check if coming from subject page (has pre-filled parameters)
-  const isFromSubjectPage = searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
+  // Check if coming from subject page "Add File" button (not header upload)
+  const isFromSubjectPage = searchParams.get('from') === 'subject' && searchParams.get('program') && searchParams.get('year') && searchParams.get('subject') && searchParams.get('category')
 
-  // Auto-populate form data from URL parameters and skip to file step if all required fields are filled
+  // Auto-populate form data from URL parameters only if coming from subject page
   useEffect(() => {
-    const program = searchParams.get('program')
-    const branch = searchParams.get('branch')
-    const year = searchParams.get('year')
-    const subject = searchParams.get('subject')
-    const category = searchParams.get('category')
+    // Only auto-fill if explicitly coming from subject page
+    if (searchParams.get('from') === 'subject') {
+      const program = searchParams.get('program')
+      const branch = searchParams.get('branch')
+      const year = searchParams.get('year')
+      const subject = searchParams.get('subject')
+      const category = searchParams.get('category')
 
-    if (program || branch || year || subject || category) {
-      const newFormData = {
-        program: program || '',
-        branch: branch || '',
-        year: year || '',
-        subject: subject || '',
-        category: category || '',
-      }
-      
-      setFormData(prev => ({
-        ...prev,
-        ...newFormData,
-      }))
+      if (program || branch || year || subject || category) {
+        const newFormData = {
+          program: program || '',
+          branch: branch || '',
+          year: year || '',
+          subject: subject || '',
+          category: category || '',
+        }
+        
+        setFormData(prev => ({
+          ...prev,
+          ...newFormData,
+        }))
 
-      // If all required fields are filled from URL params, skip to file step
-      if (program && year && subject && category) {
-        setCurrentStep('file')
+        // If all required fields are filled from URL params, skip to file step
+        if (program && year && subject && category) {
+          setCurrentStep('file')
+        }
       }
     }
   }, [searchParams])
@@ -247,7 +267,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     { key: 'branch', title: 'Which branch?', required: true },
     { key: 'year', title: 'Which year?', required: true },
     { key: 'subject', title: 'Which subject?', required: true },
-    { key: 'file', title: 'Add your Google Drive link', required: true },
+    { key: 'file', title: 'Add Google Drive link', required: true },
   ]
 
   const getCurrentStepIndex = () => steps.findIndex(step => step.key === currentStep)
@@ -284,28 +304,30 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   }
 
   const validateGoogleDriveUrl = (url: string) => {
-    const googleDriveRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view\?(usp=sharing|pli=1)$/
-    return googleDriveRegex.test(url)
+    // Support any valid Google Drive file or folder link
+    const fileRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
+    const folderRegex = /^https:\/\/drive\.google\.com\/drive\/folders\/([a-zA-Z0-9_-]+)/
+    return fileRegex.test(url) || folderRegex.test(url)
+  }
+
+  const isGoogleDriveFolder = (url: string) => {
+    const folderRegex = /^https:\/\/drive\.google\.com\/drive\/folders\/([a-zA-Z0-9_-]+)/
+    return folderRegex.test(url)
   }
 
   const handleUrlChange = (url: string) => {
     setGoogleDriveUrl(url)
     if (url && !validateGoogleDriveUrl(url)) {
-      // Check if it looks like a Google Drive link but might be private
+      // Check if it looks like a Google Drive link
       if (url.includes('drive.google.com')) {
-        setUploadStatus({
-          type: 'error',
-          message: 'Please make sure your Google Drive file is set to public and use the sharing link',
-        })
+        setUrlError('Please provide a valid Google Drive file or folder link')
       } else {
-        setUploadStatus({
-          type: 'error',
-          message: 'Please provide a valid Google Drive sharing link',
-        })
+        setUrlError('Please provide a valid Google Drive link')
       }
     } else {
-      setUploadStatus({ type: null, message: '' })
+      setUrlError('')
     }
+    setUploadStatus({ type: null, message: '' })
   }
 
   const handleUpload = async () => {
@@ -318,12 +340,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       if (googleDriveUrl.includes('drive.google.com')) {
         setUploadStatus({
           type: 'error',
-          message: 'Please make sure your Google Drive file is public and use the sharing link',
+          message: 'Please provide a valid Google Drive file or folder link',
         })
       } else {
         setUploadStatus({
           type: 'error',
-          message: 'Please provide a valid Google Drive sharing link',
+          message: 'Please provide a valid Google Drive link',
         })
       }
       return
@@ -420,8 +442,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   if (!user) {
     return (
       <Card className="max-w-md mx-auto">
-        <CardContent className="pt-6 text-center">
-          <LuUpload className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
+        <CardContent className="pt-4 sm:pt-6 text-center">
+          <LuUpload className="h-8 sm:h-12 w-8 sm:w-12 mx-auto mb-3 sm:mb-4 text-muted-foreground" />
           <p className="text-muted-foreground">Please sign in to add file links.</p>
         </CardContent>
       </Card>
@@ -431,44 +453,67 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   // If coming from subject page, show simplified upload interface
   if (isFromSubjectPage) {
     return (
-      <Card className="max-w-lg mx-auto">
-        <CardContent className="p-4 sm:p-6">
+      <Card className="max-w-lg mx-auto mx-2 sm:mx-auto">
+        <CardContent className="p-3 sm:p-6">
           {/* Header */}
-          <div className="text-center mb-6">
-            <h2 className="text-xl font-semibold mb-2">Add File Link</h2>
-            <p className="text-sm text-muted-foreground">
+          <div className="text-center mb-4 sm:mb-6">
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">{isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}</h2>
+            <p className="text-sm text-muted-foreground hidden sm:block">
               {formData.program.toUpperCase()} • {formData.year.replace('-', ' ')} • {formData.subject.replace('-', ' ')} • {formData.category.replace('-', ' ')}
             </p>
           </div>
 
           {/* File Upload */}
-          <div className="mb-6 space-y-4">
+          <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
             <div>
               <Input
-                placeholder="File name (e.g., Chapter 1 Notes.pdf)"
+                placeholder={isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : "File name"}
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
-                className="h-12"
+                className="h-12 text-sm sm:text-base"
               />
             </div>
             
-            <div>
+            <div className="relative">
               <Input
-                placeholder="Google Drive sharing link"
+                placeholder="Google Drive link"
                 value={googleDriveUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
-                className="h-12"
+                className="h-12 pr-10 text-sm sm:text-base"
               />
+              {googleDriveUrl && (
+                <div className="absolute right-3 top-3 sm:top-4">
+                  {validateGoogleDriveUrl(googleDriveUrl) ? (
+                    <LuCheck className="h-4 w-4 text-green-500 animate-in fade-in duration-200" />
+                  ) : (
+                    <div className="relative">
+                      <LuTriangleAlert 
+                        className="h-4 w-4 text-red-500 cursor-pointer hover:text-red-600 animate-in fade-in duration-200" 
+                        onClick={() => setShowErrorTooltip(!showErrorTooltip)}
+                      />
+                      {showErrorTooltip && urlError && (
+                        <div className="absolute right-0 top-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-2 text-xs text-red-700 dark:text-red-300 whitespace-nowrap z-10 shadow-lg">
+                          {urlError}
+                          <div className="absolute -top-1 right-2 w-2 h-2 bg-red-50 dark:bg-red-900/20 border-l border-t border-red-200 dark:border-red-800 rotate-45"></div>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
               <p className="text-xs text-muted-foreground mt-2">
-                Make sure your file is public and shareable
+                {isGoogleDriveFolder(googleDriveUrl) 
+                  ? "Make sure your folder is public and shareable" 
+                  : "Make sure your file is public and shareable"
+                }
               </p>
             </div>
 
             {/* Quick Guide */}
-            <div className="p-4 bg-muted/30 rounded-lg border">
-              <h4 className="text-sm font-medium mb-2">Quick Guide:</h4>
-              <ol className="text-xs text-muted-foreground space-y-1">
-                <li>1. Upload your PDF to <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
+            <div className="p-3 sm:p-4 bg-muted/30 rounded-lg border">
+              <h4 className="text-xs sm:text-sm font-medium mb-2">Quick Guide:</h4>
+              <ol className="text-xs text-muted-foreground space-y-1 leading-relaxed">
+                <li>1. Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
                 <li>2. Right-click → Share → Anyone with link</li>
                 <li>3. Copy the link and paste above</li>
               </ol>
@@ -497,12 +542,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             {uploading ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
-                Adding Link...
+                {isGoogleDriveFolder(googleDriveUrl) ? 'Adding Folder...' : 'Adding Link...'}
               </>
             ) : (
               <>
                 <LuLink className="h-4 w-4 mr-2" />
-                Add File Link
+                {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}
               </>
             )}
           </Button>
@@ -540,7 +585,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <button
                   key={option.value}
                   onClick={() => setFormData({ ...formData, category: option.value })}
-                  className={`p-3 sm:p-4 text-left border rounded-lg transition-colors hover:bg-muted/50 ${
+                  className={`p-2 sm:p-4 text-left border rounded-lg transition-colors hover:bg-muted/50 ${
                     formData.category === option.value ? 'border-primary bg-primary/5' : 'border-border'
                   }`}
                 >
@@ -745,7 +790,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                 <button
                   key={option.value}
                   onClick={() => setFormData({ ...formData, year: option.value })}
-                  className={`p-3 sm:p-4 text-center border rounded-lg transition-colors hover:bg-muted/50 ${
+                  className={`p-2 sm:p-4 text-center border rounded-lg transition-colors hover:bg-muted/50 ${
                     formData.year === option.value ? 'border-primary bg-primary/5' : 'border-border'
                   }`}
                 >
@@ -803,28 +848,53 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           <div className="space-y-4">
             <div className="space-y-4">
               <Input
-                placeholder="File name (e.g., Chapter 1 Notes.pdf)"
+                placeholder={isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : "File name"}
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
-                className="h-12"
+                className="h-12 text-sm sm:text-base"
               />
               
-              <Input
-                placeholder="Google Drive sharing link"
-                value={googleDriveUrl}
-                onChange={(e) => handleUrlChange(e.target.value)}
-                className="h-12"
-              />
+              <div className="relative">
+                <Input
+                  placeholder="Google Drive link"
+                  value={googleDriveUrl}
+                  onChange={(e) => handleUrlChange(e.target.value)}
+                  className="h-12 pr-10 text-sm sm:text-base"
+                />
+                {googleDriveUrl && (
+                  <div className="absolute right-3 top-3 sm:top-4">
+                    {validateGoogleDriveUrl(googleDriveUrl) ? (
+                      <LuCheck className="h-4 w-4 text-green-500 animate-in fade-in duration-200" />
+                    ) : (
+                      <div className="relative">
+                        <LuTriangleAlert 
+                          className="h-4 w-4 text-red-500 cursor-pointer hover:text-red-600 animate-in fade-in duration-200" 
+                          onClick={() => setShowErrorTooltip(!showErrorTooltip)}
+                        />
+                        {showErrorTooltip && urlError && (
+                          <div className="absolute right-0 top-6 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-md p-2 text-xs text-red-700 dark:text-red-300 whitespace-nowrap z-10 shadow-lg">
+                            {urlError}
+                            <div className="absolute -top-1 right-2 w-2 h-2 bg-red-50 dark:bg-red-900/20 border-l border-t border-red-200 dark:border-red-800 rotate-45"></div>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
+              </div>
               <p className="text-xs text-muted-foreground text-center">
-                Make sure your file is public and shareable
+                {isGoogleDriveFolder(googleDriveUrl) 
+                  ? "Make sure your folder is public and shareable" 
+                  : "Make sure your file is public and shareable"
+                }
               </p>
             </div>
 
             {/* Quick Guide */}
-            <div className="p-4 bg-muted/30 rounded-lg border">
-              <h4 className="text-sm font-medium mb-2 text-center">Quick Guide:</h4>
-              <ol className="text-xs text-muted-foreground space-y-1 text-center">
-                <li>1. Upload your PDF to <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
+            <div className="p-3 sm:p-4 bg-muted/30 rounded-lg border">
+              <h4 className="text-xs sm:text-sm font-medium mb-2 text-center">Quick Guide:</h4>
+              <ol className="text-xs text-muted-foreground space-y-1 text-center leading-relaxed">
+                <li>1. Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
                 <li>2. Right-click → Share → Anyone with link</li>
                 <li>3. Copy the link and paste above</li>
               </ol>
@@ -843,7 +913,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             <Button
               onClick={handleUpload}
               disabled={uploading || !googleDriveUrl || !filename || !validateGoogleDriveUrl(googleDriveUrl)}
-              className="w-full h-12"
+              className="w-full h-10 sm:h-12"
               size="lg"
             >
               {uploading ? (
@@ -854,7 +924,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               ) : (
                 <>
                   <LuLink className="h-4 w-4 mr-2" />
-                  Add File Link
+                  {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}
                 </>
               )}
             </Button>
@@ -870,17 +940,17 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const currentIndex = getCurrentStepIndex()
 
   return (
-    <Card className="max-w-lg mx-auto">
-      <CardContent className="p-4 sm:p-6">
+    <Card className="max-w-lg mx-auto mx-2 sm:mx-auto">
+      <CardContent className="p-3 sm:p-6">
         {/* Progress Bar */}
-        <div className="mb-6">
+        <div className="mb-4 sm:mb-6">
           <div className="flex justify-between text-xs text-muted-foreground mb-2">
             <span>Step {currentIndex + 1} of {steps.length}</span>
             <span>{Math.round(((currentIndex + 1) / steps.length) * 100)}%</span>
           </div>
-          <div className="w-full bg-muted rounded-full h-2">
+          <div className="w-full bg-muted rounded-full h-1.5 sm:h-2">
             <div 
-              className="bg-primary h-2 rounded-full transition-all duration-300"
+              className="bg-primary h-1.5 sm:h-2 rounded-full transition-all duration-300"
               style={{ width: `${((currentIndex + 1) / steps.length) * 100}%` }}
             />
           </div>
@@ -910,24 +980,24 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
         {/* Navigation */}
         {currentStep !== 'file' && (
-          <div className="flex flex-col sm:flex-row gap-3 sm:justify-between">
+          <div className="flex justify-between sm:gap-3">
             <Button
               variant="outline"
               onClick={prevStep}
               disabled={currentIndex === 0}
-              className="w-full sm:w-auto order-2 sm:order-1"
+              className="w-10 h-10 p-0 sm:w-auto sm:h-auto sm:p-3 sm:px-4"
             >
-              <LuArrowLeft className="h-4 w-4 mr-2" />
-              Back
+              <LuArrowLeft className="h-4 w-4 sm:mr-2" />
+              <span className="hidden sm:inline">Back</span>
             </Button>
             
             <Button
               onClick={nextStep}
               disabled={!canProceed() || currentIndex === steps.length - 1}
-              className="w-full sm:w-auto order-1 sm:order-2"
+              className="w-10 h-10 p-0 sm:w-auto sm:h-auto sm:p-3 sm:px-4"
             >
-              Next
-              <LuArrowRight className="h-4 w-4 ml-2" />
+              <span className="hidden sm:inline">Next</span>
+              <LuArrowRight className="h-4 w-4 sm:ml-2" />
             </Button>
           </div>
         )}
@@ -936,10 +1006,10 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           <Button
             variant="outline"
             onClick={prevStep}
-            className="w-full"
+            className="w-10 h-10 p-0 sm:w-full sm:h-auto sm:p-3"
           >
-            <LuArrowLeft className="h-4 w-4 mr-2" />
-            Back
+            <LuArrowLeft className="h-4 w-4 sm:mr-2" />
+            <span className="hidden sm:inline">Back</span>
           </Button>
         )}
       </CardContent>

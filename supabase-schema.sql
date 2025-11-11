@@ -455,10 +455,7 @@ $$ LANGUAGE plpgsql SECURITY DEFINER;
 CREATE OR REPLACE FUNCTION update_last_active()
 RETURNS TRIGGER AS $$
 BEGIN
-  UPDATE profiles 
-  SET last_active = NOW()
-  WHERE id = auth.uid();
-  
+  NEW.last_active = NOW();
   RETURN NEW;
 END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;

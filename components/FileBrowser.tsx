@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar } from 'react-icons/lu'
+import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuFolder } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -18,6 +18,7 @@ interface FileItem {
   cdn_url: string | null
   google_drive_url: string | null
   file_size: number | null
+  mime_type: string
   program: string
   year: string
   subject: string | null
@@ -251,7 +252,11 @@ export default function FileBrowser({
                 <div className="flex items-start justify-between">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-2">
-                      <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
+                      {file.mime_type === 'application/folder' ? (
+                        <LuFolder className="h-5 w-5 text-blue-500 flex-shrink-0" />
+                      ) : (
+                        <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
+                      )}
                       <h3 className="font-semibold truncate">{file.original_name}</h3>
                       <Badge className={getCategoryColor(file.category)}>
                         {file.category.replace('-', ' ')}
@@ -303,8 +308,17 @@ export default function FileBrowser({
                     disabled={!file.google_drive_url && !file.cdn_url}
                     variant={!file.google_drive_url && !file.cdn_url ? "outline" : "default"}
                   >
-                    <LuDownload className="h-4 w-4 mr-2" />
-                    {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Download'}
+                    {file.mime_type === 'application/folder' ? (
+                      <>
+                        <LuFolder className="h-4 w-4 mr-2" />
+                        {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Open Folder'}
+                      </>
+                    ) : (
+                      <>
+                        <LuDownload className="h-4 w-4 mr-2" />
+                        {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Download'}
+                      </>
+                    )}
                   </Button>
                 </div>
               </CardContent>

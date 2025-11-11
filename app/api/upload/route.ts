@@ -22,21 +22,27 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate Google Drive URL format
-    const googleDriveRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)\/view\?(usp=sharing|pli=1)$/
-    if (!googleDriveRegex.test(googleDriveUrl)) {
+    // Validate Google Drive URL format (support any valid Google Drive link)
+    const fileRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
+    const folderRegex = /^https:\/\/drive\.google\.com\/drive\/folders\/([a-zA-Z0-9_-]+)/
+    const isValidUrl = fileRegex.test(googleDriveUrl) || folderRegex.test(googleDriveUrl)
+    
+    if (!isValidUrl) {
       if (googleDriveUrl.includes('drive.google.com')) {
         return NextResponse.json(
-          { error: 'Please make sure your Google Drive file is public and use the sharing link' },
+          { error: 'Please provide a valid Google Drive file or folder link' },
           { status: 400 }
         )
       } else {
         return NextResponse.json(
-          { error: 'Please provide a valid Google Drive sharing link' },
+          { error: 'Please provide a valid Google Drive link' },
           { status: 400 }
         )
       }
     }
+
+    // Determine if it's a folder or file
+    const isFolder = folderRegex.test(googleDriveUrl)
 
     // Create admin client for server-side operations
     const supabaseAdmin = createClient(
@@ -68,7 +74,7 @@ export async function POST(request: NextRequest) {
         cdn_url: null, // Legacy field
         google_drive_url: googleDriveUrl,
         file_size: null, // Can't determine size from Google Drive link
-        mime_type: 'application/pdf',
+        mime_type: isFolder ? 'application/folder' : 'application/pdf',
         program,
         year,
         subject,
@@ -91,8 +97,8 @@ export async function POST(request: NextRequest) {
       success: true,
       file: fileRecord,
       message: isOwner 
-        ? 'File link added and published successfully!' 
-        : 'File link added successfully! It will be available after admin approval.',
+        ? `${isFolder ? 'Folder' : 'File'} link added and published successfully!` 
+        : `${isFolder ? 'Folder' : 'File'} link added successfully! It will be available after admin approval.`,
     })
 
   } catch (error) {

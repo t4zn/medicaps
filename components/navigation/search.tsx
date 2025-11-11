@@ -118,7 +118,7 @@ export default function Search() {
             <LuSearch className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-neutral-500 dark:text-neutral-400" />
             <Input
               className="bg-background h-9 w-full rounded-md border pr-4 pl-10 text-sm shadow md:w-full"
-              placeholder="Search"
+              placeholder="Search notes"
               type="search"
             />
           </div>
@@ -129,7 +129,7 @@ export default function Search() {
             <input
               value={searchedInput}
               onChange={(e) => setSearchedInput(e.target.value)}
-              placeholder="Search..."
+              placeholder="Search notes..."
               autoFocus
               className="h-14 border-b bg-transparent px-4 text-[15px] outline-none"
             />

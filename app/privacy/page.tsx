@@ -1,8 +1,15 @@
+'use client'
+
+import { useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { SimpleBreadcrumb } from "@/components/ui/breadcrumb"
 import { Shield, Database, Users, Lock, Eye, FileText, Mail, AlertTriangle } from "lucide-react"
 
 export default function PrivacyPage() {
+  // Scroll to top when component mounts
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [])
   return (
     <div className="container mx-auto px-4 py-8 max-w-4xl">
       <SimpleBreadcrumb items={[{ label: "Privacy Policy" }]} homeHref="/welcome" />

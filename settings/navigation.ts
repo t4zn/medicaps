@@ -6,8 +6,8 @@ export const Navigations = [
     href: "/welcome",
   },
   {
-    title: "Medicaps",
-    href: "https://www.medicaps.ac.in/",
+    title: "Playground",
+    href: "https://code.taizun.site/",
     external: true,
   },
 ]

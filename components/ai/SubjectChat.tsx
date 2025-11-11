@@ -71,6 +71,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
   const [isInitialized, setIsInitialized] = useState(false)
   const [isListening, setIsListening] = useState(false)
   const scrollAreaRef = useRef<HTMLDivElement>(null)
+  const messagesEndRef = useRef<HTMLDivElement>(null)
   const inputRef = useRef<HTMLTextAreaElement>(null)
   const recognitionRef = useRef<SpeechRecognition | null>(null)
 
@@ -144,12 +145,22 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
     }
   }, [])
 
+  // Auto-scroll to bottom when new messages are added
   useEffect(() => {
-    // Auto-scroll to bottom when new messages are added
-    if (scrollAreaRef.current) {
-      scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight
+    const scrollToBottom = () => {
+      if (messagesEndRef.current) {
+        messagesEndRef.current.scrollIntoView({ 
+          behavior: 'smooth',
+          block: 'end'
+        })
+      }
     }
-  }, [messages])
+
+    // Use a small delay to ensure DOM has updated
+    const timeoutId = setTimeout(scrollToBottom, 100)
+    
+    return () => clearTimeout(timeoutId)
+  }, [messages, isLoading])
 
   // Save messages to localStorage whenever messages change
   useEffect(() => {
@@ -354,6 +365,9 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
               <span>Thinking...</span>
             </div>
           )}
+          
+          {/* Invisible element to scroll to */}
+          <div ref={messagesEndRef} className="h-1" />
         </div>
       </ScrollArea>
 

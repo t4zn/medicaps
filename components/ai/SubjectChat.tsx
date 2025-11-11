@@ -439,7 +439,7 @@ export default function SubjectChat({ subject }: SubjectChatProps) {
       </ScrollArea>
 
       {/* Floating Input */}
-      <div className="absolute bottom-6 left-4 right-4">
+      <div className="absolute bottom-6 left-1 right-1 sm:left-4 sm:right-4">
         <form onSubmit={handleSubmit} className="max-w-4xl mx-auto">
           <div className="relative">
             <div className="bg-muted/40 rounded-3xl px-4 py-3 sm:px-5 sm:py-3 border border-border/50 shadow-lg transition-all duration-200">

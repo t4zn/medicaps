@@ -937,7 +937,7 @@ export const Documents: Paths[] = [
                     href: "/notes/btech/electrical/4th-year/industrial-training",
                   },
                   {
-                    title: "Information Security",
+                    title: "Info Security",
                     href: "/notes/btech/electrical/4th-year/information-security",
                   },
                   {

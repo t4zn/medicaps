@@ -201,6 +201,231 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Advanced Java or Python Programming',
     description: 'Advanced programming concepts in Java or Python for AI and ML applications.',
     code: 'CS3CO37'
+  },
+  // Civil Engineering 2nd Year
+  'building-maintenance-and-repairs': {
+    name: 'Building Maintenance & Repairs',
+    description: 'Building maintenance techniques, repair methods, and structural rehabilitation practices.',
+    code: 'CE3EL04'
+  },
+  'building-planning-and-drawing': {
+    name: 'Building Planning & Drawing',
+    description: 'Architectural planning, building codes, and technical drawing for construction projects.',
+    code: 'CE3CO21'
+  },
+  'concrete-technology': {
+    name: 'Concrete Technology',
+    description: 'Concrete mix design, properties, testing, and quality control in construction.',
+    code: 'CE3ES05'
+  },
+  'construction-material-and-techniques': {
+    name: 'Construction Materials & Techniques',
+    description: 'Properties of construction materials, testing methods, and construction techniques.',
+    code: 'CE3CO05'
+  },
+  'engineering-mathematics-3': {
+    name: 'Engineering Mathematics-III',
+    description: 'Advanced mathematical concepts including differential equations and numerical methods.',
+    code: 'EN3BS15'
+  },
+  'engineering-surveying': {
+    name: 'Engineering Surveying',
+    description: 'Land surveying techniques, instruments, and mapping for civil engineering projects.',
+    code: 'CE3CO01'
+  },
+  'environment-and-energy-studies': {
+    name: 'Environment & Energy Studies',
+    description: 'Environmental impact assessment and sustainable energy systems in engineering.',
+    code: 'CE3EE03'
+  },
+  'environmental-engineering-1': {
+    name: 'Environmental Engineering-I',
+    description: 'Water supply, wastewater treatment, and environmental pollution control systems.',
+    code: 'CE3CO20'
+  },
+  'fluid-mechanics': {
+    name: 'Fluid Mechanics',
+    description: 'Fluid properties, flow analysis, and applications in civil engineering systems.',
+    code: 'CE3CO19'
+  },
+  'geotechnical-engineering-1': {
+    name: 'Geotechnical Engineering-I',
+    description: 'Soil mechanics, foundation engineering, and earth structure analysis.',
+    code: 'CE3CO27'
+  },
+  'hydraulic-engineering': {
+    name: 'Hydraulic Engineering',
+    description: 'Open channel flow, hydraulic structures, and water resource management.',
+    code: 'CE3CO24'
+  },
+  'fundamentals-of-management-economics-and-accountancy': {
+    name: 'Management & Economics',
+    description: 'Business management principles, economics, and accounting for engineers.',
+    code: 'EN3HS04'
+  },
+  'python-for-civil-engineering': {
+    name: 'Python for Civil Engineering',
+    description: 'Programming with Python for civil engineering applications and data analysis.',
+    code: 'CE3ES12'
+  },
+  'quantity-surveying-and-estimation': {
+    name: 'Quantity Surveying & Estimation',
+    description: 'Cost estimation, quantity measurement, and project economics in construction.',
+    code: 'CE3CO32'
+  },
+  'rcc-design': {
+    name: 'RCC Design',
+    description: 'Reinforced concrete design principles, analysis, and structural applications.',
+    code: 'CE3CO28'
+  },
+  'strength-of-materials': {
+    name: 'Strength of Materials',
+    description: 'Stress, strain, and deformation analysis of structural materials and members.',
+    code: 'CE3ES11'
+  },
+  'structural-analysis-1': {
+    name: 'Structural Analysis-I',
+    description: 'Analysis of statically determinate structures and basic structural principles.',
+    code: 'CE3CO23'
+  },
+  'transportation-bridges-and-tunnels': {
+    name: 'Transportation Bridges & Tunnels',
+    description: 'Design and construction of transportation infrastructure including bridges and tunnels.',
+    code: 'CE3EL07'
+  },
+  // Civil Engineering 3rd Year
+  'advance-geotechnical-engineering': {
+    name: 'Advanced Geotechnical Engineering',
+    description: 'Advanced soil mechanics, slope stability, and geotechnical design principles.',
+    code: 'CE3ES01'
+  },
+  'advance-rcc-design': {
+    name: 'Advanced RCC Design',
+    description: 'Advanced reinforced concrete design for complex structures and special applications.',
+    code: 'CE3CO35'
+  },
+  'design-of-steel-structures': {
+    name: 'Design of Steel Structures',
+    description: 'Steel structure design, connections, and analysis of steel building systems.',
+    code: 'CE3CO31'
+  },
+  'environmental-engineering': {
+    name: 'Environmental Engineering',
+    description: 'Environmental systems, pollution control, and sustainable engineering practices.',
+    code: 'CE3EL01'
+  },
+  'environmental-engineering-2': {
+    name: 'Environmental Engineering-II',
+    description: 'Advanced environmental engineering topics and treatment technologies.',
+    code: 'CE3CO26'
+  },
+  'experimental-stress-analysis': {
+    name: 'Experimental Stress Analysis',
+    description: 'Experimental methods for stress measurement and structural testing techniques.',
+    code: 'CE3ES07'
+  },
+  'geotechnical-engineering-2': {
+    name: 'Geotechnical Engineering-II',
+    description: 'Advanced geotechnical analysis, deep foundations, and earth retaining structures.',
+    code: 'CE3CO33'
+  },
+  'prestressed-concrete': {
+    name: 'Prestressed Concrete',
+    description: 'Prestressed concrete design principles, analysis, and construction techniques.',
+    code: 'CE3ES08'
+  },
+  'structural-analysis-2': {
+    name: 'Structural Analysis-II',
+    description: 'Analysis of indeterminate structures using advanced methods and computer applications.',
+    code: 'CE3CO25'
+  },
+  'transportation-engineering-1': {
+    name: 'Transportation Engineering-I',
+    description: 'Highway engineering, traffic analysis, and transportation planning principles.',
+    code: 'CE3CO30'
+  },
+  'water-resources-engineering': {
+    name: 'Water Resources Engineering',
+    description: 'Hydrology, water resource planning, and management of water systems.',
+    code: 'CE3CO29'
+  },
+  // Civil Engineering 4th Year
+  'advanced-design-of-rcc-structures': {
+    name: 'Advanced Design of RCC Structures',
+    description: 'Complex reinforced concrete structures, high-rise buildings, and special structures.',
+    code: 'CE3ES02'
+  },
+  'advanced-design-of-steel-structures': {
+    name: 'Advanced Design of Steel Structures',
+    description: 'Advanced steel design, composite structures, and industrial building systems.',
+    code: 'CE3ES03'
+  },
+  'bridge-engineering': {
+    name: 'Bridge Engineering',
+    description: 'Bridge design, analysis, construction methods, and maintenance of bridge structures.',
+    code: 'CE3ES04'
+  },
+  'earthquake-resistant-design': {
+    name: 'Earthquake Resistant Design',
+    description: 'Seismic analysis, earthquake-resistant design principles, and structural dynamics.',
+    code: 'CE3ES06'
+  },
+  // Electrical Engineering 2nd Year
+  'analog-and-digital-circuits': {
+    name: 'Analog & Digital Circuits',
+    description: 'Analog and digital circuit analysis, design, and applications in electrical systems.',
+    code: 'EE3CO57'
+  },
+  'electrical-circuit-analysis': {
+    name: 'Electrical Circuit Analysis',
+    description: 'Circuit analysis techniques, network theorems, and electrical circuit fundamentals.',
+    code: 'EE3CO49'
+  },
+  'data-structures-through-c': {
+    name: 'Data Structures Through C',
+    description: 'Data structures implementation using C programming language and algorithm analysis.',
+    code: 'EE3CO59'
+  },
+  'microprocessors-and-microcontrollers': {
+    name: 'Microprocessors & Microcontrollers',
+    description: 'Microprocessor architecture, programming, and interfacing with microcontrollers.',
+    code: 'EE3CO53'
+  },
+  'power-system-engineering': {
+    name: 'Power System Engineering',
+    description: 'Power generation, transmission, distribution, and electrical power system analysis.',
+    code: 'EE3CO63'
+  },
+  'computational-statistics': {
+    name: 'Computational Statistics',
+    description: 'Statistical methods, probability theory, and computational techniques for data analysis.',
+    code: 'EE3CO62'
+  },
+  // Electrical Engineering 3rd Year
+  'control-systems': {
+    name: 'Control Systems',
+    description: 'Control theory, feedback systems, stability analysis, and control system design.',
+    code: 'EE3CO34'
+  },
+  'electrical-machines': {
+    name: 'Electrical Machines',
+    description: 'AC and DC machines, transformers, motor control, and electrical machine design.',
+    code: 'EE3CO66'
+  },
+  'electromagnetic-theory': {
+    name: 'Electromagnetic Theory',
+    description: 'Electromagnetic fields, wave propagation, and electromagnetic applications.',
+    code: 'EE3CO29'
+  },
+  'information-theory-and-data-communication': {
+    name: 'Information Theory & Data Communication',
+    description: 'Information theory principles, coding techniques, and data communication systems.',
+    code: 'EE3CO65'
+  },
+  'power-electronics': {
+    name: 'Power Electronics',
+    description: 'Power semiconductor devices, converters, inverters, and power electronic systems.',
+    code: 'EE3CO42'
   }
 }
 

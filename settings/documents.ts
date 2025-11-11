@@ -587,6 +587,86 @@ export const Documents: Paths[] = [
                 noLink: true,
                 items: [
                   {
+                    title: "Building Maintenance",
+                    href: "/notes/btech/civil/2nd-year/building-maintenance-and-repairs",
+                  },
+                  {
+                    title: "Building Planning",
+                    href: "/notes/btech/civil/2nd-year/building-planning-and-drawing",
+                  },
+                  {
+                    title: "Concrete Technology",
+                    href: "/notes/btech/civil/2nd-year/concrete-technology",
+                  },
+                  {
+                    title: "Construction Materials",
+                    href: "/notes/btech/civil/2nd-year/construction-material-and-techniques",
+                  },
+                  {
+                    title: "Maths-III",
+                    href: "/notes/btech/civil/2nd-year/engineering-mathematics-3",
+                  },
+                  {
+                    title: "Engineering Surveying",
+                    href: "/notes/btech/civil/2nd-year/engineering-surveying",
+                  },
+                  {
+                    title: "Environment & Energy",
+                    href: "/notes/btech/civil/2nd-year/environment-and-energy-studies",
+                  },
+                  {
+                    title: "Environmental Engg-I",
+                    href: "/notes/btech/civil/2nd-year/environmental-engineering-1",
+                  },
+                  {
+                    title: "Fluid Mechanics",
+                    href: "/notes/btech/civil/2nd-year/fluid-mechanics",
+                  },
+                  {
+                    title: "Geotechnical Engg-I",
+                    href: "/notes/btech/civil/2nd-year/geotechnical-engineering-1",
+                  },
+                  {
+                    title: "Hydraulic Engineering",
+                    href: "/notes/btech/civil/2nd-year/hydraulic-engineering",
+                  },
+                  {
+                    title: "Management & Economics",
+                    href: "/notes/btech/civil/2nd-year/fundamentals-of-management-economics-and-accountancy",
+                  },
+                  {
+                    title: "Python for Civil",
+                    href: "/notes/btech/civil/2nd-year/python-for-civil-engineering",
+                  },
+                  {
+                    title: "Quantity Surveying",
+                    href: "/notes/btech/civil/2nd-year/quantity-surveying-and-estimation",
+                  },
+                  {
+                    title: "RCC Design",
+                    href: "/notes/btech/civil/2nd-year/rcc-design",
+                  },
+                  {
+                    title: "Soft Skills-I",
+                    href: "/notes/btech/civil/2nd-year/soft-skills-1",
+                  },
+                  {
+                    title: "Soft Skills-II",
+                    href: "/notes/btech/civil/2nd-year/soft-skills-2",
+                  },
+                  {
+                    title: "Strength of Materials",
+                    href: "/notes/btech/civil/2nd-year/strength-of-materials",
+                  },
+                  {
+                    title: "Structural Analysis-I",
+                    href: "/notes/btech/civil/2nd-year/structural-analysis-1",
+                  },
+                  {
+                    title: "Transport Bridges",
+                    href: "/notes/btech/civil/2nd-year/transportation-bridges-and-tunnels",
+                  },
+                  {
                     title: "Mix",
                     href: "/notes/btech/civil/2nd-year/mix",
                   },
@@ -598,6 +678,58 @@ export const Documents: Paths[] = [
                 noLink: true,
                 items: [
                   {
+                    title: "Advanced Geotechnical",
+                    href: "/notes/btech/civil/3rd-year/advance-geotechnical-engineering",
+                  },
+                  {
+                    title: "Advanced RCC Design",
+                    href: "/notes/btech/civil/3rd-year/advance-rcc-design",
+                  },
+                  {
+                    title: "Steel Structures",
+                    href: "/notes/btech/civil/3rd-year/design-of-steel-structures",
+                  },
+                  {
+                    title: "Environmental Engg",
+                    href: "/notes/btech/civil/3rd-year/environmental-engineering",
+                  },
+                  {
+                    title: "Environmental Engg-II",
+                    href: "/notes/btech/civil/3rd-year/environmental-engineering-2",
+                  },
+                  {
+                    title: "Stress Analysis",
+                    href: "/notes/btech/civil/3rd-year/experimental-stress-analysis",
+                  },
+                  {
+                    title: "Geotechnical Engg-II",
+                    href: "/notes/btech/civil/3rd-year/geotechnical-engineering-2",
+                  },
+                  {
+                    title: "Prestressed Concrete",
+                    href: "/notes/btech/civil/3rd-year/prestressed-concrete",
+                  },
+                  {
+                    title: "Soft Skills-III",
+                    href: "/notes/btech/civil/3rd-year/soft-skills-3",
+                  },
+                  {
+                    title: "Soft Skills-IV",
+                    href: "/notes/btech/civil/3rd-year/soft-skills-4",
+                  },
+                  {
+                    title: "Structural Analysis-II",
+                    href: "/notes/btech/civil/3rd-year/structural-analysis-2",
+                  },
+                  {
+                    title: "Transportation Engg-I",
+                    href: "/notes/btech/civil/3rd-year/transportation-engineering-1",
+                  },
+                  {
+                    title: "Water Resources",
+                    href: "/notes/btech/civil/3rd-year/water-resources-engineering",
+                  },
+                  {
                     title: "Mix",
                     href: "/notes/btech/civil/3rd-year/mix",
                   },
@@ -608,6 +740,26 @@ export const Documents: Paths[] = [
                 href: "/4th-year",
                 noLink: true,
                 items: [
+                  {
+                    title: "Advanced RCC Design",
+                    href: "/notes/btech/civil/4th-year/advanced-design-of-rcc-structures",
+                  },
+                  {
+                    title: "Advanced Steel Design",
+                    href: "/notes/btech/civil/4th-year/advanced-design-of-steel-structures",
+                  },
+                  {
+                    title: "Bridge Engineering",
+                    href: "/notes/btech/civil/4th-year/bridge-engineering",
+                  },
+                  {
+                    title: "Earthquake Design",
+                    href: "/notes/btech/civil/4th-year/earthquake-resistant-design",
+                  },
+                  {
+                    title: "Industrial Training",
+                    href: "/notes/btech/civil/4th-year/industrial-training",
+                  },
                   {
                     title: "Mix",
                     href: "/notes/btech/civil/4th-year/mix",
@@ -627,6 +779,66 @@ export const Documents: Paths[] = [
                 noLink: true,
                 items: [
                   {
+                    title: "Analog & Digital Circuits",
+                    href: "/notes/btech/electrical/2nd-year/analog-and-digital-circuits",
+                  },
+                  {
+                    title: "Circuit Analysis",
+                    href: "/notes/btech/electrical/2nd-year/electrical-circuit-analysis",
+                  },
+                  {
+                    title: "Data Structures",
+                    href: "/notes/btech/electrical/2nd-year/data-structures-through-c",
+                  },
+                  {
+                    title: "DBMS",
+                    href: "/notes/btech/electrical/2nd-year/database-management-systems",
+                  },
+                  {
+                    title: "Discrete Maths",
+                    href: "/notes/btech/electrical/2nd-year/discrete-mathematics",
+                  },
+                  {
+                    title: "Java",
+                    href: "/notes/btech/electrical/2nd-year/java-programming",
+                  },
+                  {
+                    title: "Management & Economics",
+                    href: "/notes/btech/electrical/2nd-year/fundamentals-of-management-economics-and-accountancy",
+                  },
+                  {
+                    title: "Microprocessor",
+                    href: "/notes/btech/electrical/2nd-year/microprocessors-and-microcontrollers",
+                  },
+                  {
+                    title: "OOP",
+                    href: "/notes/btech/electrical/2nd-year/object-oriented-programming",
+                  },
+                  {
+                    title: "Operating Systems",
+                    href: "/notes/btech/electrical/2nd-year/operating-systems",
+                  },
+                  {
+                    title: "Power Systems",
+                    href: "/notes/btech/electrical/2nd-year/power-system-engineering",
+                  },
+                  {
+                    title: "Soft Skills-I",
+                    href: "/notes/btech/electrical/2nd-year/soft-skills-1",
+                  },
+                  {
+                    title: "Soft Skills-II",
+                    href: "/notes/btech/electrical/2nd-year/soft-skills-2",
+                  },
+                  {
+                    title: "Statistics",
+                    href: "/notes/btech/electrical/2nd-year/computational-statistics",
+                  },
+                  {
+                    title: "Theory of Computation",
+                    href: "/notes/btech/electrical/2nd-year/theory-of-computation",
+                  },
+                  {
                     title: "Mix",
                     href: "/notes/btech/electrical/2nd-year/mix",
                   },
@@ -638,6 +850,70 @@ export const Documents: Paths[] = [
                 noLink: true,
                 items: [
                   {
+                    title: "Agile Development",
+                    href: "/notes/btech/electrical/3rd-year/agile-development",
+                  },
+                  {
+                    title: "Blockchain Architecture",
+                    href: "/notes/btech/electrical/3rd-year/blockchain-architecture",
+                  },
+                  {
+                    title: "Computer Architecture",
+                    href: "/notes/btech/electrical/3rd-year/computer-system-architecture",
+                  },
+                  {
+                    title: "Control Systems",
+                    href: "/notes/btech/electrical/3rd-year/control-systems",
+                  },
+                  {
+                    title: "Electrical Machines",
+                    href: "/notes/btech/electrical/3rd-year/electrical-machines",
+                  },
+                  {
+                    title: "Electromagnetic Theory",
+                    href: "/notes/btech/electrical/3rd-year/electromagnetic-theory",
+                  },
+                  {
+                    title: "Information Theory",
+                    href: "/notes/btech/electrical/3rd-year/information-theory-and-data-communication",
+                  },
+                  {
+                    title: "Machine Learning",
+                    href: "/notes/btech/electrical/3rd-year/machine-learning",
+                  },
+                  {
+                    title: "NLP",
+                    href: "/notes/btech/electrical/3rd-year/natural-language-processing",
+                  },
+                  {
+                    title: "Pattern Recognition",
+                    href: "/notes/btech/electrical/3rd-year/pattern-recognition",
+                  },
+                  {
+                    title: "Power Electronics",
+                    href: "/notes/btech/electrical/3rd-year/power-electronics",
+                  },
+                  {
+                    title: "Python",
+                    href: "/notes/btech/electrical/3rd-year/python-programming",
+                  },
+                  {
+                    title: "Soft Computing",
+                    href: "/notes/btech/electrical/3rd-year/soft-computing",
+                  },
+                  {
+                    title: "Soft Skills-III",
+                    href: "/notes/btech/electrical/3rd-year/soft-skills-3",
+                  },
+                  {
+                    title: "Soft Skills-IV",
+                    href: "/notes/btech/electrical/3rd-year/soft-skills-4",
+                  },
+                  {
+                    title: "Web Programming",
+                    href: "/notes/btech/electrical/3rd-year/web-programming",
+                  },
+                  {
                     title: "Mix",
                     href: "/notes/btech/electrical/3rd-year/mix",
                   },
@@ -648,6 +924,26 @@ export const Documents: Paths[] = [
                 href: "/4th-year",
                 noLink: true,
                 items: [
+                  {
+                    title: "Artificial Intelligence",
+                    href: "/notes/btech/electrical/4th-year/artificial-intelligence",
+                  },
+                  {
+                    title: "Graph Theory",
+                    href: "/notes/btech/electrical/4th-year/graph-theory",
+                  },
+                  {
+                    title: "Industrial Training",
+                    href: "/notes/btech/electrical/4th-year/industrial-training",
+                  },
+                  {
+                    title: "Information Security",
+                    href: "/notes/btech/electrical/4th-year/information-security",
+                  },
+                  {
+                    title: "R Programming",
+                    href: "/notes/btech/electrical/4th-year/r-programming",
+                  },
                   {
                     title: "Mix",
                     href: "/notes/btech/electrical/4th-year/mix",

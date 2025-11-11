@@ -105,10 +105,11 @@ export function Navbar() {
           ) : (
             <Link
               href="/auth"
-              className={buttonVariants({ variant: "default", size: "sm" })}
+              className={`${buttonVariants({ variant: "ghost", size: "sm" })} text-xs sm:text-sm px-2 sm:px-3 hover:bg-muted`}
             >
-              <LuUser className="h-4 w-4 sm:mr-2" />
-              <span className="hidden sm:inline">Sign In</span>
+              <LuUser className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
+              <span className="hidden sm:inline ml-2">Sign In</span>
+              <span className="sm:hidden ml-1 text-xs">Login</span>
             </Link>
           )}
           

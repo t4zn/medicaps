@@ -41,7 +41,6 @@ import {
   LuServer,
   LuBot,
   LuLink,
-  LuFolder,
   LuTriangleAlert,
 } from 'react-icons/lu'
 import { useAuth } from '@/contexts/AuthContext'

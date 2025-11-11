@@ -76,7 +76,7 @@ export default function SavedResources() {
 
       if (error) throw error
 
-      const files = data?.map((item: any) => item.files).filter(Boolean) || []
+      const files = (data?.flatMap((item) => item.files).filter(Boolean) || []) as unknown as SavedFile[]
       setSavedFiles(files)
     } catch (error) {
       console.error('Error fetching saved files:', error)

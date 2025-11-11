@@ -81,7 +81,13 @@ export default function MyUploads() {
 
       if (error) throw error
 
+      // Remove from local state and refresh from database to ensure consistency
       setFiles(files.filter(file => file.id !== fileId))
+      
+      // Optionally refresh the data from database after a short delay
+      setTimeout(() => {
+        fetchMyUploads()
+      }, 500)
     } catch (err) {
       console.error('Error deleting file:', err)
       setError('Failed to delete file')

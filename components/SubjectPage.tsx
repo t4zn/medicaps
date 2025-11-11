@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from 'react'
 import Link from 'next/link'
-import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles, LuUser } from 'react-icons/lu'
+import { LuDownload, LuFileText, LuCalendar, LuUpload, LuTrash2, LuThumbsUp, LuThumbsDown, LuFlag, LuSparkles, LuUser, LuBookmark } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { ArticleBreadcrumb } from '@/components/article/breadcrumb'
 import { useAuth } from '@/contexts/AuthContext'
@@ -40,6 +40,7 @@ interface FileItem {
   upVotes?: number
   downVotes?: number
   userVote?: 'up' | 'down' | null
+  isBookmarked?: boolean
 }
 
 interface SubjectPageProps {
@@ -88,25 +89,32 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
 
       if (error) throw error
       
-      // Fetch vote counts for each file
+      // Fetch vote counts and bookmark status for each file
       const filesWithVotes = await Promise.all((data || []).map(async (file) => {
         try {
-          const response = await fetch(`/api/vote?fileId=${file.id}${user ? `&userId=${user.id}` : ''}`)
-          const voteData = await response.json()
+          const [voteResponse, bookmarkResponse] = await Promise.all([
+            fetch(`/api/vote?fileId=${file.id}${user ? `&userId=${user.id}` : ''}`),
+            user ? fetch(`/api/bookmark?fileId=${file.id}&userId=${user.id}`) : Promise.resolve({ json: () => ({ isBookmarked: false }) })
+          ])
+          
+          const voteData = await voteResponse.json()
+          const bookmarkData = await bookmarkResponse.json()
           
           return {
             ...file,
             upVotes: voteData.upVotes || 0,
             downVotes: voteData.downVotes || 0,
-            userVote: voteData.userVote || null
+            userVote: voteData.userVote || null,
+            isBookmarked: bookmarkData.isBookmarked || false
           }
         } catch (error) {
-          console.error('Error fetching votes for file:', file.id, error)
+          console.error('Error fetching votes/bookmarks for file:', file.id, error)
           return {
             ...file,
             upVotes: 0,
             downVotes: 0,
-            userVote: null
+            userVote: null,
+            isBookmarked: false
           }
         }
       }))
@@ -222,6 +230,38 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       }
     } catch (error) {
       console.error('Vote error:', error)
+    }
+  }
+
+  const handleBookmark = async (fileId: string, category: string) => {
+    if (!user) return
+
+    try {
+      const response = await fetch('/api/bookmark', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ fileId, userId: user.id }),
+      })
+
+      if (response.ok) {
+        const result = await response.json()
+        
+        // Update the appropriate state array
+        const updateFile = (file: FileItem) => 
+          file.id === fileId 
+            ? { ...file, isBookmarked: result.isBookmarked }
+            : file
+
+        if (category === 'notes') {
+          setNotesFiles(prev => prev.map(updateFile))
+        } else if (category === 'pyqs') {
+          setPyqsFiles(prev => prev.map(updateFile))
+        } else if (category === 'formula-sheet') {
+          setFormulaFiles(prev => prev.map(updateFile))
+        }
+      }
+    } catch (error) {
+      console.error('Bookmark error:', error)
     }
   }
 
@@ -357,6 +397,16 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                       <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
                       <span className={`text-xs ${file.userVote === 'down' ? 'text-red-600' : ''}`}>{file.downVotes || 0}</span>
                     </Button>
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => handleBookmark(file.id, category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                      className="h-6 px-1 text-muted-foreground hover:bg-transparent"
+                      disabled={!user}
+                      title={file.isBookmarked ? 'Remove bookmark' : 'Bookmark file'}
+                    >
+                      <LuBookmark className={`h-3 w-3 transition-colors ${file.isBookmarked ? 'text-blue-600 fill-current' : 'hover:text-blue-600'}`} />
+                    </Button>
                     <div className="flex items-center h-6 px-1 text-muted-foreground">
                       <LuDownload className="h-3 w-3 mr-1" />
                       <span className="text-xs">{file.downloads}</span>
@@ -485,6 +535,16 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                       >
                         <LuThumbsDown className={`h-3 w-3 mr-1 transition-colors ${file.userVote === 'down' ? 'text-red-600' : 'hover:text-red-600'}`} />
                         <span className={file.userVote === 'down' ? 'text-red-600' : ''}>{file.downVotes || 0}</span>
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="sm"
+                        onClick={() => handleBookmark(file.id, category === 'PYQs' ? 'pyqs' : category === 'formula sheets' ? 'formula-sheet' : category)}
+                        className="h-7 px-2 text-muted-foreground hover:bg-transparent"
+                        disabled={!user}
+                        title={file.isBookmarked ? 'Remove bookmark' : 'Bookmark file'}
+                      >
+                        <LuBookmark className={`h-3 w-3 transition-colors ${file.isBookmarked ? 'text-blue-600 fill-current' : 'hover:text-blue-600'}`} />
                       </Button>
                       {user && (
                         <Dialog open={reportDialog.open && reportDialog.fileId === file.id} onOpenChange={(open) => setReportDialog({ open, fileId: open ? file.id : null })}>

@@ -6,8 +6,9 @@ import { useAuth } from '@/contexts/AuthContext'
 import ProfileSettings from '@/components/profile/ProfileSettings'
 import MyUploads from '@/components/profile/MyUploads'
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
-import { LuUser, LuFileText, LuShield } from 'react-icons/lu'
+import { LuUser, LuFileText, LuShield, LuBookmark } from 'react-icons/lu'
 import AdminPanel from '@/components/admin/AdminPanel'
+import SavedResources from '@/components/profile/SavedResources'
 
 export default function ProfilePage() {
   const { user, loading, isAdmin } = useAuth()
@@ -43,7 +44,7 @@ export default function ProfilePage() {
       </div>
 
       <Tabs defaultValue="settings" className="space-y-6">
-        <TabsList className={`grid w-full h-12 sm:h-10 ${isAdmin ? 'grid-cols-3' : 'grid-cols-2'}`}>
+        <TabsList className={`grid w-full h-12 sm:h-10 ${isAdmin ? 'grid-cols-4' : 'grid-cols-3'}`}>
           <TabsTrigger value="settings" className="text-sm sm:text-base">
             <LuUser className="h-4 w-4 mr-1 sm:mr-2" />
             <span className="hidden xs:inline">Settings</span>
@@ -53,6 +54,11 @@ export default function ProfilePage() {
             <LuFileText className="h-4 w-4 mr-1 sm:mr-2" />
             <span className="hidden xs:inline">My Uploads</span>
             <span className="xs:hidden">Files</span>
+          </TabsTrigger>
+          <TabsTrigger value="saved" className="text-sm sm:text-base">
+            <LuBookmark className="h-4 w-4 mr-1 sm:mr-2" />
+            <span className="hidden xs:inline">Saved</span>
+            <span className="xs:hidden">Saved</span>
           </TabsTrigger>
           {isAdmin && (
             <TabsTrigger value="admin" className="text-sm sm:text-base">
@@ -69,6 +75,10 @@ export default function ProfilePage() {
 
         <TabsContent value="uploads" className="mt-6">
           <MyUploads />
+        </TabsContent>
+
+        <TabsContent value="saved" className="mt-6">
+          <SavedResources />
         </TabsContent>
 
         {isAdmin && (

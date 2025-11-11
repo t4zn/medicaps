@@ -411,9 +411,19 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         })
         
         // Always redirect to notes page after successful upload (user can switch tabs there)
-        const subjectUrl = subject && subject !== 'null' 
-          ? `/notes/${program}/${year}/${subject}`
-          : `/notes/${program}/${year}`
+        let subjectUrl = ''
+        if (year === '1st-year') {
+          // 1st year doesn't need branch
+          subjectUrl = subject && subject !== 'null' 
+            ? `/notes/${program}/${year}/${subject}`
+            : `/notes/${program}/${year}`
+        } else {
+          // Other years need branch parameter
+          const branchParam = branch || 'cse' // Default to CSE if no branch
+          subjectUrl = subject && subject !== 'null' 
+            ? `/notes/${program}/${branchParam}/${year}/${subject}`
+            : `/notes/${program}/${branchParam}/${year}`
+        }
         
         // Show success message briefly then redirect
         setTimeout(() => {

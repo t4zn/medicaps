@@ -22,7 +22,7 @@ export const imagealt = "MediNotes"
 export const twitterhandle = "@t4zn"
 
 export const companyname = "MediNotes"
-export const companylink = "https://github.com/t4zn"
+export const companylink = "https://taizun.site"
 
 export const branding = true
 export const rightsidebar = true

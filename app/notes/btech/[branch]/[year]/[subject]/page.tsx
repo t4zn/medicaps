@@ -48,7 +48,7 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     code: 'EN3ES17'
   },
   'mechanical': {
-    name: 'Basic Civil Engineering & Mechanics',
+    name: 'Basic Mechanical Engineering',
     description: 'Engineering mechanics, thermodynamics, fluid mechanics, and machine design fundamentals. Core mechanical engineering concepts.',
     code: 'EN3ES18'
   },

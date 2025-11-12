@@ -62,6 +62,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
   const [pyqsFiles, setPyqsFiles] = useState<FileItem[]>([])
   const [formulaFiles, setFormulaFiles] = useState<FileItem[]>([])
   const [loading, setLoading] = useState(true)
+  const [downloadingFiles, setDownloadingFiles] = useState<Set<string>>(new Set())
   const [reportDialog, setReportDialog] = useState<{ open: boolean; fileId: string | null }>({ open: false, fileId: null })
   const [reportReason, setReportReason] = useState('')
   const [reportDescription, setReportDescription] = useState('')
@@ -148,6 +149,9 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
   }, [fetchAllFiles])
 
   const handleDownload = async (file: FileItem) => {
+    // Add file to downloading state immediately for visual feedback
+    setDownloadingFiles(prev => new Set(prev).add(file.id))
+    
     try {
       // Track download and get download URL
       const response = await fetch(`/api/download/${file.id}`, {
@@ -158,11 +162,8 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
 
       const data = await response.json()
       
-      console.log('Download API response:', data) // Debug log
-      
       if (data.success && data.downloadUrl && data.downloadUrl !== 'null' && data.downloadUrl.trim() !== '') {
-        console.log('Opening URL:', data.downloadUrl) // Debug log
-        // Open Google Drive link in new tab
+        // Open Google Drive link in new tab immediately
         window.open(data.downloadUrl, '_blank')
       } else {
         console.error('Failed to get download URL:', data)
@@ -171,6 +172,16 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       }
     } catch (error) {
       console.error('Download error:', error)
+      alert('Failed to download file. Please try again.')
+    } finally {
+      // Remove file from downloading state after a short delay to show the action completed
+      setTimeout(() => {
+        setDownloadingFiles(prev => {
+          const newSet = new Set(prev)
+          newSet.delete(file.id)
+          return newSet
+        })
+      }, 1000)
     }
   }
 
@@ -357,9 +368,19 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                     onClick={() => handleDownload(file)}
                     size="sm"
                     className="h-7 px-3 text-xs flex-shrink-0"
+                    disabled={downloadingFiles.has(file.id)}
                   >
-                    <LuDownload className="h-3 w-3 mr-1" />
-                    Download
+                    {downloadingFiles.has(file.id) ? (
+                      <>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                        Downloading...
+                      </>
+                    ) : (
+                      <>
+                        <LuDownload className="h-3 w-3 mr-1" />
+                        Download
+                      </>
+                    )}
                   </Button>
                 </div>
                 
@@ -617,9 +638,19 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                   <Button
                     onClick={() => handleDownload(file)}
                     size="sm"
+                    disabled={downloadingFiles.has(file.id)}
                   >
-                    <LuDownload className="h-4 w-4 mr-2" />
-                    Download
+                    {downloadingFiles.has(file.id) ? (
+                      <>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        Downloading...
+                      </>
+                    ) : (
+                      <>
+                        <LuDownload className="h-4 w-4 mr-2" />
+                        Download
+                      </>
+                    )}
                   </Button>
                   {isAdmin && (
                     <Button

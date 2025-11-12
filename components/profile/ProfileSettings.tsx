@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useRef } from 'react'
+import { useState } from 'react'
 import Image from 'next/image'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
@@ -8,15 +8,24 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '../ui/label'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuUser, LuSave, LuCamera, LuPlus } from 'react-icons/lu'
+import { LuUser, LuSave, LuPlus, LuCheck } from 'react-icons/lu'
 import Link from 'next/link'
+
+// Predefined avatars from public/avatars directory
+const PREDEFINED_AVATARS = [
+  '/avatars/boy.PNG',
+  '/avatars/boy1.PNG', 
+  '/avatars/boy2.PNG',
+  '/avatars/girl.PNG',
+  '/avatars/girl1.PNG',
+  '/avatars/girl3.PNG',
+]
 
 export default function ProfileSettings() {
   const { user, profile } = useAuth()
   const [loading, setLoading] = useState(false)
-  const [uploading, setUploading] = useState(false)
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null)
-  const fileInputRef = useRef<HTMLInputElement>(null)
+  const [selectedAvatar, setSelectedAvatar] = useState(profile?.avatar_url || PREDEFINED_AVATARS[0])
   
   const [formData, setFormData] = useState({
     full_name: profile?.full_name || '',
@@ -34,12 +43,18 @@ export default function ProfileSettings() {
         .from('profiles')
         .update({
           full_name: formData.full_name,
+          avatar_url: selectedAvatar,
         })
         .eq('id', user.id)
 
       if (error) throw error
 
       setMessage({ type: 'success', text: 'Profile updated successfully!' })
+      
+      // Refresh the page to show new avatar
+      setTimeout(() => {
+        window.location.reload()
+      }, 1000)
     } catch (error) {
       console.error('Error updating profile:', error)
       setMessage({ type: 'error', text: 'Failed to update profile. Please try again.' })
@@ -48,93 +63,56 @@ export default function ProfileSettings() {
     }
   }
 
-  const handleAvatarUpload = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    const file = event.target.files?.[0]
-    if (!file || !user) return
 
-    // Validate file type
-    if (!file.type.startsWith('image/')) {
-      setMessage({ type: 'error', text: 'Please select an image file.' })
-      return
-    }
-
-    // Validate file size (2MB limit)
-    if (file.size > 2 * 1024 * 1024) {
-      setMessage({ type: 'error', text: 'Image size must be less than 2MB.' })
-      return
-    }
-
-    setUploading(true)
-    setMessage(null)
-
-    try {
-      const formData = new FormData()
-      formData.append('file', file)
-      formData.append('userId', user.id)
-
-      const response = await fetch('/api/avatar', {
-        method: 'POST',
-        body: formData,
-      })
-
-      const result = await response.json()
-
-      if (result.success) {
-        setMessage({ type: 'success', text: result.message })
-        
-        // Refresh the page to show new avatar
-        setTimeout(() => {
-          window.location.reload()
-        }, 1000)
-      } else {
-        setMessage({ type: 'error', text: result.error || 'Upload failed' })
-      }
-    } catch (error) {
-      console.error('Error uploading avatar:', error)
-      setMessage({ type: 'error', text: 'Network error. Please try again.' })
-    } finally {
-      setUploading(false)
-    }
-  }
 
 
 
   return (
     <div className="max-w-md mx-auto space-y-6">
-      {/* Profile Picture */}
+      {/* Profile Picture Selection */}
       <div className="text-center">
-        <div className="relative inline-block">
-          <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-gray-200">
-            {profile?.avatar_url ? (
-              <Image
-                src={profile.avatar_url}
-                alt="Profile"
-                width={96}
-                height={96}
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <LuUser className="h-8 w-8 text-gray-400" />
-            )}
+        <div className="mb-4">
+          <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-gray-200 mx-auto">
+            <Image
+              src={selectedAvatar}
+              alt="Profile"
+              width={96}
+              height={96}
+              className="h-full w-full object-cover"
+            />
           </div>
-          <Button
-            size="sm"
-            variant="outline"
-            className="absolute -bottom-1 -right-1 h-7 w-7 rounded-full p-0 bg-white"
-            onClick={() => fileInputRef.current?.click()}
-            disabled={uploading}
-          >
-            <LuCamera className="h-3 w-3" />
-          </Button>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept="image/*"
-            onChange={handleAvatarUpload}
-            className="hidden"
-          />
         </div>
-        {uploading && <p className="text-sm text-gray-500 mt-2">Uploading...</p>}
+        
+        <div>
+          <Label className="text-sm font-medium mb-3 block">Choose Avatar</Label>
+          <div className="grid grid-cols-3 gap-3 max-w-xs mx-auto">
+            {PREDEFINED_AVATARS.map((avatar, index) => (
+              <button
+                key={index}
+                type="button"
+                onClick={() => setSelectedAvatar(avatar)}
+                className={`relative h-16 w-16 rounded-full overflow-hidden border-2 transition-all ${
+                  selectedAvatar === avatar 
+                    ? 'border-primary ring-2 ring-primary/20' 
+                    : 'border-gray-200 hover:border-gray-300'
+                }`}
+              >
+                <Image
+                  src={avatar}
+                  alt={`Avatar ${index + 1}`}
+                  width={64}
+                  height={64}
+                  className="h-full w-full object-cover"
+                />
+                {selectedAvatar === avatar && (
+                  <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
+                    <LuCheck className="h-4 w-4 text-primary" />
+                  </div>
+                )}
+              </button>
+            ))}
+          </div>
+        </div>
       </div>
 
       {/* Name Form */}

@@ -388,7 +388,8 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                   <div className="flex items-center gap-2 text-xs text-muted-foreground">
                     <ProfilePicture 
                       avatarUrl={file.profiles?.avatar_url} 
-                      fullName={file.profiles?.full_name} 
+                      fullName={file.profiles?.full_name}
+                      userId={file.uploaded_by}
                       size={12} 
                     />
                     <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>

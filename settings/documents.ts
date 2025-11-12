@@ -83,60 +83,72 @@ export const Documents: Paths[] = [
                 noLink: true,
                 items: [
                   {
-                    title: "Discrete Maths",
-                    href: "/notes/btech/cse/2nd-year/discrete-mathematics",
+                    title: "Advanced Java",
+                    href: "/notes/btech/cse/2nd-year/advanced-java-programming",
                   },
                   {
-                    title: "Data Comm",
-                    href: "/notes/btech/cse/2nd-year/data-communication",
+                    title: "Python",
+                    href: "/notes/btech/cse/2nd-year/advanced-java-or-python-programming",
                   },
                   {
-                    title: "OOP",
-                    href: "/notes/btech/cse/2nd-year/object-oriented-programming",
-                  },
-                  {
-                    title: "Data Structures",
-                    href: "/notes/btech/cse/2nd-year/data-structures",
-                  },
-                  {
-                    title: "Java",
-                    href: "/notes/btech/cse/2nd-year/java-programming",
-                  },
-                  {
-                    title: "Digital Electronics",
-                    href: "/notes/btech/cse/2nd-year/digital-electronics",
+                    title: "AI Principles",
+                    href: "/notes/btech/cse/2nd-year/principles-of-artificial-intelligence",
                   },
                   {
                     title: "Computer Architecture",
                     href: "/notes/btech/cse/2nd-year/computer-system-architecture",
                   },
                   {
-                    title: "Soft Skills-I",
-                    href: "/notes/btech/cse/2nd-year/soft-skills-1",
+                    title: "Data Comm",
+                    href: "/notes/btech/cse/2nd-year/data-communication",
                   },
                   {
-                    title: "Microprocessor",
-                    href: "/notes/btech/cse/2nd-year/microprocessor-and-interfacing",
-                  },
-                  {
-                    title: "Advanced Java",
-                    href: "/notes/btech/cse/2nd-year/advanced-java-programming",
+                    title: "Data Structures",
+                    href: "/notes/btech/cse/2nd-year/data-structures",
                   },
                   {
                     title: "DBMS",
                     href: "/notes/btech/cse/2nd-year/database-management-systems",
                   },
                   {
-                    title: "Theory of Computation",
-                    href: "/notes/btech/cse/2nd-year/theory-of-computation",
+                    title: "Digital Electronics",
+                    href: "/notes/btech/cse/2nd-year/digital-electronics",
+                  },
+                  {
+                    title: "Discrete Maths",
+                    href: "/notes/btech/cse/2nd-year/discrete-mathematics",
+                  },
+                  {
+                    title: "Java",
+                    href: "/notes/btech/cse/2nd-year/java-programming",
+                  },
+                  {
+                    title: "Microprocessor",
+                    href: "/notes/btech/cse/2nd-year/microprocessor-and-interfacing",
+                  },
+                  {
+                    title: "ML Fundamentals",
+                    href: "/notes/btech/cse/2nd-year/machine-learning-fundamentals",
+                  },
+                  {
+                    title: "OOP",
+                    href: "/notes/btech/cse/2nd-year/object-oriented-programming",
                   },
                   {
                     title: "Operating Systems",
                     href: "/notes/btech/cse/2nd-year/operating-systems",
                   },
                   {
+                    title: "Soft Skills-I",
+                    href: "/notes/btech/cse/2nd-year/soft-skills-1",
+                  },
+                  {
                     title: "Soft Skills-II",
                     href: "/notes/btech/cse/2nd-year/soft-skills-2",
+                  },
+                  {
+                    title: "Theory of Computation",
+                    href: "/notes/btech/cse/2nd-year/theory-of-computation",
                   },
                   {
                     title: "Mix",
@@ -199,298 +211,6 @@ export const Documents: Paths[] = [
                   {
                     title: "Mix",
                     href: "/notes/btech/cse/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CSE - AI",
-            href: "/cse-ai",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Discrete Maths",
-                    href: "/notes/btech/cse-ai/2nd-year/discrete-mathematics",
-                  },
-                  {
-                    title: "Data Comm",
-                    href: "/notes/btech/cse-ai/2nd-year/data-communication",
-                  },
-                  {
-                    title: "Data Structures",
-                    href: "/notes/btech/cse-ai/2nd-year/data-structures",
-                  },
-                  {
-                    title: "Digital Electronics",
-                    href: "/notes/btech/cse-ai/2nd-year/digital-electronics",
-                  },
-                  {
-                    title: "Computer Architecture",
-                    href: "/notes/btech/cse-ai/2nd-year/computer-system-architecture",
-                  },
-                  {
-                    title: "AI Principles",
-                    href: "/notes/btech/cse-ai/2nd-year/principles-of-artificial-intelligence",
-                  },
-                  {
-                    title: "Soft Skills-I",
-                    href: "/notes/btech/cse-ai/2nd-year/soft-skills-1",
-                  },
-                  {
-                    title: "Operating Systems",
-                    href: "/notes/btech/cse-ai/2nd-year/operating-systems",
-                  },
-                  {
-                    title: "Advanced Java/Python",
-                    href: "/notes/btech/cse-ai/2nd-year/advanced-java-or-python-programming",
-                  },
-                  {
-                    title: "Theory of Computation",
-                    href: "/notes/btech/cse-ai/2nd-year/theory-of-computation",
-                  },
-                  {
-                    title: "DBMS",
-                    href: "/notes/btech/cse-ai/2nd-year/database-management-systems",
-                  },
-                  {
-                    title: "ML Fundamentals",
-                    href: "/notes/btech/cse-ai/2nd-year/machine-learning-fundamentals",
-                  },
-                  {
-                    title: "Soft Skills-II",
-                    href: "/notes/btech/cse-ai/2nd-year/soft-skills-2",
-                  },
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ai/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ai/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ai/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CSE - DS",
-            href: "/cse-ds",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ds/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ds/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-ds/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CSE - Networks",
-            href: "/cse-networks",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-networks/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-networks/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-networks/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CSE - AI & ML",
-            href: "/cse-aiml",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-aiml/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-aiml/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-aiml/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "Cyber Security",
-            href: "/cyber-security",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cyber-security/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cyber-security/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cyber-security/4th-year/mix",
-                  },
-                ],
-              },
-            ],
-          },
-          {
-            title: "CSE - IoT",
-            href: "/cse-iot",
-            noLink: true,
-            items: [
-              {
-                title: "2nd Year",
-                href: "/2nd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-iot/2nd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "3rd Year",
-                href: "/3rd-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-iot/3rd-year/mix",
-                  },
-                ],
-              },
-              {
-                title: "4th Year",
-                href: "/4th-year",
-                noLink: true,
-                items: [
-                  {
-                    title: "Mix",
-                    href: "/notes/btech/cse-iot/4th-year/mix",
                   },
                 ],
               },

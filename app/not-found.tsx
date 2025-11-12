@@ -1,6 +1,4 @@
 import Link from 'next/link'
-import { Button } from '@/components/ui/button'
-import { Home, Search, BookOpen } from 'lucide-react'
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
@@ -14,46 +12,52 @@ export const metadata: Metadata = {
 
 export default function NotFound() {
   return (
-    <div className="min-h-[60vh] flex items-center justify-center px-4">
-      <div className="text-center space-y-6 max-w-md">
-        <div className="space-y-2">
-          <h1 className="text-6xl font-bold text-gray-300 dark:text-gray-700">404</h1>
-          <h2 className="text-2xl font-semibold">Page Not Found</h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            The page you&apos;re looking for doesn&apos;t exist. But don&apos;t worry, 
-            we have plenty of study materials waiting for you!
-          </p>
+    <div className="min-h-[100dvh] flex items-center justify-center bg-white dark:bg-black px-4 py-8">
+      <div className="text-center space-y-6 sm:space-y-8 w-full max-w-2xl">
+        {/* Large 404 */}
+        <div className="space-y-3 sm:space-y-4">
+          <h1 className="text-[8rem] xs:text-[10rem] sm:text-[14rem] md:text-[16rem] font-black leading-none text-black dark:text-white opacity-10 select-none">
+            404
+          </h1>
+          <div className="space-y-2 -mt-12 xs:-mt-14 sm:-mt-16 md:-mt-20">
+            <h2 className="text-xl xs:text-2xl sm:text-3xl font-bold text-black dark:text-white px-4">
+              Page Not Found
+            </h2>
+            <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base max-w-sm mx-auto px-4 leading-relaxed">
+              This page doesn't exist, but your study materials do.
+            </p>
+          </div>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-3 justify-center">
-          <Link href="/">
-            <Button variant="default" className="w-full sm:w-auto">
-              <Home className="w-4 h-4 mr-2" />
-              Go Home
-            </Button>
+        {/* Minimal Actions */}
+        <div className="space-y-4 sm:space-y-5">
+          <Link 
+            href="/"
+            className="inline-block px-6 xs:px-8 py-2.5 xs:py-3 bg-black dark:bg-white text-white dark:text-black text-xs xs:text-sm font-medium hover:opacity-80 active:opacity-60 transition-opacity touch-manipulation"
+          >
+            Go Home
           </Link>
           
-          <Link href="/notes/btech">
-            <Button variant="outline" className="w-full sm:w-auto">
-              <BookOpen className="w-4 h-4 mr-2" />
-              Browse Notes
-            </Button>
-          </Link>
-        </div>
-        
-        <div className="pt-4 border-t">
-          <p className="text-sm text-gray-500 dark:text-gray-400 mb-3">
-            Popular sections:
-          </p>
-          <div className="flex flex-wrap gap-2 justify-center">
-            <Link href="/notes/btech/cse" className="text-sm text-blue-600 hover:underline">
-              CSE Notes
+          <div className="flex flex-wrap items-center justify-center gap-x-4 xs:gap-x-6 gap-y-2 text-xs xs:text-sm px-4">
+            <Link 
+              href="/notes/btech" 
+              className="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white active:text-black dark:active:text-white transition-colors border-b border-transparent hover:border-current touch-manipulation py-1"
+            >
+              Notes
             </Link>
-            <Link href="/pyqs/btech" className="text-sm text-blue-600 hover:underline">
-              PYQ Papers
+            <span className="text-gray-300 dark:text-gray-700 hidden xs:inline">•</span>
+            <Link 
+              href="/pyqs/btech" 
+              className="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white active:text-black dark:active:text-white transition-colors border-b border-transparent hover:border-current touch-manipulation py-1"
+            >
+              PYQs
             </Link>
-            <Link href="/formula-sheets/btech" className="text-sm text-blue-600 hover:underline">
-              Formula Sheets
+            <span className="text-gray-300 dark:text-gray-700 hidden xs:inline">•</span>
+            <Link 
+              href="/formula-sheets/btech" 
+              className="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white active:text-black dark:active:text-white transition-colors border-b border-transparent hover:border-current touch-manipulation py-1"
+            >
+              Formulas
             </Link>
           </div>
         </div>

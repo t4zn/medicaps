@@ -372,7 +372,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                   >
                     {downloadingFiles.has(file.id) ? (
                       <>
-                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white mr-1"></div>
+                        <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-white dark:border-black mr-1"></div>
                         Downloading...
                       </>
                     ) : (
@@ -642,7 +642,7 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
                   >
                     {downloadingFiles.has(file.id) ? (
                       <>
-                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white dark:border-black mr-2"></div>
                         Downloading...
                       </>
                     ) : (

@@ -60,7 +60,7 @@ export default function Home() {
           height={128}
           className="h-12 w-12 sm:h-32 sm:w-32"
         />
-        <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap">MediNotes</h1>
+        <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap font-poppins">MediNotes</h1>
       </div>
       <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
         <span className="sm:hidden">

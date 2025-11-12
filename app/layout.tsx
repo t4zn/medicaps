@@ -1,5 +1,5 @@
 import type { Metadata } from "next"
-import { Inter } from "next/font/google"
+import { Inter, Poppins } from "next/font/google"
 import Script from "next/script"
 import { Providers } from "@/providers"
 import { GoogleTagManager } from "@next/third-parties/google"
@@ -17,6 +17,12 @@ import "@/styles/globals.css"
 const inter = Inter({
   variable: "--font-inter",
   subsets: ["latin"],
+})
+
+const poppins = Poppins({
+  variable: "--font-poppins",
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700"],
 })
 
 const baseUrl = Settings.metadataBase
@@ -131,7 +137,7 @@ export default function RootLayout({
           gtag('config', 'G-EZ7B74TTSE');
         `}
       </Script>
-      <body className={`${inter.variable} font-regular`}>
+      <body className={`${inter.variable} ${poppins.variable} font-regular`}>
         <StructuredData />
         <Providers>
           <AuthProvider>

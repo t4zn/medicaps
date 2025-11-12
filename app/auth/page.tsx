@@ -29,7 +29,7 @@ export default function AuthPage() {
             {isLogin ? 'Welcome back' : 'Create account'}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 text-sm">
-            {isLogin ? 'Sign in to your account' : 'Join Medicaps Resources'}
+            {isLogin ? 'Sign in to your account' : 'Join MediNotes'}
           </p>
         </div>
 

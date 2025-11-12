@@ -1,4 +1,4 @@
-# Medicaps Resources - Complete Setup Guide
+# MediNotes - Complete Setup Guide
 
 ## 🚀 Quick Setup
 
@@ -121,7 +121,7 @@ Current limit: 10MB per file. Adjust in `app/api/upload/route.ts`.
 
 ## 🎉 You're Ready!
 
-Your Medicaps Resources platform is now fully functional with:
+Your MediNotes platform is now fully functional with:
 - User authentication
 - File upload/download
 - GitHub + Supabase integration

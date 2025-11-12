@@ -4,7 +4,7 @@ export const siteicon = "/icon.png"
 export const gtm = "GTM-XXXXXXX"
 export const gtmconnected = true
 
-export const sitename = "Medicaps Resources"
+export const sitename = "MediNotes"
 export const description =
   "Find notes, PYQs (Previous Year Questions), cheat sheets, study materials, and academic resources for Medicaps University students. Your one-stop destination for exam preparation and course materials."
 export const keywords = [
@@ -18,10 +18,10 @@ export const keywords = [
   "student materials",
 ]
 export const urlimage = "/images/og-image.png"
-export const imagealt = "Medicaps Resources"
+export const imagealt = "MediNotes"
 export const twitterhandle = "@t4zn"
 
-export const companyname = "Medicaps Resources"
+export const companyname = "MediNotes"
 export const companylink = "https://github.com/t4zn"
 
 export const branding = true

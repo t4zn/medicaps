@@ -2,7 +2,9 @@
 
 Documents is a modern documentation starter kit built with **Next.js**, **React**, **Tailwind CSS**, and **TypeScript**. Designed for businesses, product teams, and technical writers, it provides a scalable and efficient foundation for building documentation websites, product manuals, and knowledge bases.
 
-> **Demo**: [https://rubix-documents.vercel.app](https://rubix-documents.vercel.app)
+# MediNotes
+
+MediNotes is a comprehensive academic platform designed specifically for Medicaps University students. Built with **Next.js**, **React**, **Tailwind CSS**, and **TypeScript**, it provides organized study materials, notes, PYQs, and formula sheets.
 
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 [![Top Language](https://img.shields.io/github/languages/top/rubixvi/rubix-documents)](https://github.com/rubixvi/rubix-documents)

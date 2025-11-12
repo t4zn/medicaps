@@ -45,8 +45,8 @@ export async function generateMetadata() {
 
   if (!res) {
     return {
-      title: "Welcome - Medicaps Resources",
-      description: "Welcome to Medicaps Resources - Your comprehensive hub for study materials"
+      title: "Welcome - MediNotes",
+      description: "Welcome to MediNotes - Your comprehensive hub for study materials"
     }
   }
 

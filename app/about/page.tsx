@@ -89,7 +89,7 @@ export default function AboutPage() {
                   </h2>
                   <div className="space-y-3 sm:space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-400 leading-relaxed">
                     <p>
-                      Hello! I&apos;m Taizun Kaptan, a passionate AI developer and the creator of Medicaps Resources. 
+                      Hello! I&apos;m Taizun Kaptan, a passionate AI developer and the creator of MediNotes. 
                       I&apos;m currently pursuing my studies at Medicaps University while building innovative solutions 
                       that bridge the gap between technology and education.
                     </p>

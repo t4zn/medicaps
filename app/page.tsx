@@ -13,12 +13,12 @@ export default function Home() {
       <div className="mb-4 flex items-center justify-center gap-2 sm:gap-4">
         <Image
           src="/icon.png"
-          alt="Medicaps Resources Icon"
+          alt="MediNotes Icon"
           width={128}
           height={128}
           className="h-12 w-12 sm:h-32 sm:w-32"
         />
-        <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap">Medicaps Resources</h1>
+        <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap">MediNotes</h1>
       </div>
       <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
         <span className="sm:hidden">

@@ -80,7 +80,7 @@ export default function ${subject_name.replace(/[^a-zA-Z0-9]/g, '')}Page() {
 
 export async function generateMetadata() {
   return {
-    title: '${subject_name} (${subject_code}) - B.Tech ${branch.toUpperCase()} ${year.replace('-', ' ')} - Medicaps Resources',
+    title: '${subject_name} (${subject_code}) - B.Tech ${branch.toUpperCase()} ${year.replace('-', ' ')} - MediNotes',
     description: 'Access comprehensive study materials, notes, PYQs, and formula sheets for ${subject_name} (${subject_code}) - B.Tech ${branch.toUpperCase()} ${year.replace('-', ' ')} at Medicaps University.',
   }
 }`

@@ -10,6 +10,7 @@ export async function POST(request: NextRequest) {
       googleDriveUrl, 
       filename, 
       program, 
+      branch,
       year, 
       subject, 
       category, 
@@ -77,6 +78,7 @@ export async function POST(request: NextRequest) {
         file_size: null, // Can't determine size from Google Drive link
         mime_type: isFolder ? 'application/folder' : 'application/pdf',
         program,
+        branch: branch || null,
         year,
         subject,
         category,

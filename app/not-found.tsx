@@ -24,7 +24,7 @@ export default function NotFound() {
               Page Not Found
             </h2>
             <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base max-w-sm mx-auto px-4 leading-relaxed">
-              This page doesn't exist, but your study materials do.
+              This page doesn&apos;t exist, but your study materials do.
             </p>
           </div>
         </div>

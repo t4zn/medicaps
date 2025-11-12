@@ -1,7 +1,7 @@
 "use client"
 
 import { useEffect, useMemo, useState } from "react"
-import { LuFileText, LuSearch } from "react-icons/lu"
+import { LuFileText, LuSearch, LuFile } from "react-icons/lu"
 
 import { advanceSearch, cn, debounce, highlight, search } from "@/lib/utils"
 import {
@@ -18,23 +18,60 @@ import Anchor from "@/components/anchor"
 
 
 
+interface FileResult {
+  id: string
+  title: string
+  href: string
+  snippet: string
+  description: string
+  type: 'file'
+  category: string
+  subject: string
+  program: string
+  year: string
+  branch?: string
+}
+
+type SearchResult = search | FileResult
+
 export default function Search() {
   const [searchedInput, setSearchedInput] = useState("")
   const [isOpen, setIsOpen] = useState(false)
-  const [filteredResults, setFilteredResults] = useState<search[]>([])
+  const [filteredResults, setFilteredResults] = useState<SearchResult[]>([])
   const [isLoading, setIsLoading] = useState(false)
   const [activeFilters, setActiveFilters] = useState({ program: 'btech', year: 'all', branch: 'all' })
 
-  const performSearch = (input: string, filters: typeof activeFilters) => {
+  const performSearch = async (input: string, filters: typeof activeFilters) => {
     setIsLoading(true)
-    const results = advanceSearch(input.trim(), { year: filters.year, branch: filters.branch })
-    setFilteredResults(results)
-    setIsLoading(false)
+    try {
+      // Search subjects
+      const subjectResults = advanceSearch(input.trim(), { year: filters.year, branch: filters.branch })
+      
+      // Search files
+      const fileResponse = await fetch(`/api/search?q=${encodeURIComponent(input)}&program=${filters.program}&year=${filters.year}&branch=${filters.branch}`)
+      const fileData = await fileResponse.json()
+      const fileResults = fileData.files || []
+      
+      // Combine results with files first (prioritize file names), then subjects
+      const combinedResults: SearchResult[] = [
+        ...fileResults,
+        ...subjectResults
+      ]
+      
+      setFilteredResults(combinedResults)
+    } catch (error) {
+      console.error('Search error:', error)
+      // Fallback to subject search only
+      const results = advanceSearch(input.trim(), { year: filters.year, branch: filters.branch })
+      setFilteredResults(results)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   const debouncedSearch = useMemo(
-    () => debounce((input: string) => performSearch(input, activeFilters), 300),
-    [] // Remove activeFilters from dependency to prevent infinite loop
+    () => debounce((input: string, filters: typeof activeFilters) => performSearch(input, filters), 300),
+    []
   )
 
   useEffect(() => {
@@ -60,12 +97,12 @@ export default function Search() {
   }, [isOpen, filteredResults])
 
   useEffect(() => {
-    if (searchedInput.length >= 3) {
-      performSearch(searchedInput, activeFilters)
+    if (searchedInput.length >= 1) {
+      debouncedSearch(searchedInput, activeFilters)
     } else {
       setFilteredResults([])
     }
-  }, [searchedInput, activeFilters])
+  }, [searchedInput, activeFilters, debouncedSearch])
 
   // Listen for filter changes from sidebar
   useEffect(() => {
@@ -73,8 +110,8 @@ export default function Search() {
       const newFilters = event.detail
       setActiveFilters(newFilters)
       // Re-run search with new filters if there's an active search
-      if (searchedInput.length >= 3) {
-        performSearch(searchedInput, newFilters)
+      if (searchedInput.length >= 1) {
+        debouncedSearch(searchedInput, newFilters)
       }
     }
 
@@ -134,18 +171,14 @@ export default function Search() {
               className="h-14 border-b bg-transparent px-4 text-[15px] outline-none"
             />
           </DialogHeader>
-          {searchedInput.length > 0 && searchedInput.length < 3 && (
-            <p className="text-warning mx-auto mt-2 text-sm">
-              Please enter at least 3 characters.
-            </p>
-          )}
+
           {isLoading ? (
             <p className="text-muted-foreground mx-auto mt-2 text-sm">
               Searching...
             </p>
           ) : (
             filteredResults.length === 0 &&
-            searchedInput.length >= 3 && (
+            searchedInput.length >= 1 && (
               <p className="text-muted-foreground mx-auto mt-2 text-sm">
                 No results found for{" "}
                 <span className="text-primary">{`"${searchedInput}"`}</span>
@@ -157,17 +190,29 @@ export default function Search() {
               {searchedInput
                 ? filteredResults.map((item) => {
                     if ("href" in item) {
+                      const isFile = "type" in item && item.type === 'file'
+                      const href = item.href.startsWith('/notes') || item.href.startsWith('/pyqs') || item.href.startsWith('/formula-sheets') ? item.href : `/docs${item.href}`
+                      
                       return (
-                        <DialogClose key={item.href} asChild>
+                        <DialogClose key={isFile ? `file-${item.id}` : item.href} asChild>
                           <Anchor
                             className={cn(
                               "flex w-full max-w-[310px] flex-col gap-0.5 rounded-sm p-3 text-[15px] transition-all duration-300 hover:bg-neutral-100 sm:max-w-[480px] dark:hover:bg-neutral-900"
                             )}
-                            href={item.href.startsWith('/notes') || item.href.startsWith('/pyqs') || item.href.startsWith('/formula-sheets') ? item.href : `/docs${item.href}`}
+                            href={href}
                           >
                             <div className="flex h-full items-center gap-x-2">
-                              <LuFileText className="h-[1.1rem] w-[1.1rem]" />
+                              {isFile ? (
+                                <LuFile className="h-[1.1rem] w-[1.1rem] text-blue-500" />
+                              ) : (
+                                <LuFileText className="h-[1.1rem] w-[1.1rem]" />
+                              )}
                               <span className="truncate">{item.title}</span>
+                              {isFile && (
+                                <span className="ml-auto text-xs text-neutral-500 bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">
+                                  FILE
+                                </span>
+                              )}
                             </div>
                             {"snippet" in item && item.snippet && (
                               <p
@@ -189,7 +234,7 @@ export default function Search() {
                 : (
                   <div className="flex items-center justify-center py-8">
                     <p className="text-muted-foreground text-sm">
-                      Start typing to search for subjects...
+                      Start typing to search for subjects and files...
                     </p>
                   </div>
                 )}

@@ -1,11 +1,53 @@
 import { Link } from "lib/transition"
 import Image from "next/image"
 import { LuUpload } from "react-icons/lu"
-
+import type { Metadata } from "next"
 
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
 import Search from "@/components/navigation/search"
+
+export const metadata: Metadata = {
+  title: "MediNotes - Free Study Materials for Medicaps University Students",
+  description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets for Medicaps University. AI-powered tutoring, exam preparation materials, and student resources.",
+  keywords: [
+    "MediNotes",
+    "Medicaps University notes",
+    "free study materials",
+    "B.Tech notes download",
+    "engineering notes",
+    "PYQ papers",
+    "formula sheets",
+    "AI tutoring",
+    "exam preparation",
+    "student resources"
+  ],
+  openGraph: {
+    title: "MediNotes - Free Study Materials for Medicaps University",
+    description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets. AI-powered tutoring for better exam preparation.",
+    url: "https://medinotes.live",
+    siteName: "MediNotes",
+    images: [
+      {
+        url: "/images/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "MediNotes - Study Materials Platform"
+      }
+    ],
+    locale: "en_US",
+    type: "website"
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "MediNotes - Free Study Materials for Medicaps University",
+    description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets. AI-powered tutoring for better exam preparation.",
+    images: ["/images/og-image.png"]
+  },
+  alternates: {
+    canonical: "https://medinotes.live"
+  }
+}
 
 export default function Home() {
   return (

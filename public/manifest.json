@@ -1,0 +1,42 @@
+{
+  "name": "MediNotes - Medicaps University Study Materials",
+  "short_name": "MediNotes",
+  "description": "Free study materials, notes, PYQs, and formula sheets for Medicaps University students with AI tutoring",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "orientation": "portrait-primary",
+  "categories": ["education", "productivity", "utilities"],
+  "lang": "en-US",
+  "icons": [
+    {
+      "src": "/icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Search Notes",
+      "short_name": "Search",
+      "description": "Search for study materials",
+      "url": "/search",
+      "icons": [{ "src": "/icon.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Upload Files",
+      "short_name": "Upload",
+      "description": "Upload study materials",
+      "url": "/upload",
+      "icons": [{ "src": "/icon.png", "sizes": "96x96" }]
+    }
+  ]
+}

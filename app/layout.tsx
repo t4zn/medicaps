@@ -36,12 +36,21 @@ export const viewport = {
 
 export const metadata: Metadata = {
   title: {
-    default: Settings.title,
-    template: `%s | ${Settings.title}`
+    default: "MediNotes | Free Medicaps University Notes, PYQs & Study Materials",
+    template: `%s | MediNotes - Medicaps University Study Platform`
   },
   metadataBase: new URL(baseUrl),
-  description: Settings.description,
-  keywords: Settings.keywords,
+  description: "🎓 MediNotes - #1 platform for Medicaps University students. Download free B.Tech, B.Sc, BBA notes, previous year questions (PYQs), formula sheets & get AI tutoring. Join 10,000+ students achieving academic excellence.",
+  keywords: [
+    "MediNotes", "medinotes", "medicaps nites", "medicaps notes", "Medicaps University", 
+    "Medicaps University notes", "free study materials", "B.Tech notes download", 
+    "engineering notes India", "PYQ papers Medicaps", "previous year questions", 
+    "formula sheets engineering", "AI tutoring platform", "exam preparation materials", 
+    "student resources India", "Medicaps B.Tech notes", "CSE notes Medicaps", 
+    "electrical engineering notes", "mechanical engineering notes", "civil engineering notes", 
+    "Indore university notes", "engineering study materials", "free notes download", 
+    "student community India", "Medicaps University Indore", "technical education India"
+  ],
   authors: [
     {
       name: "Taizun Kaptan",
@@ -67,27 +76,33 @@ export const metadata: Metadata = {
     },
   },
   openGraph: {
-    type: Settings.openGraph.type,
+    type: 'website',
     locale: 'en_US',
     url: baseUrl,
-    title: Settings.openGraph.title,
-    description: Settings.openGraph.description,
-    siteName: Settings.openGraph.siteName,
-    images: Settings.openGraph.images.map((image) => ({
-      ...image,
-      url: `${baseUrl}${image.url}`,
-    })),
+    title: "MediNotes | #1 Free Medicaps University Notes & Study Materials Platform",
+    description: "🎓 Join 10,000+ Medicaps students using MediNotes! Free B.Tech, B.Sc, BBA notes, PYQs, formula sheets + AI tutoring. Best exam preparation platform in India.",
+    siteName: "MediNotes",
+    images: [
+      {
+        url: `${baseUrl}/images/og-image.png`,
+        width: 1200,
+        height: 630,
+        alt: "MediNotes - #1 Study Materials Platform for Medicaps University Students"
+      }
+    ],
   },
   twitter: {
-    card: Settings.twitter.card,
-    title: Settings.twitter.title,
-    description: Settings.twitter.description,
-    site: Settings.twitter.site,
+    card: 'summary_large_image',
+    title: "MediNotes | #1 Free Medicaps University Notes & Study Materials",
+    description: "🎓 Join 10,000+ Medicaps students using MediNotes! Free B.Tech, B.Sc, BBA notes, PYQs, formula sheets + AI tutoring.",
+    site: '@medinotes_live',
     creator: '@t4zn',
-    images: Settings.twitter.images.map((image) => ({
-      ...image,
-      url: `${baseUrl}${image.url}`,
-    })),
+    images: [
+      {
+        url: `${baseUrl}/images/og-image.png`,
+        alt: "MediNotes - Study Materials Platform"
+      }
+    ],
   },
   alternates: {
     canonical: baseUrl,
@@ -98,6 +113,10 @@ export const metadata: Metadata = {
     'google-site-verification': 'your-google-verification-code',
     'msvalidate.01': 'your-bing-verification-code',
     'yandex-verification': 'your-yandex-verification-code',
+    'apple-mobile-web-app-title': 'MediNotes',
+    'application-name': 'MediNotes',
+    'msapplication-TileColor': '#000000',
+    'theme-color': '#000000',
   }
 }
 
@@ -124,6 +143,11 @@ export default function RootLayout({
         <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
+        <link rel="manifest" href="/manifest.json" />
+        <meta name="format-detection" content="telephone=no" />
+        <meta name="mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-capable" content="yes" />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
       </head>
       {Settings.gtmconnected && <GoogleTagManager gtmId={Settings.gtm} />}
       <Script

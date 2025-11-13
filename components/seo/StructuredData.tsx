@@ -19,9 +19,10 @@ export function StructuredData({
     "@context": "https://schema.org",
     "@type": "WebSite",
     "name": "MediNotes",
-    "alternateName": ["Medicaps Notes", "Medicaps Resources"],
+    "alternateName": ["Medicaps Notes", "Medicaps Resources", "MediNotes Live", "Medicaps Nites", "Medicaps University Notes"],
     "url": "https://medinotes.live",
-    "description": description,
+    "description": "Free study materials, notes, PYQs, and formula sheets for Medicaps University students with AI tutoring support",
+    "inLanguage": "en-US",
     "publisher": {
       "@type": "Person",
       "name": "Taizun Kaptan",
@@ -34,26 +35,40 @@ export function StructuredData({
         "urlTemplate": "https://medinotes.live/search?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
-    }
+    },
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "student"
+    },
+    "keywords": "MediNotes, medicaps notes, medicaps nites, Medicaps University, study materials, engineering notes, B.Tech notes, PYQ papers, formula sheets, AI tutoring"
   }
 
   const educationalSchema = {
     "@context": "https://schema.org",
     "@type": "EducationalOrganization",
     "name": "MediNotes",
+    "alternateName": "MediNotes - Medicaps University Study Platform",
     "url": "https://medinotes.live",
-    "description": description,
+    "description": "Leading educational platform providing free study materials, notes, PYQs, and AI tutoring for Medicaps University students",
+    "foundingDate": "2024",
+    "address": {
+      "@type": "PostalAddress",
+      "addressCountry": "IN",
+      "addressRegion": "Madhya Pradesh",
+      "addressLocality": "Indore"
+    },
     "sameAs": [
       "https://taizun.site"
     ],
     "hasOfferCatalog": {
       "@type": "OfferCatalog",
-      "name": "Study Materials",
+      "name": "Free Study Materials for Medicaps University",
       "itemListElement": [
         {
           "@type": "Course",
           "name": "B.Tech Engineering Notes",
-          "description": "Comprehensive study materials for B.Tech students",
+          "description": "Comprehensive study materials for B.Tech students including CSE, ECE, Civil, Mechanical, Electrical branches",
+          "educationalLevel": "UndergraduateLevel",
           "provider": {
             "@type": "Organization",
             "name": "MediNotes"
@@ -62,13 +77,39 @@ export function StructuredData({
         {
           "@type": "Course", 
           "name": "Previous Year Questions (PYQs)",
-          "description": "Previous year question papers for exam preparation",
+          "description": "Previous year question papers for exam preparation across all subjects and branches",
+          "educationalLevel": "UndergraduateLevel",
+          "provider": {
+            "@type": "Organization",
+            "name": "MediNotes"
+          }
+        },
+        {
+          "@type": "Course",
+          "name": "Formula Sheets & Quick References",
+          "description": "Comprehensive formula sheets and quick reference materials for engineering subjects",
+          "educationalLevel": "UndergraduateLevel",
+          "provider": {
+            "@type": "Organization",
+            "name": "MediNotes"
+          }
+        },
+        {
+          "@type": "Course",
+          "name": "AI Tutoring Support",
+          "description": "Instant AI-powered tutoring help for any subject or topic",
+          "educationalLevel": "UndergraduateLevel",
           "provider": {
             "@type": "Organization",
             "name": "MediNotes"
           }
         }
       ]
+    },
+    "audience": {
+      "@type": "EducationalAudience",
+      "educationalRole": "student",
+      "audienceType": "Medicaps University Students"
     }
   }
 

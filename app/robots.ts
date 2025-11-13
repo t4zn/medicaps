@@ -12,10 +12,21 @@ export default function robots(): MetadataRoute.Robots {
           '/_next/',
           '/private/',
           '/temp/',
+          '/auth/callback',
+          '/reset-password',
         ],
       },
       {
         userAgent: 'Googlebot',
+        allow: '/',
+        disallow: [
+          '/api/',
+          '/admin/',
+          '/auth/callback',
+        ],
+      },
+      {
+        userAgent: 'Bingbot',
         allow: '/',
         disallow: [
           '/api/',

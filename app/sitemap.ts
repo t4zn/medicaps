@@ -7,12 +7,15 @@ export default function sitemap(): MetadataRoute.Sitemap {
   const staticPages = [
     '',
     '/about',
+    '/faq',
     '/docs',
     '/privacy',
     '/terms',
     '/auth',
     '/profile',
     '/welcome',
+    '/upload',
+    '/search',
   ]
 
   // Program pages

@@ -8,23 +8,37 @@ import { Button } from "@/components/ui/button"
 import Search from "@/components/navigation/search"
 
 export const metadata: Metadata = {
-  title: "MediNotes - Free Study Materials for Medicaps University Students",
-  description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets for Medicaps University. AI-powered tutoring, exam preparation materials, and student resources.",
+  title: "MediNotes | Free Medicaps University Notes, PYQs & Study Materials",
+  description: "🎓 MediNotes - #1 platform for Medicaps University students. Download free B.Tech, B.Sc, BBA notes, previous year questions (PYQs), formula sheets & get AI tutoring. 10,000+ students trust us for exam preparation.",
   keywords: [
     "MediNotes",
+    "medinotes",
+    "medicaps nites", 
+    "medicaps notes",
+    "Medicaps University",
     "Medicaps University notes",
     "free study materials",
     "B.Tech notes download",
-    "engineering notes",
-    "PYQ papers",
-    "formula sheets",
-    "AI tutoring",
-    "exam preparation",
-    "student resources"
+    "engineering notes India",
+    "PYQ papers Medicaps",
+    "previous year questions",
+    "formula sheets engineering",
+    "AI tutoring platform",
+    "exam preparation materials",
+    "student resources India",
+    "Medicaps B.Tech notes",
+    "CSE notes Medicaps",
+    "electrical engineering notes",
+    "mechanical engineering notes",
+    "civil engineering notes",
+    "Indore university notes",
+    "engineering study materials",
+    "free notes download",
+    "student community India"
   ],
   openGraph: {
-    title: "MediNotes - Free Study Materials for Medicaps University",
-    description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets. AI-powered tutoring for better exam preparation.",
+    title: "MediNotes | #1 Free Medicaps University Notes & Study Materials",
+    description: "🎓 Join 10,000+ Medicaps students using MediNotes! Free B.Tech, B.Sc, BBA notes, PYQs, formula sheets + AI tutoring. Best exam preparation platform in India.",
     url: "https://medinotes.live",
     siteName: "MediNotes",
     images: [
@@ -32,7 +46,7 @@ export const metadata: Metadata = {
         url: "/images/og-image.png",
         width: 1200,
         height: 630,
-        alt: "MediNotes - Study Materials Platform"
+        alt: "MediNotes - #1 Study Materials Platform for Medicaps University Students"
       }
     ],
     locale: "en_US",
@@ -40,8 +54,8 @@ export const metadata: Metadata = {
   },
   twitter: {
     card: "summary_large_image",
-    title: "MediNotes - Free Study Materials for Medicaps University",
-    description: "Download free B.Tech, B.Sc, BBA notes, PYQs, and formula sheets. AI-powered tutoring for better exam preparation.",
+    title: "MediNotes | #1 Free Medicaps University Notes & Study Materials",
+    description: "🎓 Join 10,000+ Medicaps students using MediNotes! Free B.Tech, B.Sc, BBA notes, PYQs, formula sheets + AI tutoring.",
     images: ["/images/og-image.png"]
   },
   alternates: {
@@ -64,11 +78,12 @@ export default function Home() {
       </div>
       <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
         <span className="sm:hidden">
-          Find notes, PYQs, study materials, and get instant AI tutoring for Medicaps University students.
+          🎓 #1 platform for Medicaps University students. Free notes, PYQs, study materials + AI tutoring.
         </span>
         <span className="hidden sm:inline">
-          Find notes, PYQs, cheat sheets, and study materials for Medicaps University. 
-          Get instant AI tutoring help for any subject. Your comprehensive resource hub for academic success.
+          🎓 The #1 study platform for Medicaps University students. Access free B.Tech, B.Sc, BBA notes, 
+          previous year questions (PYQs), formula sheets, and get instant AI tutoring help. 
+          Join 10,000+ students achieving academic excellence with MediNotes.
         </span>
       </p>
 

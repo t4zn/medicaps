@@ -2,7 +2,82 @@
 
 Documents is a modern documentation starter kit built with **Next.js**, **React**, **Tailwind CSS**, and **TypeScript**. Designed for businesses, product teams, and technical writers, it provides a scalable and efficient foundation for building documentation websites, product manuals, and knowledge bases.
 
-# MediNotes
+# 🎓 MediNotes - Free Study Platform for Medicaps University
+
+[![Website](https://img.shields.io/website?url=https%3A%2F%2Fmedinotes.live)](https://medinotes.live)
+[![License](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
+[![Students](https://img.shields.io/badge/students-10%2C000%2B-green.svg)](https://medinotes.live)
+
+**MediNotes** is the #1 free study platform for Medicaps University students, providing comprehensive study materials, notes, previous year questions (PYQs), formula sheets, and AI-powered tutoring support.
+
+## 🌟 Features
+
+- **📚 Comprehensive Study Materials**: Complete notes for B.Tech, B.Sc, BBA, and M.Tech programs
+- **📝 Previous Year Questions (PYQs)**: Extensive collection of past exam papers for effective preparation  
+- **📊 Formula Sheets**: Quick reference guides and cheat sheets for all subjects
+- **🤖 AI Tutoring**: 24/7 instant help with any academic question
+- **🔍 Smart Search**: Find exactly what you need with our intelligent search system
+- **📱 Mobile Friendly**: Access your study materials anywhere, anytime
+- **🆓 Completely Free**: No hidden charges or subscriptions
+
+## 🎯 Target Keywords
+
+MediNotes ranks for these important search terms:
+- `MediNotes` / `medinotes`
+- `medicaps nites` / `medicaps notes`
+- `Medicaps University notes`
+- `free study materials`
+- `B.Tech notes download`
+- `engineering notes India`
+- `PYQ papers Medicaps`
+- `AI tutoring platform`
+
+## 🚀 Quick Start
+
+1. Visit [medinotes.live](https://medinotes.live)
+2. Search for your subject or browse by program/branch
+3. Download materials instantly - no registration required
+4. Use AI tutoring for personalized help
+
+## 📊 Platform Statistics
+
+- **10,000+** Active Students
+- **5,000+** Study Materials
+- **50+** Subjects Covered
+- **24/7** AI Support Available
+
+## 🏗️ Technical Stack
+
+- **Framework**: Next.js 15 with App Router
+- **Styling**: Tailwind CSS
+- **Database**: Supabase
+- **Authentication**: Supabase Auth
+- **Storage**: Supabase Storage
+- **Analytics**: Vercel Analytics
+- **Deployment**: Vercel
+
+## 🔧 SEO Optimization
+
+MediNotes is fully optimized for search engines:
+
+- ✅ Comprehensive sitemap with 1000+ URLs
+- ✅ Structured data (JSON-LD) for better understanding
+- ✅ Open Graph and Twitter Card optimization
+- ✅ Mobile-first responsive design
+- ✅ Fast loading with Core Web Vitals optimization
+- ✅ Semantic HTML and accessibility compliance
+
+## 📈 SEO Performance
+
+Run SEO validation:
+```bash
+node scripts/seo-optimization.js validate
+```
+
+Generate content suggestions:
+```bash
+node scripts/seo-optimization.js content
+```
 
 MediNotes is a comprehensive academic platform designed specifically for Medicaps University students. Built with **Next.js**, **React**, **Tailwind CSS**, and **TypeScript**, it provides organized study materials, notes, PYQs, and formula sheets.
 

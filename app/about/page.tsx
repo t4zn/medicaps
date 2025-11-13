@@ -1,211 +1,174 @@
-'use client'
+import type { Metadata } from "next"
+import Image from "next/image"
+import { Link } from "lib/transition"
+import { Button } from "@/components/ui/button"
 
-import { useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { SimpleBreadcrumb } from "@/components/ui/breadcrumb"
-import { Github, Linkedin, Instagram, Globe, Twitter } from "lucide-react"
-
-const teamMembers = [
-  {
-    name: "Taizun Kaptan",
-    role: "Founder & AI Developer",
-    description: "Passionate AI developer creating innovative educational solutions. Currently studying at Medicaps University while building the future of learning.",
-    image: "/Taizun.PNG",
-    social: {
-      website: "https://taizun.site",
-      github: "https://github.com/t4zn",
-      linkedin: "https://linkedin.com/in/taizuns",
-      instagram: "https://instagram.com/t4zun"
-    }
-  },
-  {
-    name: "Vansh Singh",
-    role: "Co-Founder & Developer",
-    description: "Full-stack developer focused on creating seamless user experiences. Specializes in modern web technologies and system architecture.",
-    image: "/vansh.PNG",
-    social: {
-      github: "https://github.com/v4nssh",
-      linkedin: "#",
-      instagram: "https://www.instagram.com/vanshhh16_/"
-    }
-  },
-  {
-    name: "Sakina",
-    role: "Content Manager",
-    description: "Ensures quality and organization of educational content. Manages content curation and maintains academic standards across the platform.",
-    image: "/avatars/girl.PNG",
-    social: {
-      linkedin: "#",
-      instagram: "#",
-      twitter: "#"
-    }
-  },
-  {
-    name: "Raina",
-    role: "Community Manager",
-    description: "Builds and nurtures our student community. Focuses on user engagement and creating a supportive learning environment.",
-    image: "/avatars/girl1.PNG",
-    social: {
-      linkedin: "#",
-      instagram: "#",
-      twitter: "#"
-    }
-  }
-]
+export const metadata: Metadata = {
+  title: "About MediNotes - Free Study Platform for Medicaps University",
+  description: "Learn about MediNotes - the leading free study platform for Medicaps University students. Discover our mission to provide quality education resources, notes, PYQs, and AI tutoring.",
+  keywords: [
+    "About MediNotes",
+    "Medicaps University platform",
+    "free education resources",
+    "student community",
+    "study materials platform",
+    "educational technology"
+  ]
+}
 
 export default function AboutPage() {
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [])
-
   return (
-    <div className="container mx-auto px-4 py-8 max-w-6xl">
-      <SimpleBreadcrumb items={[{ label: "About" }]} homeHref="/welcome" />
-      
-      <div className="text-center mb-12">
-        <h1 className="text-3xl sm:text-4xl font-bold mb-4">Meet Our Team</h1>
-        <p className="text-muted-foreground max-w-2xl mx-auto">
-          The passionate individuals behind MediNotes, working together to make education more accessible for everyone.
+    <div className="container mx-auto px-4 py-8 max-w-4xl">
+      {/* Hero Section */}
+      <div className="text-center mb-16">
+        <div className="flex items-center justify-center gap-4 mb-6">
+          <Image
+            src="/icon.png"
+            alt="MediNotes Logo"
+            width={80}
+            height={80}
+            className="rounded-lg"
+          />
+          <h1 className="text-5xl font-bold">MediNotes</h1>
+        </div>
+        <p className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
+          Empowering Medicaps University students with free, high-quality study materials 
+          and AI-powered learning support for academic excellence.
         </p>
       </div>
 
-      {/* Mobile View - Minimal */}
-      <div className="block md:hidden space-y-4">
-        {teamMembers.map((member, index) => (
-          <Card key={index} className="hover:shadow-lg transition-shadow">
-            <CardContent className="p-4">
-              <div className="flex items-center space-x-4">
-                <div className="w-16 h-16 rounded-full overflow-hidden bg-gray-100 flex-shrink-0">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <h3 className="text-base font-semibold truncate">{member.name}</h3>
-                  <p className="text-sm text-muted-foreground">{member.role}</p>
-                  <div className="flex space-x-2 mt-2">
-                    {member.social.website && (
-                      <a href={member.social.website} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                        <Globe className="h-3 w-3" />
-                      </a>
-                    )}
-                    {member.social.github && (
-                      <a href={member.social.github} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                        <Github className="h-3 w-3" />
-                      </a>
-                    )}
-                    {member.social.linkedin && (
-                      <a href={member.social.linkedin} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                        <Linkedin className="h-3 w-3" />
-                      </a>
-                    )}
-                    {member.social.instagram && (
-                      <a href={member.social.instagram} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                        <Instagram className="h-3 w-3" />
-                      </a>
-                    )}
-                    {member.social.twitter && (
-                      <a href={member.social.twitter} target="_blank" rel="noopener noreferrer" className="text-muted-foreground hover:text-foreground">
-                        <Twitter className="h-3 w-3" />
-                      </a>
-                    )}
-                  </div>
-                </div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* Mission Section */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-bold mb-6 text-center">Our Mission</h2>
+        <div className="bg-accent/50 rounded-lg p-8">
+          <p className="text-lg leading-relaxed text-center">
+            To democratize access to quality education by providing free, comprehensive study materials 
+            and innovative AI tutoring support to every Medicaps University student, fostering a 
+            collaborative learning environment where knowledge is shared freely and academic success 
+            is achievable for all.
+          </p>
+        </div>
+      </section>
 
-      {/* Desktop View - Detailed */}
-      <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-        {teamMembers.map((member, index) => (
-          <Card key={index} className="text-center hover:shadow-lg transition-shadow">
-            <CardContent className="p-6">
-              <div className="mb-4">
-                <div className="w-24 h-24 mx-auto mb-4 rounded-full overflow-hidden bg-gray-100">
-                  <img
-                    src={member.image}
-                    alt={member.name}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-semibold mb-1">{member.name}</h3>
-                <p className="text-sm text-muted-foreground mb-3">{member.role}</p>
-                <p className="text-xs text-muted-foreground leading-relaxed mb-4">{member.description}</p>
-              </div>
-              
-              <div className="flex justify-center space-x-3">
-                {member.social.website && (
-                  <a
-                    href={member.social.website}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Globe className="h-4 w-4" />
-                  </a>
-                )}
-                {member.social.github && (
-                  <a
-                    href={member.social.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Github className="h-4 w-4" />
-                  </a>
-                )}
-                {member.social.linkedin && (
-                  <a
-                    href={member.social.linkedin}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Linkedin className="h-4 w-4" />
-                  </a>
-                )}
-                {member.social.instagram && (
-                  <a
-                    href={member.social.instagram}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Instagram className="h-4 w-4" />
-                  </a>
-                )}
-                {member.social.twitter && (
-                  <a
-                    href={member.social.twitter}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-muted-foreground hover:text-foreground transition-colors"
-                  >
-                    <Twitter className="h-4 w-4" />
-                  </a>
-                )}
-              </div>
-            </CardContent>
-          </Card>
-        ))}
-      </div>
+      {/* What We Offer */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-bold mb-8 text-center">What We Offer</h2>
+        <div className="grid md:grid-cols-2 gap-8">
+          <div className="border rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">📚 Comprehensive Study Materials</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>• Complete notes for all B.Tech, B.Sc, BBA, and M.Tech subjects</li>
+              <li>• Organized by branch, year, and subject for easy navigation</li>
+              <li>• High-quality, student-verified content</li>
+              <li>• Regular updates with latest syllabus changes</li>
+            </ul>
+          </div>
+          
+          <div className="border rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">📝 Previous Year Questions (PYQs)</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>• Extensive collection of past exam papers</li>
+              <li>• Multiple years of question papers for pattern analysis</li>
+              <li>• Subject-wise categorization for focused preparation</li>
+              <li>• Solutions and explanations where available</li>
+            </ul>
+          </div>
+          
+          <div className="border rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">📊 Formula Sheets & Quick References</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>• Concise formula compilations for quick revision</li>
+              <li>• Subject-wise quick reference guides</li>
+              <li>• Exam-focused cheat sheets</li>
+              <li>• Visual aids and diagrams for better understanding</li>
+            </ul>
+          </div>
+          
+          <div className="border rounded-lg p-6">
+            <h3 className="text-xl font-semibold mb-4">🤖 AI-Powered Tutoring</h3>
+            <ul className="space-y-2 text-muted-foreground">
+              <li>• 24/7 instant help with any academic question</li>
+              <li>• Step-by-step problem solving assistance</li>
+              <li>• Concept explanations and clarifications</li>
+              <li>• Personalized learning recommendations</li>
+            </ul>
+          </div>
+        </div>
+      </section>
 
-      <div className="mt-16 text-center">
-        <Card>
-          <CardContent className="p-8">
-            <h2 className="text-2xl font-semibold mb-4">Our Mission</h2>
-            <p className="text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              We&apos;re dedicated to democratizing access to educational resources through innovative technology. 
-              Our platform connects students with quality study materials and AI-powered learning assistance, 
-              making academic success more achievable for everyone at Medicaps University and beyond.
+      {/* Why Choose MediNotes */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-bold mb-8 text-center">Why Choose MediNotes?</h2>
+        <div className="grid md:grid-cols-3 gap-6">
+          <div className="text-center">
+            <div className="text-4xl mb-4">🆓</div>
+            <h3 className="text-xl font-semibold mb-2">Completely Free</h3>
+            <p className="text-muted-foreground">
+              No hidden charges, no subscriptions. Quality education should be accessible to everyone.
             </p>
-          </CardContent>
-        </Card>
-      </div>
+          </div>
+          
+          <div className="text-center">
+            <div className="text-4xl mb-4">👥</div>
+            <h3 className="text-xl font-semibold mb-2">Student Community</h3>
+            <p className="text-muted-foreground">
+              Built by students, for students. Real materials from real Medicaps University experiences.
+            </p>
+          </div>
+          
+          <div className="text-center">
+            <div className="text-4xl mb-4">⚡</div>
+            <h3 className="text-xl font-semibold mb-2">Instant Access</h3>
+            <p className="text-muted-foreground">
+              No lengthy registrations. Find what you need and download instantly.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      {/* Statistics */}
+      <section className="mb-16">
+        <h2 className="text-3xl font-bold mb-8 text-center">Our Impact</h2>
+        <div className="grid md:grid-cols-4 gap-6 text-center">
+          <div className="bg-primary/10 rounded-lg p-6">
+            <div className="text-3xl font-bold text-primary mb-2">10,000+</div>
+            <div className="text-muted-foreground">Active Students</div>
+          </div>
+          <div className="bg-primary/10 rounded-lg p-6">
+            <div className="text-3xl font-bold text-primary mb-2">5,000+</div>
+            <div className="text-muted-foreground">Study Materials</div>
+          </div>
+          <div className="bg-primary/10 rounded-lg p-6">
+            <div className="text-3xl font-bold text-primary mb-2">50+</div>
+            <div className="text-muted-foreground">Subjects Covered</div>
+          </div>
+          <div className="bg-primary/10 rounded-lg p-6">
+            <div className="text-3xl font-bold text-primary mb-2">24/7</div>
+            <div className="text-muted-foreground">AI Support</div>
+          </div>
+        </div>
+      </section>
+
+      {/* Call to Action */}
+      <section className="text-center">
+        <h2 className="text-3xl font-bold mb-6">Join the MediNotes Community</h2>
+        <p className="text-lg text-muted-foreground mb-8 max-w-2xl mx-auto">
+          Start your journey towards academic excellence with thousands of Medicaps University students 
+          who trust MediNotes for their study needs.
+        </p>
+        <div className="flex flex-col sm:flex-row gap-4 justify-center">
+          <Link href="/welcome">
+            <Button size="lg" className="w-full sm:w-auto">
+              Get Started Now
+            </Button>
+          </Link>
+          <Link href="/upload">
+            <Button variant="outline" size="lg" className="w-full sm:w-auto">
+              Contribute Materials
+            </Button>
+          </Link>
+        </div>
+      </section>
     </div>
   )
 }

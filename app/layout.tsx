@@ -27,6 +27,13 @@ const poppins = Poppins({
 
 const baseUrl = Settings.metadataBase
 
+export const viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+}
+
 export const metadata: Metadata = {
   title: {
     default: Settings.title,
@@ -47,12 +54,6 @@ export const metadata: Metadata = {
     email: false,
     address: false,
     telephone: false,
-  },
-  viewport: {
-    width: 'device-width',
-    initialScale: 1,
-    maximumScale: 1,
-    userScalable: false,
   },
   robots: {
     index: true,

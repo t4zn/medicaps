@@ -4,10 +4,7 @@ import { useState } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '../ui/label'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Alert, AlertDescription } from '../ui/alert'
-import { LuEye, LuEyeOff, LuLogIn } from 'react-icons/lu'
+import { LuEye, LuEyeOff } from 'react-icons/lu'
 
 interface LoginFormProps {
   onSuccess?: () => void
@@ -15,10 +12,12 @@ interface LoginFormProps {
 }
 
 export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProps) {
-  const { signIn } = useAuth()
+  const { signIn, resetPassword } = useAuth()
   const [loading, setLoading] = useState(false)
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
+  const [resetLoading, setResetLoading] = useState(false)
+  const [resetMessage, setResetMessage] = useState('')
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -28,6 +27,7 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
     e.preventDefault()
     setLoading(true)
     setError('')
+    setResetMessage('')
 
     try {
       const { error } = await signIn(formData.email, formData.password)
@@ -41,6 +41,31 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
       setError('An unexpected error occurred')
     } finally {
       setLoading(false)
+    }
+  }
+
+  const handleForgotPassword = async () => {
+    if (!formData.email) {
+      setError('Please enter your email address first')
+      return
+    }
+
+    setResetLoading(true)
+    setError('')
+    setResetMessage('')
+
+    try {
+      const { error } = await resetPassword(formData.email)
+      
+      if (error) {
+        setError(error.message)
+      } else {
+        setResetMessage('Password reset email sent! Check your inbox.')
+      }
+    } catch {
+      setError('Failed to send reset email')
+    } finally {
+      setResetLoading(false)
     }
   }
 
@@ -89,12 +114,28 @@ export default function LoginForm({ onSuccess, onSwitchToSignUp }: LoginFormProp
                 )}
               </Button>
             </div>
+            <div className="text-right mt-2">
+              <button
+                type="button"
+                onClick={handleForgotPassword}
+                disabled={resetLoading}
+                className="text-xs text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors disabled:opacity-50"
+              >
+                {resetLoading ? 'Sending...' : 'Forgot password?'}
+              </button>
+            </div>
           </div>
         </div>
 
         {error && (
           <div className="text-red-500 text-sm text-center">
             {error}
+          </div>
+        )}
+
+        {resetMessage && (
+          <div className="text-green-600 text-sm text-center">
+            {resetMessage}
           </div>
         )}
 

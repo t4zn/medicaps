@@ -211,43 +211,45 @@ export default function SavedResources() {
       
       {savedFiles.map((file) => (
         <Card key={file.id}>
-          <CardContent className="p-4">
-            <div className="flex items-start justify-between gap-4">
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-2">
-                  <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0" />
-                  <h3 className="font-medium truncate">{file.original_name}</h3>
-                  <Badge className={getCategoryColor(file.category)}>
-                    {file.category === 'formula-sheet' ? 'Formula Sheet' : file.category.toUpperCase()}
+          <CardContent className="p-0">
+            {/* Mobile Layout */}
+            <div className="block sm:hidden p-3">
+              <div className="flex items-start gap-3 mb-3">
+                <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-medium text-sm leading-tight mb-1 break-words">{file.original_name}</h3>
+                  <Badge className={`${getCategoryColor(file.category)} text-xs`}>
+                    {file.category === 'formula-sheet' ? 'Formula' : file.category.toUpperCase()}
                   </Badge>
-                </div>
-                
-                <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                  <div className="flex items-center gap-1">
-                    <LuCalendar className="h-3 w-3" />
-                    <span>{formatDate(file.created_at)}</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <ProfilePicture 
-                      avatarUrl={file.profiles?.avatar_url} 
-                      fullName={file.profiles?.full_name} 
-                      size={16} 
-                    />
-                    <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
-                  </div>
-                  <span>{file.downloads} downloads</span>
-                </div>
-                
-                <div className="text-xs text-muted-foreground">
-                  {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
                 </div>
               </div>
               
-              <div className="flex items-center gap-2 flex-shrink-0">
+              <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                <div className="flex items-center gap-2">
+                  <ProfilePicture 
+                    avatarUrl={file.profiles?.avatar_url} 
+                    fullName={file.profiles?.full_name}
+                    userId={file.uploaded_by}
+                    size={12} 
+                  />
+                  <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
+                </div>
+                <div className="flex items-center gap-3">
+                  <span>{file.downloads} downloads</span>
+                  <span>{formatDate(file.created_at)}</span>
+                </div>
+              </div>
+              
+              <div className="text-xs text-muted-foreground mb-3">
+                {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
+              </div>
+              
+              <div className="flex gap-1">
                 <Button
                   variant="outline"
                   size="sm"
                   asChild
+                  className="flex-1 h-8 text-xs"
                 >
                   <Link href={getSubjectUrl(file)}>
                     <LuExternalLink className="h-3 w-3 mr-1" />
@@ -259,6 +261,7 @@ export default function SavedResources() {
                   onClick={() => handleDownload(file)}
                   size="sm"
                   disabled={!file.google_drive_url && !file.cdn_url}
+                  className="flex-1 h-8 text-xs"
                 >
                   <LuDownload className="h-3 w-3 mr-1" />
                   Download
@@ -268,11 +271,79 @@ export default function SavedResources() {
                   variant="ghost"
                   size="sm"
                   onClick={() => handleRemoveBookmark(file.id)}
-                  className="text-blue-600 hover:text-blue-700"
+                  className="text-blue-600 hover:text-blue-700 h-8 w-8 p-0"
                   title="Remove bookmark"
                 >
                   <LuBookmark className="h-3 w-3 fill-current" />
                 </Button>
+              </div>
+            </div>
+
+            {/* Desktop Layout */}
+            <div className="hidden sm:block sm:p-4">
+              <div className="flex items-start justify-between gap-4">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-2">
+                    <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0" />
+                    <h3 className="font-medium truncate">{file.original_name}</h3>
+                    <Badge className={getCategoryColor(file.category)}>
+                      {file.category === 'formula-sheet' ? 'Formula Sheet' : file.category.toUpperCase()}
+                    </Badge>
+                  </div>
+                  
+                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
+                    <div className="flex items-center gap-1">
+                      <LuCalendar className="h-3 w-3" />
+                      <span>{formatDate(file.created_at)}</span>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <ProfilePicture 
+                        avatarUrl={file.profiles?.avatar_url} 
+                        fullName={file.profiles?.full_name}
+                        userId={file.uploaded_by}
+                        size={16} 
+                      />
+                      <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
+                    </div>
+                    <span>{file.downloads} downloads</span>
+                  </div>
+                  
+                  <div className="text-xs text-muted-foreground">
+                    {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
+                  </div>
+                </div>
+                
+                <div className="flex items-center gap-2 flex-shrink-0">
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    asChild
+                  >
+                    <Link href={getSubjectUrl(file)}>
+                      <LuExternalLink className="h-3 w-3 mr-1" />
+                      View
+                    </Link>
+                  </Button>
+                  
+                  <Button
+                    onClick={() => handleDownload(file)}
+                    size="sm"
+                    disabled={!file.google_drive_url && !file.cdn_url}
+                  >
+                    <LuDownload className="h-3 w-3 mr-1" />
+                    Download
+                  </Button>
+                  
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleRemoveBookmark(file.id)}
+                    className="text-blue-600 hover:text-blue-700"
+                    title="Remove bookmark"
+                  >
+                    <LuBookmark className="h-3 w-3 fill-current" />
+                  </Button>
+                </div>
               </div>
             </div>
           </CardContent>

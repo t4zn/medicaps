@@ -184,44 +184,91 @@ export function UserManagement() {
               </div>
             ) : (
               filteredUsers.map((user) => (
-                <div key={user.id} className="flex items-center justify-between p-4 border rounded-lg">
-                  <div className="flex items-center gap-4">
-                    <ProfilePicture 
-                      avatarUrl={user.avatar_url} 
-                      fullName={user.full_name} 
-                      size={40} 
-                    />
-                    <div>
-                      <h3 className="font-medium">{user.full_name}</h3>
-                      <p className="text-sm text-muted-foreground">{user.email}</p>
-                      <p className="text-xs text-muted-foreground">
-                        Joined {new Date(user.created_at).toLocaleDateString()}
-                      </p>
+                <div key={user.id} className="border rounded-lg">
+                  {/* Mobile Layout */}
+                  <div className="block sm:hidden p-3">
+                    <div className="flex items-start gap-3 mb-3">
+                      <ProfilePicture 
+                        avatarUrl={user.avatar_url} 
+                        fullName={user.full_name} 
+                        userId={user.id}
+                        size={32} 
+                      />
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-sm truncate">{user.full_name}</h3>
+                        <p className="text-xs text-muted-foreground truncate">{user.email}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Joined {new Date(user.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
+                    
+                    <div className="flex items-center justify-between">
+                      <Badge className={`${getRoleBadgeColor(user.role as UserRole)} text-xs`}>
+                        {getRoleDisplayName(user.role as UserRole)}
+                      </Badge>
+                      
+                      {/* Only allow role changes if not changing own role and not changing owner role */}
+                      {user.id !== profile?.id && user.role !== 'owner' && (
+                        <Select
+                          value={user.role}
+                          onValueChange={(newRole: UserRole) => updateUserRole(user.id, newRole)}
+                        >
+                          <SelectTrigger className="w-24 h-8 text-xs">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="admin">Admin</SelectItem>
+                            <SelectItem value="moderator">Moderator</SelectItem>
+                            <SelectItem value="uploader">Uploader</SelectItem>
+                            <SelectItem value="user">User</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
                     </div>
                   </div>
-                  
-                  <div className="flex items-center gap-3">
-                    <Badge className={getRoleBadgeColor(user.role as UserRole)}>
-                      {getRoleDisplayName(user.role as UserRole)}
-                    </Badge>
+
+                  {/* Desktop Layout */}
+                  <div className="hidden sm:flex sm:items-center sm:justify-between sm:p-4">
+                    <div className="flex items-center gap-4">
+                      <ProfilePicture 
+                        avatarUrl={user.avatar_url} 
+                        fullName={user.full_name} 
+                        userId={user.id}
+                        size={40} 
+                      />
+                      <div>
+                        <h3 className="font-medium">{user.full_name}</h3>
+                        <p className="text-sm text-muted-foreground">{user.email}</p>
+                        <p className="text-xs text-muted-foreground">
+                          Joined {new Date(user.created_at).toLocaleDateString()}
+                        </p>
+                      </div>
+                    </div>
                     
-                    {/* Only allow role changes if not changing own role and not changing owner role */}
-                    {user.id !== profile?.id && user.role !== 'owner' && (
-                      <Select
-                        value={user.role}
-                        onValueChange={(newRole: UserRole) => updateUserRole(user.id, newRole)}
-                      >
-                        <SelectTrigger className="w-32">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="admin">Administrator</SelectItem>
-                          <SelectItem value="moderator">Moderator</SelectItem>
-                          <SelectItem value="uploader">Uploader</SelectItem>
-                          <SelectItem value="user">User</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    )}
+                    <div className="flex items-center gap-3">
+                      <Badge className={getRoleBadgeColor(user.role as UserRole)}>
+                        {getRoleDisplayName(user.role as UserRole)}
+                      </Badge>
+                      
+                      {/* Only allow role changes if not changing own role and not changing owner role */}
+                      {user.id !== profile?.id && user.role !== 'owner' && (
+                        <Select
+                          value={user.role}
+                          onValueChange={(newRole: UserRole) => updateUserRole(user.id, newRole)}
+                        >
+                          <SelectTrigger className="w-32">
+                            <SelectValue />
+                          </SelectTrigger>
+                          <SelectContent>
+                            <SelectItem value="admin">Administrator</SelectItem>
+                            <SelectItem value="moderator">Moderator</SelectItem>
+                            <SelectItem value="uploader">Uploader</SelectItem>
+                            <SelectItem value="user">User</SelectItem>
+                          </SelectContent>
+                        </Select>
+                      )}
+                    </div>
                   </div>
                 </div>
               ))

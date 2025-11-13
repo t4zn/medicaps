@@ -378,72 +378,138 @@ export function SubjectRequestsAdmin() {
           ) : (
             <div className="space-y-4">
               {pendingRequests.map((request) => (
-                <div
-                  key={request.id}
-                  className="border rounded-lg p-4 space-y-4"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-2">
-                      <h3 className="font-medium text-lg">{request.subject_name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {request.subject_code} • {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
-                      </p>
-                      <p className="text-sm text-gray-600">{request.description}</p>
+                <div key={request.id} className="border rounded-lg">
+                  {/* Mobile Layout */}
+                  <div className="block sm:hidden p-3 space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-sm leading-tight mb-1">{request.subject_name}</h3>
+                        <p className="text-xs text-muted-foreground mb-1">
+                          {request.subject_code}
+                        </p>
+                        <p className="text-xs text-muted-foreground">
+                          {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
+                        </p>
+                      </div>
+                      <Badge className={`${getStatusColor(request.status)} text-xs`}>
+                        {getStatusIcon(request.status)}
+                        <span className="ml-1 capitalize">{request.status}</span>
+                      </Badge>
                     </div>
-                    <Badge className={getStatusColor(request.status)}>
-                      {getStatusIcon(request.status)}
-                      <span className="ml-1 capitalize">{request.status}</span>
-                    </Badge>
+
+                    <p className="text-xs text-gray-600 leading-relaxed">{request.description}</p>
+
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>{request.requested_by_profile.full_name}</span>
+                      <span>{formatDate(request.created_at)}</span>
+                    </div>
+
+                    <div className="flex gap-1">
+                      <Button
+                        size="sm"
+                        onClick={() => handleReviewRequest(request, 'approve')}
+                        className="h-8 px-3 text-xs bg-green-600 hover:bg-green-700 flex-1"
+                      >
+                        <CheckCircle className="h-3 w-3 mr-1" />
+                        Approve
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleReviewRequest(request, 'reject')}
+                        className="h-8 px-3 text-xs flex-1"
+                      >
+                        <XCircle className="h-3 w-3 mr-1" />
+                        Reject
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="sm" variant="outline" className="h-8 w-8 p-0">
+                            <MoreHorizontal className="h-3 w-3" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleEditRequest(request)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleDeleteRequest(request)}
+                            className="text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground">
-                    <div className="flex items-center gap-1">
-                      <User className="h-4 w-4" />
-                      {request.requested_by_profile.full_name}
+                  {/* Desktop Layout */}
+                  <div className="hidden sm:block sm:p-4 sm:space-y-4">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-2">
+                        <h3 className="font-medium text-lg">{request.subject_name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {request.subject_code} • {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
+                        </p>
+                        <p className="text-sm text-gray-600">{request.description}</p>
+                      </div>
+                      <Badge className={getStatusColor(request.status)}>
+                        {getStatusIcon(request.status)}
+                        <span className="ml-1 capitalize">{request.status}</span>
+                      </Badge>
                     </div>
-                    <div className="flex items-center gap-1">
-                      <Calendar className="h-4 w-4" />
-                      {formatDate(request.created_at)}
-                    </div>
-                  </div>
 
-                  <div className="flex gap-2">
-                    <Button
-                      size="sm"
-                      onClick={() => handleReviewRequest(request, 'approve')}
-                      className="bg-green-600 hover:bg-green-700"
-                    >
-                      <CheckCircle className="h-4 w-4 mr-1" />
-                      Approve
-                    </Button>
-                    <Button
-                      size="sm"
-                      variant="destructive"
-                      onClick={() => handleReviewRequest(request, 'reject')}
-                    >
-                      <XCircle className="h-4 w-4 mr-1" />
-                      Reject
-                    </Button>
-                    <DropdownMenu>
-                      <DropdownMenuTrigger asChild>
-                        <Button size="sm" variant="outline">
-                          <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                      </DropdownMenuTrigger>
-                      <DropdownMenuContent align="end">
-                        <DropdownMenuItem onClick={() => handleEditRequest(request)}>
-                          <Edit className="h-4 w-4 mr-2" />
-                          Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem 
-                          onClick={() => handleDeleteRequest(request)}
-                          className="text-red-600"
-                        >
-                          <Trash2 className="h-4 w-4 mr-2" />
-                          Delete
-                        </DropdownMenuItem>
-                      </DropdownMenuContent>
-                    </DropdownMenu>
+                    <div className="flex items-center gap-4 text-sm text-muted-foreground">
+                      <div className="flex items-center gap-1">
+                        <User className="h-4 w-4" />
+                        {request.requested_by_profile.full_name}
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Calendar className="h-4 w-4" />
+                        {formatDate(request.created_at)}
+                      </div>
+                    </div>
+
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        onClick={() => handleReviewRequest(request, 'approve')}
+                        className="bg-green-600 hover:bg-green-700"
+                      >
+                        <CheckCircle className="h-4 w-4 mr-1" />
+                        Approve
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => handleReviewRequest(request, 'reject')}
+                      >
+                        <XCircle className="h-4 w-4 mr-1" />
+                        Reject
+                      </Button>
+                      <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                          <Button size="sm" variant="outline">
+                            <MoreHorizontal className="h-4 w-4" />
+                          </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                          <DropdownMenuItem onClick={() => handleEditRequest(request)}>
+                            <Edit className="h-4 w-4 mr-2" />
+                            Edit
+                          </DropdownMenuItem>
+                          <DropdownMenuItem 
+                            onClick={() => handleDeleteRequest(request)}
+                            className="text-red-600"
+                          >
+                            <Trash2 className="h-4 w-4 mr-2" />
+                            Delete
+                          </DropdownMenuItem>
+                        </DropdownMenuContent>
+                      </DropdownMenu>
+                    </div>
                   </div>
                 </div>
               ))}
@@ -467,65 +533,124 @@ export function SubjectRequestsAdmin() {
           <CardContent>
             <div className="space-y-4">
               {reviewedRequests.map((request) => (
-                <div
-                  key={request.id}
-                  className="border rounded-lg p-4 space-y-3"
-                >
-                  <div className="flex items-start justify-between">
-                    <div className="space-y-1">
-                      <h3 className="font-medium">{request.subject_name}</h3>
-                      <p className="text-sm text-muted-foreground">
-                        {request.subject_code} • {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
-                      </p>
+                <div key={request.id} className="border rounded-lg">
+                  {/* Mobile Layout */}
+                  <div className="block sm:hidden p-3 space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-medium text-sm leading-tight mb-1">{request.subject_name}</h3>
+                        <p className="text-xs text-muted-foreground">
+                          {request.subject_code} • {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-1">
+                        <Badge className={`${getStatusColor(request.status)} text-xs`}>
+                          {getStatusIcon(request.status)}
+                          <span className="ml-1 capitalize">{request.status}</span>
+                        </Badge>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="sm" variant="outline" className="h-6 w-6 p-0">
+                              <MoreHorizontal className="h-3 w-3" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleEditRequest(request)}>
+                              <Edit className="h-4 w-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              onClick={() => handleDeleteRequest(request)}
+                              className="text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
                     </div>
-                    <div className="flex items-center gap-2">
-                      <Badge className={getStatusColor(request.status)}>
-                        {getStatusIcon(request.status)}
-                        <span className="ml-1 capitalize">{request.status}</span>
-                      </Badge>
-                      <DropdownMenu>
-                        <DropdownMenuTrigger asChild>
-                          <Button size="sm" variant="outline">
-                            <MoreHorizontal className="h-4 w-4" />
-                          </Button>
-                        </DropdownMenuTrigger>
-                        <DropdownMenuContent align="end">
-                          <DropdownMenuItem onClick={() => handleEditRequest(request)}>
-                            <Edit className="h-4 w-4 mr-2" />
-                            Edit
-                          </DropdownMenuItem>
-                          <DropdownMenuItem 
-                            onClick={() => handleDeleteRequest(request)}
-                            className="text-red-600"
-                          >
-                            <Trash2 className="h-4 w-4 mr-2" />
-                            Delete
-                          </DropdownMenuItem>
-                        </DropdownMenuContent>
-                      </DropdownMenu>
+
+                    <p className="text-xs text-gray-600 leading-relaxed">{request.description}</p>
+
+                    <div className="text-xs text-muted-foreground space-y-1">
+                      <div>Requested by: {request.requested_by_profile.full_name}</div>
+                      {request.reviewed_at && (
+                        <div>
+                          Reviewed: {formatDate(request.reviewed_at)}
+                          {request.reviewed_by_profile && ` by ${request.reviewed_by_profile.full_name}`}
+                        </div>
+                      )}
                     </div>
-                  </div>
 
-                  <p className="text-sm text-gray-600">{request.description}</p>
-
-                  <div className="flex items-center justify-between text-xs text-muted-foreground">
-                    <span>Requested by: {request.requested_by_profile.full_name}</span>
-                    {request.reviewed_at && (
-                      <span>
-                        Reviewed: {formatDate(request.reviewed_at)}
-                        {request.reviewed_by_profile && ` by ${request.reviewed_by_profile.full_name}`}
-                      </span>
+                    {request.status === 'rejected' && request.rejection_reason && (
+                      <Alert className="border-red-200 bg-red-50">
+                        <XCircle className="h-3 w-3 text-red-600" />
+                        <AlertDescription className="text-red-800 text-xs">
+                          <strong>Rejection Reason:</strong> {request.rejection_reason}
+                        </AlertDescription>
+                      </Alert>
                     )}
                   </div>
 
-                  {request.status === 'rejected' && request.rejection_reason && (
-                    <Alert className="border-red-200 bg-red-50">
-                      <XCircle className="h-4 w-4 text-red-600" />
-                      <AlertDescription className="text-red-800">
-                        <strong>Rejection Reason:</strong> {request.rejection_reason}
-                      </AlertDescription>
-                    </Alert>
-                  )}
+                  {/* Desktop Layout */}
+                  <div className="hidden sm:block sm:p-4 sm:space-y-3">
+                    <div className="flex items-start justify-between">
+                      <div className="space-y-1">
+                        <h3 className="font-medium">{request.subject_name}</h3>
+                        <p className="text-sm text-muted-foreground">
+                          {request.subject_code} • {getBranchLabel(request.branch)} • {request.year.replace('-', ' ')}
+                        </p>
+                      </div>
+                      <div className="flex items-center gap-2">
+                        <Badge className={getStatusColor(request.status)}>
+                          {getStatusIcon(request.status)}
+                          <span className="ml-1 capitalize">{request.status}</span>
+                        </Badge>
+                        <DropdownMenu>
+                          <DropdownMenuTrigger asChild>
+                            <Button size="sm" variant="outline">
+                              <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                          </DropdownMenuTrigger>
+                          <DropdownMenuContent align="end">
+                            <DropdownMenuItem onClick={() => handleEditRequest(request)}>
+                              <Edit className="h-4 w-4 mr-2" />
+                              Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem 
+                              onClick={() => handleDeleteRequest(request)}
+                              className="text-red-600"
+                            >
+                              <Trash2 className="h-4 w-4 mr-2" />
+                              Delete
+                            </DropdownMenuItem>
+                          </DropdownMenuContent>
+                        </DropdownMenu>
+                      </div>
+                    </div>
+
+                    <p className="text-sm text-gray-600">{request.description}</p>
+
+                    <div className="flex items-center justify-between text-xs text-muted-foreground">
+                      <span>Requested by: {request.requested_by_profile.full_name}</span>
+                      {request.reviewed_at && (
+                        <span>
+                          Reviewed: {formatDate(request.reviewed_at)}
+                          {request.reviewed_by_profile && ` by ${request.reviewed_by_profile.full_name}`}
+                        </span>
+                      )}
+                    </div>
+
+                    {request.status === 'rejected' && request.rejection_reason && (
+                      <Alert className="border-red-200 bg-red-50">
+                        <XCircle className="h-4 w-4 text-red-600" />
+                        <AlertDescription className="text-red-800">
+                          <strong>Rejection Reason:</strong> {request.rejection_reason}
+                        </AlertDescription>
+                      </Alert>
+                    )}
+                  </div>
                 </div>
               ))}
             </div>

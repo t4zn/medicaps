@@ -243,105 +243,213 @@ export function RoleRequestsAdmin() {
             ) : (
               <div className="space-y-4">
                 {pendingRequests.map((request) => (
-                  <div key={request.id} className="border rounded-lg p-4 space-y-4">
-                    {/* User Info */}
-                    <div className="flex items-center gap-3">
-                      <ProfilePicture 
-                        avatarUrl={request.profiles.avatar_url} 
-                        fullName={request.profiles.full_name} 
-                        size={40} 
-                      />
-                      <div className="flex-1">
-                        <h4 className="font-medium">{request.profiles.full_name}</h4>
-                        <p className="text-sm text-muted-foreground">{request.profiles.email}</p>
-                        <div className="flex items-center gap-2 mt-1">
-                          <Badge variant="outline" className="text-xs">
-                            Current: {request.profiles.role}
-                          </Badge>
-                          <span className="text-xs text-muted-foreground">→</span>
-                          <Badge className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                            {getRoleIcon(request.requested_role)}
-                            <span className="ml-1">Requested: {request.requested_role}</span>
-                          </Badge>
+                  <div key={request.id} className="border rounded-lg">
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden p-3 space-y-3">
+                      {/* User Info */}
+                      <div className="flex items-start gap-3">
+                        <ProfilePicture 
+                          avatarUrl={request.profiles.avatar_url} 
+                          fullName={request.profiles.full_name}
+                          userId={request.user_id}
+                          size={32} 
+                        />
+                        <div className="flex-1 min-w-0">
+                          <h4 className="font-medium text-sm leading-tight">{request.profiles.full_name}</h4>
+                          <p className="text-xs text-muted-foreground truncate">{request.profiles.email}</p>
+                          <div className="flex items-center gap-1 mt-1 text-xs">
+                            <Badge variant="outline" className="text-xs px-1 py-0">
+                              {request.profiles.role}
+                            </Badge>
+                            <span className="text-muted-foreground">→</span>
+                            <Badge className="text-xs px-1 py-0 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                              {request.requested_role}
+                            </Badge>
+                          </div>
                         </div>
-                      </div>
-                      <div className="text-right text-xs text-muted-foreground">
-                        <div className="flex items-center gap-1">
-                          <LuCalendar className="h-3 w-3" />
+                        <div className="text-xs text-muted-foreground">
                           {new Date(request.created_at).toLocaleDateString()}
                         </div>
                       </div>
-                    </div>
 
-                    {/* Role Info */}
-                    <div className="p-3 bg-muted/30 rounded-lg">
-                      <div className="flex items-center gap-2 mb-2">
-                        {getRoleIcon(request.requested_role)}
-                        <span className="font-medium capitalize">{request.requested_role}</span>
+                      {/* Role Description */}
+                      <div className="p-2 bg-muted/30 rounded text-xs">
+                        <div className="flex items-center gap-1 mb-1">
+                          {getRoleIcon(request.requested_role)}
+                          <span className="font-medium capitalize">{request.requested_role}</span>
+                        </div>
+                        <p className="text-muted-foreground">{getRoleDescription(request.requested_role)}</p>
                       </div>
-                      <p className="text-sm text-muted-foreground">{getRoleDescription(request.requested_role)}</p>
+
+                      {/* Reason */}
+                      <div>
+                        <p className="text-xs font-medium mb-1">Reason:</p>
+                        <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded leading-relaxed">{request.reason}</p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-1">
+                        <Button
+                          onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
+                          disabled={processingId === request.id}
+                          className="flex-1 h-8 text-xs bg-green-600 hover:bg-green-700"
+                          size="sm"
+                        >
+                          <LuCheck className="h-3 w-3 mr-1" />
+                          {processingId === request.id ? 'Approving...' : 'Approve'}
+                        </Button>
+                        
+                        <Button
+                          variant="destructive"
+                          onClick={() => setShowRejectionForm(request.id)}
+                          disabled={processingId === request.id}
+                          className="flex-1 h-8 text-xs"
+                          size="sm"
+                        >
+                          <LuX className="h-3 w-3 mr-1" />
+                          Reject
+                        </Button>
+                      </div>
+
+                      {/* Rejection Form */}
+                      {showRejectionForm === request.id && (
+                        <div className="space-y-2 p-2 border rounded bg-red-50 dark:bg-red-950">
+                          <label className="text-xs font-medium">Rejection Reason</label>
+                          <Textarea
+                            placeholder="Explain why this request is being rejected..."
+                            value={rejectionReason}
+                            onChange={(e) => setRejectionReason(e.target.value)}
+                            rows={2}
+                            className="text-xs"
+                          />
+                          <div className="flex gap-1">
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => rejectRequest(request.id)}
+                              disabled={!rejectionReason.trim() || processingId === request.id}
+                              className="flex-1 h-7 text-xs"
+                            >
+                              {processingId === request.id ? 'Rejecting...' : 'Confirm'}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setShowRejectionForm(null)
+                                setRejectionReason('')
+                              }}
+                              className="flex-1 h-7 text-xs"
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Reason */}
-                    <div>
-                      <p className="text-sm font-medium mb-1">Reason:</p>
-                      <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg">{request.reason}</p>
-                    </div>
-
-                    {/* Actions */}
-                    <div className="flex gap-2">
-                      <Button
-                        onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
-                        disabled={processingId === request.id}
-                        className="flex-1 bg-green-600 hover:bg-green-700"
-                      >
-                        <LuCheck className="h-4 w-4 mr-2" />
-                        {processingId === request.id ? 'Approving...' : 'Approve'}
-                      </Button>
-                      
-                      <Button
-                        variant="destructive"
-                        onClick={() => setShowRejectionForm(request.id)}
-                        disabled={processingId === request.id}
-                        className="flex-1"
-                      >
-                        <LuX className="h-4 w-4 mr-2" />
-                        Reject
-                      </Button>
-                    </div>
-
-                    {/* Rejection Form */}
-                    {showRejectionForm === request.id && (
-                      <div className="space-y-3 p-3 border rounded-lg bg-red-50 dark:bg-red-950">
-                        <label className="text-sm font-medium">Rejection Reason</label>
-                        <Textarea
-                          placeholder="Explain why this request is being rejected..."
-                          value={rejectionReason}
-                          onChange={(e) => setRejectionReason(e.target.value)}
-                          rows={2}
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:block sm:p-4 sm:space-y-4">
+                      {/* User Info */}
+                      <div className="flex items-center gap-3">
+                        <ProfilePicture 
+                          avatarUrl={request.profiles.avatar_url} 
+                          fullName={request.profiles.full_name}
+                          userId={request.user_id}
+                          size={40} 
                         />
-                        <div className="flex gap-2">
-                          <Button
-                            size="sm"
-                            variant="destructive"
-                            onClick={() => rejectRequest(request.id)}
-                            disabled={!rejectionReason.trim() || processingId === request.id}
-                          >
-                            {processingId === request.id ? 'Rejecting...' : 'Confirm Rejection'}
-                          </Button>
-                          <Button
-                            size="sm"
-                            variant="outline"
-                            onClick={() => {
-                              setShowRejectionForm(null)
-                              setRejectionReason('')
-                            }}
-                          >
-                            Cancel
-                          </Button>
+                        <div className="flex-1">
+                          <h4 className="font-medium">{request.profiles.full_name}</h4>
+                          <p className="text-sm text-muted-foreground">{request.profiles.email}</p>
+                          <div className="flex items-center gap-2 mt-1">
+                            <Badge variant="outline" className="text-xs">
+                              Current: {request.profiles.role}
+                            </Badge>
+                            <span className="text-xs text-muted-foreground">→</span>
+                            <Badge className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
+                              {getRoleIcon(request.requested_role)}
+                              <span className="ml-1">Requested: {request.requested_role}</span>
+                            </Badge>
+                          </div>
+                        </div>
+                        <div className="text-right text-xs text-muted-foreground">
+                          <div className="flex items-center gap-1">
+                            <LuCalendar className="h-3 w-3" />
+                            {new Date(request.created_at).toLocaleDateString()}
+                          </div>
                         </div>
                       </div>
-                    )}
+
+                      {/* Role Info */}
+                      <div className="p-3 bg-muted/30 rounded-lg">
+                        <div className="flex items-center gap-2 mb-2">
+                          {getRoleIcon(request.requested_role)}
+                          <span className="font-medium capitalize">{request.requested_role}</span>
+                        </div>
+                        <p className="text-sm text-muted-foreground">{getRoleDescription(request.requested_role)}</p>
+                      </div>
+
+                      {/* Reason */}
+                      <div>
+                        <p className="text-sm font-medium mb-1">Reason:</p>
+                        <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg">{request.reason}</p>
+                      </div>
+
+                      {/* Actions */}
+                      <div className="flex gap-2">
+                        <Button
+                          onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
+                          disabled={processingId === request.id}
+                          className="flex-1 bg-green-600 hover:bg-green-700"
+                        >
+                          <LuCheck className="h-4 w-4 mr-2" />
+                          {processingId === request.id ? 'Approving...' : 'Approve'}
+                        </Button>
+                        
+                        <Button
+                          variant="destructive"
+                          onClick={() => setShowRejectionForm(request.id)}
+                          disabled={processingId === request.id}
+                          className="flex-1"
+                        >
+                          <LuX className="h-4 w-4 mr-2" />
+                          Reject
+                        </Button>
+                      </div>
+
+                      {/* Rejection Form */}
+                      {showRejectionForm === request.id && (
+                        <div className="space-y-3 p-3 border rounded-lg bg-red-50 dark:bg-red-950">
+                          <label className="text-sm font-medium">Rejection Reason</label>
+                          <Textarea
+                            placeholder="Explain why this request is being rejected..."
+                            value={rejectionReason}
+                            onChange={(e) => setRejectionReason(e.target.value)}
+                            rows={2}
+                          />
+                          <div className="flex gap-2">
+                            <Button
+                              size="sm"
+                              variant="destructive"
+                              onClick={() => rejectRequest(request.id)}
+                              disabled={!rejectionReason.trim() || processingId === request.id}
+                            >
+                              {processingId === request.id ? 'Rejecting...' : 'Confirm Rejection'}
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => {
+                                setShowRejectionForm(null)
+                                setRejectionReason('')
+                              }}
+                            >
+                              Cancel
+                            </Button>
+                          </div>
+                        </div>
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>

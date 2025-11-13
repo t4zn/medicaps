@@ -305,8 +305,65 @@ export default function AdminPanel() {
             <div className="space-y-4">
               {pendingFiles.map((file) => (
                 <Card key={file.id} className="border-l-4 border-l-yellow-500">
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
+                  <CardContent className="p-3 sm:p-4">
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden">
+                      <div className="flex items-start gap-3 mb-3">
+                        <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm leading-tight mb-1">{file.original_name}</h3>
+                          <div className="text-xs text-muted-foreground">
+                            {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject?.replace('-', ' ')}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {file.category.replace('-', ' ')}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {file.profiles?.full_name || 'Anonymous'}
+                          </span>
+                        </div>
+                        <div className="flex gap-1">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-8 w-8 p-0 text-green-600 border-green-600 hover:bg-green-50"
+                            onClick={() => handleFileAction(file.id, 'approve')}
+                            disabled={actionLoading === file.id}
+                          >
+                            {actionLoading === file.id ? (
+                              <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600"></div>
+                            ) : (
+                              <LuCheck className="h-3 w-3" />
+                            )}
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            className="h-8 w-8 p-0 text-red-600 border-red-600 hover:bg-red-50"
+                            onClick={() => handleFileAction(file.id, 'reject')}
+                            disabled={actionLoading === file.id}
+                          >
+                            {actionLoading === file.id ? (
+                              <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-red-600"></div>
+                            ) : (
+                              <LuX className="h-3 w-3" />
+                            )}
+                          </Button>
+                        </div>
+                      </div>
+                      
+                      <div className="text-xs text-muted-foreground">
+                        {formatDate(file.created_at)} • {formatFileSize(file.file_size)}
+                      </div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex sm:items-start sm:justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-3">
                           <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
@@ -421,8 +478,56 @@ export default function AdminPanel() {
               </div>
               {allFiles.map((file) => (
                 <Card key={file.id} className="border-l-4 border-l-green-500">
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
+                  <CardContent className="p-3 sm:p-4">
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden">
+                      <div className="flex items-start gap-3 mb-3">
+                        <LuFileText className="h-4 w-4 text-green-500 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm leading-tight mb-1">{file.original_name}</h3>
+                          <div className="text-xs text-muted-foreground">
+                            {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject?.replace('-', ' ')}
+                          </div>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 w-8 p-0 text-blue-600 border-blue-600 hover:bg-blue-50 flex-shrink-0"
+                          onClick={() => {
+                            let url = ''
+                            if (file.year === '1st-year') {
+                              url = `/notes/${file.program}/${file.year}/${file.subject}`
+                            } else {
+                              // Use the actual branch from the file data, convert to URL slug
+                              const fullBranchName = file.branch || 'computer-science-and-engineering'
+                              const branchSlug = getBranchUrlSlug(fullBranchName)
+                              url = `/notes/${file.program}/${branchSlug}/${file.year}/${file.subject}`
+                            }
+                            window.open(url, '_blank')
+                          }}
+                        >
+                          <LuEye className="h-3 w-3" />
+                        </Button>
+                      </div>
+                      
+                      <div className="flex items-center justify-between mb-2">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {file.category.replace('-', ' ')}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {file.profiles?.full_name || 'Anonymous'}
+                          </span>
+                        </div>
+                      </div>
+                      
+                      <div className="text-xs text-muted-foreground">
+                        {formatDate(file.created_at)} • {file.file_size && formatFileSize(file.file_size)}
+                      </div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex sm:items-start sm:justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-3">
                           <LuFileText className="h-5 w-5 text-green-500 flex-shrink-0" />
@@ -527,8 +632,87 @@ export default function AdminPanel() {
             <div className="space-y-4">
               {reports.map((report) => (
                 <Card key={report.id} className="border-l-4 border-l-red-500">
-                  <CardContent className="p-4">
-                    <div className="flex items-start justify-between">
+                  <CardContent className="p-3 sm:p-4">
+                    {/* Mobile Layout */}
+                    <div className="block sm:hidden">
+                      <div className="flex items-start gap-3 mb-3">
+                        <LuFlag className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium text-sm leading-tight mb-1">{report.files.original_name}</h3>
+                          <div className="text-xs text-muted-foreground">
+                            {report.reason.replace('_', ' ')} • {report.profiles.full_name}
+                          </div>
+                        </div>
+                      </div>
+                      
+                      {report.description && (
+                        <div className="mb-3">
+                          <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded leading-relaxed">
+                            {report.description}
+                          </p>
+                        </div>
+                      )}
+                      
+                      <div className="flex items-center justify-between mb-3">
+                        <div className="flex items-center gap-2">
+                          <Badge variant="outline" className="text-xs capitalize">
+                            {report.files.category.replace('-', ' ')}
+                          </Badge>
+                          <span className="text-xs text-muted-foreground">
+                            {report.files.program.toUpperCase()} {report.files.year.replace('-', ' ')}
+                          </span>
+                        </div>
+                        <div className="text-xs text-muted-foreground">
+                          {formatDate(report.created_at)}
+                        </div>
+                      </div>
+
+                      <div className="flex gap-1">
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="h-8 w-8 p-0 text-blue-600 border-blue-600 hover:bg-blue-50"
+                          onClick={() => window.open(`/notes/${report.files.program}/${report.files.year}/${report.files.subject}`, '_blank')}
+                        >
+                          <LuEye className="h-3 w-3" />
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 h-8 text-xs text-green-600 border-green-600 hover:bg-green-50"
+                          onClick={() => handleReportAction(report.id, 'resolve')}
+                          disabled={actionLoading === report.id}
+                        >
+                          {actionLoading === report.id ? (
+                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-green-600"></div>
+                          ) : (
+                            <>
+                              <LuCheck className="h-3 w-3 mr-1" />
+                              Resolve
+                            </>
+                          )}
+                        </Button>
+                        <Button
+                          size="sm"
+                          variant="outline"
+                          className="flex-1 h-8 text-xs text-red-600 border-red-600 hover:bg-red-50"
+                          onClick={() => handleReportAction(report.id, 'dismiss')}
+                          disabled={actionLoading === report.id}
+                        >
+                          {actionLoading === report.id ? (
+                            <div className="animate-spin rounded-full h-3 w-3 border-b-2 border-red-600"></div>
+                          ) : (
+                            <>
+                              <LuX className="h-3 w-3 mr-1" />
+                              Dismiss
+                            </>
+                          )}
+                        </Button>
+                      </div>
+                    </div>
+
+                    {/* Desktop Layout */}
+                    <div className="hidden sm:flex sm:items-start sm:justify-between">
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center gap-3 mb-3">
                           <LuFlag className="h-5 w-5 text-red-500 flex-shrink-0" />

@@ -151,26 +151,24 @@ export default function MyUploads() {
         ) : (
           <div className="space-y-4">
             {files.map((file) => (
-              <div
-                key={file.id}
-                className="border rounded-lg p-4 hover:bg-muted/50 transition-colors"
-              >
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3">
-                  <div className="flex-1 min-w-0">
-                    <div className="flex items-start sm:items-center gap-2 mb-2">
-                      <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0 mt-0.5 sm:mt-0" />
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-medium text-sm sm:text-base break-words">{file.original_name}</h3>
-                        <Badge 
-                          variant="outline" 
-                          className={`text-xs mt-1 ${file.is_approved ? 'text-green-600 border-green-200' : 'text-yellow-600 border-yellow-200'}`}
-                        >
-                          {file.is_approved ? 'Approved' : 'Pending Review'}
-                        </Badge>
-                      </div>
+              <div key={file.id} className="border rounded-lg hover:bg-muted/50 transition-colors">
+                {/* Mobile Layout */}
+                <div className="block sm:hidden p-3">
+                  <div className="flex items-start gap-3 mb-3">
+                    <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
+                    <div className="flex-1 min-w-0">
+                      <h3 className="font-medium text-sm leading-tight mb-1 break-words">{file.original_name}</h3>
+                      <Badge 
+                        variant="outline" 
+                        className={`text-xs ${file.is_approved ? 'text-green-600 border-green-200' : 'text-yellow-600 border-yellow-200'}`}
+                      >
+                        {file.is_approved ? 'Approved' : 'Pending'}
+                      </Badge>
                     </div>
-                    
-                    <div className="grid grid-cols-2 sm:flex sm:items-center gap-2 sm:gap-4 text-xs text-muted-foreground">
+                  </div>
+                  
+                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
+                    <div className="flex items-center gap-3">
                       <span className="flex items-center gap-1">
                         <LuCalendar className="h-3 w-3" />
                         {formatDate(file.created_at)}
@@ -179,23 +177,21 @@ export default function MyUploads() {
                         <LuArrowDown className="h-3 w-3" />
                         {file.downloads}
                       </span>
-                      <span className="flex items-center gap-1 capitalize">
-                        <LuTag className="h-3 w-3" />
-                        {file.category.replace('-', ' ')}
-                      </span>
                     </div>
-
-                    {/* Additional file details */}
-                    <div className="mt-2 text-xs text-muted-foreground">
-                      <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.program}</span>
-                      <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.year}</span>
-                      {file.subject && (
-                        <span className="inline-block bg-muted px-2 py-1 rounded">{file.subject}</span>
-                      )}
-                    </div>
+                    <span className="capitalize text-xs bg-muted px-2 py-1 rounded">
+                      {file.category.replace('-', ' ')}
+                    </span>
                   </div>
 
-                  <div className="flex items-center gap-2 sm:flex-col sm:gap-1">
+                  <div className="text-xs text-muted-foreground mb-3">
+                    <span className="inline-block bg-muted px-2 py-1 rounded mr-1 mb-1">{file.program}</span>
+                    <span className="inline-block bg-muted px-2 py-1 rounded mr-1 mb-1">{file.year}</span>
+                    {file.subject && (
+                      <span className="inline-block bg-muted px-2 py-1 rounded mb-1">{file.subject}</span>
+                    )}
+                  </div>
+
+                  <div className="flex gap-2">
                     {file.is_approved && (
                       <Button
                         variant="outline"
@@ -208,21 +204,91 @@ export default function MyUploads() {
                             alert('Download link not available. Please update your file with a valid Google Drive link.')
                           }
                         }}
-                        className="flex-1 sm:flex-none"
+                        className="flex-1 h-8 text-xs"
                       >
-                        <LuDownload className="h-4 w-4 mr-2 sm:mr-0" />
-                        <span className="sm:hidden">Download</span>
+                        <LuDownload className="h-3 w-3 mr-1" />
+                        Download
                       </Button>
                     )}
                     <Button
                       variant="outline"
                       size="sm"
                       onClick={() => handleDelete(file.id)}
-                      className="text-red-600 hover:text-red-700 flex-1 sm:flex-none"
+                      className="text-red-600 hover:text-red-700 flex-1 h-8 text-xs"
                     >
-                      <LuTrash2 className="h-4 w-4 mr-2 sm:mr-0" />
-                      <span className="sm:hidden">Delete</span>
+                      <LuTrash2 className="h-3 w-3 mr-1" />
+                      Delete
                     </Button>
+                  </div>
+                </div>
+
+                {/* Desktop Layout */}
+                <div className="hidden sm:block sm:p-4">
+                  <div className="flex items-center gap-3">
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-2">
+                        <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
+                        <div className="flex-1 min-w-0">
+                          <h3 className="font-medium break-words">{file.original_name}</h3>
+                          <Badge 
+                            variant="outline" 
+                            className={`text-xs mt-1 ${file.is_approved ? 'text-green-600 border-green-200' : 'text-yellow-600 border-yellow-200'}`}
+                          >
+                            {file.is_approved ? 'Approved' : 'Pending Review'}
+                          </Badge>
+                        </div>
+                      </div>
+                      
+                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                        <span className="flex items-center gap-1">
+                          <LuCalendar className="h-3 w-3" />
+                          {formatDate(file.created_at)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <LuArrowDown className="h-3 w-3" />
+                          {file.downloads}
+                        </span>
+                        <span className="flex items-center gap-1 capitalize">
+                          <LuTag className="h-3 w-3" />
+                          {file.category.replace('-', ' ')}
+                        </span>
+                      </div>
+
+                      <div className="mt-2 text-xs text-muted-foreground">
+                        <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.program}</span>
+                        <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.year}</span>
+                        {file.subject && (
+                          <span className="inline-block bg-muted px-2 py-1 rounded">{file.subject}</span>
+                        )}
+                      </div>
+                    </div>
+
+                    <div className="flex flex-col gap-1">
+                      {file.is_approved && (
+                        <Button
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            const downloadUrl = file.google_drive_url || file.cdn_url
+                            if (downloadUrl && downloadUrl !== 'null' && downloadUrl.trim() !== '') {
+                              window.open(downloadUrl, '_blank')
+                            } else {
+                              alert('Download link not available. Please update your file with a valid Google Drive link.')
+                            }
+                          }}
+                        >
+                          <LuDownload className="h-4 w-4" />
+                        </Button>
+                      )}
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => handleDelete(file.id)}
+                        className="text-red-600 hover:text-red-700"
+                      >
+                        <LuTrash2 className="h-4 w-4" />
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

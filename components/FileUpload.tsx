@@ -168,13 +168,6 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     // Map branch values to sidebar titles
     const branchMapping: Record<string, string> = {
       'computer-science-and-engineering': 'CSE',
-      'cse-artificial-intelligence': 'CSE - AI',
-      'cse-data-science': 'CSE - DS',
-      'cse-networks': 'CSE - Networks',
-      'cse-artificial-intelligence-and-machine-learning': 'CSE - AI & ML',
-      'cse-cyber-security': 'Cyber Security',
-      'cse-internet-of-things': 'CSE - IoT',
-      'csbs-computer-science-and-business-systems': 'CSBS',
       'ece-electronics-communication-engineering': 'ECE',
       'ce-civil-engineering': 'Civil',
       'ee-electrical-engineering': 'Electrical',
@@ -266,7 +259,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     { key: 'branch', title: 'Which branch?', required: true },
     { key: 'year', title: 'Which year?', required: true },
     { key: 'subject', title: 'Which subject?', required: true },
-    { key: 'file', title: 'Add Google Drive link', required: true },
+    { key: 'file', title: 'Add Google Drive or Docs link', required: true },
   ]
 
   const getCurrentStepIndex = () => steps.findIndex(step => step.key === currentStep)
@@ -303,10 +296,13 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   }
 
   const validateGoogleDriveUrl = (url: string) => {
-    // Support any valid Google Drive file or folder link
+    // Support any valid Google Drive file or folder link, plus Google Docs
     const fileRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
     const folderRegex = /^https:\/\/drive\.google\.com\/drive\/folders\/([a-zA-Z0-9_-]+)/
-    return fileRegex.test(url) || folderRegex.test(url)
+    const docsRegex = /^https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/
+    const sheetsRegex = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/
+    const slidesRegex = /^https:\/\/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/
+    return fileRegex.test(url) || folderRegex.test(url) || docsRegex.test(url) || sheetsRegex.test(url) || slidesRegex.test(url)
   }
 
   const isGoogleDriveFolder = (url: string) => {
@@ -314,14 +310,28 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
     return folderRegex.test(url)
   }
 
+  const isGoogleDoc = (url: string) => {
+    const docsRegex = /^https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/
+    const sheetsRegex = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/
+    const slidesRegex = /^https:\/\/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/
+    return docsRegex.test(url) || sheetsRegex.test(url) || slidesRegex.test(url)
+  }
+
+  const getGoogleDocType = (url: string) => {
+    if (/^https:\/\/docs\.google\.com\/document\/d\//.test(url)) return 'document'
+    if (/^https:\/\/docs\.google\.com\/spreadsheets\/d\//.test(url)) return 'spreadsheet'
+    if (/^https:\/\/docs\.google\.com\/presentation\/d\//.test(url)) return 'presentation'
+    return 'file'
+  }
+
   const handleUrlChange = (url: string) => {
     setGoogleDriveUrl(url)
     if (url && !validateGoogleDriveUrl(url)) {
-      // Check if it looks like a Google Drive link
-      if (url.includes('drive.google.com')) {
-        setUrlError('Please provide a valid Google Drive file or folder link')
+      // Check if it looks like a Google service link
+      if (url.includes('drive.google.com') || url.includes('docs.google.com')) {
+        setUrlError('Please provide a valid Google Drive file/folder or Google Docs link')
       } else {
-        setUrlError('Please provide a valid Google Drive link')
+        setUrlError('Please provide a valid Google Drive or Google Docs link')
       }
     } else {
       setUrlError('')
@@ -334,17 +344,17 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
 
     const { program, branch, year, subject, category } = formData
 
-    // Validate Google Drive URL
+    // Validate Google Drive/Docs URL
     if (!validateGoogleDriveUrl(googleDriveUrl)) {
-      if (googleDriveUrl.includes('drive.google.com')) {
+      if (googleDriveUrl.includes('drive.google.com') || googleDriveUrl.includes('docs.google.com')) {
         setUploadStatus({
           type: 'error',
-          message: 'Please provide a valid Google Drive file or folder link',
+          message: 'Please provide a valid Google Drive file/folder or Google Docs link',
         })
       } else {
         setUploadStatus({
           type: 'error',
-          message: 'Please provide a valid Google Drive link',
+          message: 'Please provide a valid Google Drive or Google Docs link',
         })
       }
       return
@@ -477,7 +487,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         <CardContent className="p-3 sm:p-6">
           {/* Header */}
           <div className="text-center mb-4 sm:mb-6">
-            <h2 className="text-lg sm:text-xl font-semibold mb-2">{isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}</h2>
+            <h2 className="text-lg sm:text-xl font-semibold mb-2">
+              {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 
+               isGoogleDoc(googleDriveUrl) ? `Add ${getGoogleDocType(googleDriveUrl).charAt(0).toUpperCase() + getGoogleDocType(googleDriveUrl).slice(1)} Link` : 
+               'Add File Link'}
+            </h2>
             <p className="text-sm text-muted-foreground hidden sm:block">
               {formData.program.toUpperCase()} • {formData.year.replace('-', ' ')} • {formData.subject.replace('-', ' ')} • {formData.category.replace('-', ' ')}
             </p>
@@ -487,7 +501,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           <div className="mb-4 sm:mb-6 space-y-3 sm:space-y-4">
             <div>
               <Input
-                placeholder={isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : "File name"}
+                placeholder={
+                  isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : 
+                  isGoogleDoc(googleDriveUrl) ? `${getGoogleDocType(googleDriveUrl).charAt(0).toUpperCase() + getGoogleDocType(googleDriveUrl).slice(1)} name` : 
+                  "File name"
+                }
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
                 className="h-12 text-sm sm:text-base"
@@ -496,7 +514,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             
             <div className="relative">
               <Input
-                placeholder="Google Drive link"
+                placeholder="Google Drive or Docs link"
                 value={googleDriveUrl}
                 onChange={(e) => handleUrlChange(e.target.value)}
                 className="h-12 pr-10 text-sm sm:text-base"
@@ -524,6 +542,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               <p className="text-xs text-muted-foreground mt-2">
                 {isGoogleDriveFolder(googleDriveUrl) 
                   ? "Make sure your folder is public and shareable" 
+                  : isGoogleDoc(googleDriveUrl)
+                  ? "Make sure your document is public and shareable"
                   : "Make sure your file is public and shareable"
                 }
               </p>
@@ -533,8 +553,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             <div className="p-3 sm:p-4 bg-muted/30 rounded-lg border">
               <h4 className="text-xs sm:text-sm font-medium mb-2">Quick Guide:</h4>
               <ol className="text-xs text-muted-foreground space-y-1 leading-relaxed">
-                <li>1. Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
-                <li>2. Right-click → Share → Anyone with link</li>
+                <li>1. {isGoogleDoc(googleDriveUrl) 
+                  ? <>Create your document on <a href="https://docs.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Docs</a></>
+                  : <>Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></>
+                }</li>
+                <li>2. {isGoogleDoc(googleDriveUrl) ? "Click Share → Anyone with link" : "Right-click → Share → Anyone with link"}</li>
                 <li>3. Copy the link and paste above</li>
               </ol>
             </div>
@@ -567,7 +590,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             ) : (
               <>
                 <LuLink className="h-4 w-4 mr-2" />
-                {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}
+                {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 
+                 isGoogleDoc(googleDriveUrl) ? `Add ${getGoogleDocType(googleDriveUrl).charAt(0).toUpperCase() + getGoogleDocType(googleDriveUrl).slice(1)} Link` : 
+                 'Add File Link'}
               </>
             )}
           </Button>
@@ -700,48 +725,6 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                       CSE
                     </div>
                   </SelectItem>
-                  <SelectItem value="cse-artificial-intelligence">
-                    <div className="flex items-center gap-2">
-                      <LuBrain className="h-4 w-4" />
-                      CSE - AI
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="cse-data-science">
-                    <div className="flex items-center gap-2">
-                      <LuDatabase className="h-4 w-4" />
-                      CSE - DS
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="cse-networks">
-                    <div className="flex items-center gap-2">
-                      <LuNetwork className="h-4 w-4" />
-                      CSE - Networks
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="cse-artificial-intelligence-and-machine-learning">
-                    <div className="flex items-center gap-2">
-                      <LuBot className="h-4 w-4" />
-                      CSE - AI & ML
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="cse-cyber-security">
-                    <div className="flex items-center gap-2">
-                      <LuShield className="h-4 w-4" />
-                      Cyber Security
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="cse-internet-of-things">
-                    <div className="flex items-center gap-2">
-                      <LuWifi className="h-4 w-4" />
-                      CSE - IoT
-                    </div>
-                  </SelectItem>
-                  <SelectItem value="csbs-computer-science-and-business-systems">
-                    <div className="flex items-center gap-2">
-                      <LuBuilding className="h-4 w-4" />
-                      CSBS
-                    </div>
-                  </SelectItem>
                   <SelectItem value="ece-electronics-communication-engineering">
                     <div className="flex items-center gap-2">
                       <LuCpu className="h-4 w-4" />
@@ -868,7 +851,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
           <div className="space-y-4">
             <div className="space-y-4">
               <Input
-                placeholder={isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : "File name"}
+                placeholder={
+                  isGoogleDriveFolder(googleDriveUrl) ? "Folder name" : 
+                  isGoogleDoc(googleDriveUrl) ? `${getGoogleDocType(googleDriveUrl).charAt(0).toUpperCase() + getGoogleDocType(googleDriveUrl).slice(1)} name` : 
+                  "File name"
+                }
                 value={filename}
                 onChange={(e) => setFilename(e.target.value)}
                 className="h-12 text-sm sm:text-base"
@@ -876,7 +863,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               
               <div className="relative">
                 <Input
-                  placeholder="Google Drive link"
+                  placeholder="Google Drive or Docs link"
                   value={googleDriveUrl}
                   onChange={(e) => handleUrlChange(e.target.value)}
                   className="h-12 pr-10 text-sm sm:text-base"
@@ -905,6 +892,8 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               <p className="text-xs text-muted-foreground text-center">
                 {isGoogleDriveFolder(googleDriveUrl) 
                   ? "Make sure your folder is public and shareable" 
+                  : isGoogleDoc(googleDriveUrl)
+                  ? "Make sure your document is public and shareable"
                   : "Make sure your file is public and shareable"
                 }
               </p>
@@ -914,8 +903,11 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
             <div className="p-3 sm:p-4 bg-muted/30 rounded-lg border">
               <h4 className="text-xs sm:text-sm font-medium mb-2 text-center">Quick Guide:</h4>
               <ol className="text-xs text-muted-foreground space-y-1 text-center leading-relaxed">
-                <li>1. Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></li>
-                <li>2. Right-click → Share → Anyone with link</li>
+                <li>1. {isGoogleDoc(googleDriveUrl) 
+                  ? <>Create your document on <a href="https://docs.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Docs</a></>
+                  : <>Upload your {isGoogleDriveFolder(googleDriveUrl) ? "files to a folder" : "PDF"} on <a href="https://drive.google.com" target="_blank" rel="noopener noreferrer" className="font-bold text-foreground hover:text-primary cursor-pointer">Google Drive</a></>
+                }</li>
+                <li>2. {isGoogleDoc(googleDriveUrl) ? "Click Share → Anyone with link" : "Right-click → Share → Anyone with link"}</li>
                 <li>3. Copy the link and paste above</li>
               </ol>
             </div>
@@ -944,7 +936,9 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
               ) : (
                 <>
                   <LuLink className="h-4 w-4 mr-2" />
-                  {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 'Add File Link'}
+                  {isGoogleDriveFolder(googleDriveUrl) ? 'Add Folder Link' : 
+                   isGoogleDoc(googleDriveUrl) ? `Add ${getGoogleDocType(googleDriveUrl).charAt(0).toUpperCase() + getGoogleDocType(googleDriveUrl).slice(1)} Link` : 
+                   'Add File Link'}
                 </>
               )}
             </Button>

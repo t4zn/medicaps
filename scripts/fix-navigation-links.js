@@ -4,13 +4,6 @@ const path = require('path')
 // Branch mapping
 const branchMap = {
   'CSE': 'computer-science-and-engineering',
-  'CSE - AI': 'cse-artificial-intelligence', 
-  'CSE - DS': 'cse-data-science',
-  'CSE - Networks': 'cse-networks',
-  'CSE - AI & ML': 'cse-artificial-intelligence-and-machine-learning',
-  'Cyber Security': 'cse-cyber-security',
-  'CSE - IoT': 'cse-internet-of-things',
-  'CSBS': 'csbs-computer-science-and-business-systems',
   'ECE': 'ece-electronics-communication-engineering',
   'Civil': 'ce-civil-engineering',
   'Electrical': 'ee-electrical-engineering',

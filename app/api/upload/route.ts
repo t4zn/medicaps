@@ -24,27 +24,37 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Validate Google Drive URL format (support any valid Google Drive link)
+    // Validate Google Drive URL format (support any valid Google Drive link and Google Docs)
     const fileRegex = /^https:\/\/drive\.google\.com\/file\/d\/([a-zA-Z0-9_-]+)/
     const folderRegex = /^https:\/\/drive\.google\.com\/drive\/folders\/([a-zA-Z0-9_-]+)/
-    const isValidUrl = fileRegex.test(googleDriveUrl) || folderRegex.test(googleDriveUrl)
+    const docsRegex = /^https:\/\/docs\.google\.com\/document\/d\/([a-zA-Z0-9_-]+)/
+    const sheetsRegex = /^https:\/\/docs\.google\.com\/spreadsheets\/d\/([a-zA-Z0-9_-]+)/
+    const slidesRegex = /^https:\/\/docs\.google\.com\/presentation\/d\/([a-zA-Z0-9_-]+)/
+    const isValidUrl = fileRegex.test(googleDriveUrl) || folderRegex.test(googleDriveUrl) || docsRegex.test(googleDriveUrl) || sheetsRegex.test(googleDriveUrl) || slidesRegex.test(googleDriveUrl)
     
     if (!isValidUrl) {
-      if (googleDriveUrl.includes('drive.google.com')) {
+      if (googleDriveUrl.includes('drive.google.com') || googleDriveUrl.includes('docs.google.com')) {
         return NextResponse.json(
-          { error: 'Please provide a valid Google Drive file or folder link' },
+          { error: 'Please provide a valid Google Drive file/folder or Google Docs link' },
           { status: 400 }
         )
       } else {
         return NextResponse.json(
-          { error: 'Please provide a valid Google Drive link' },
+          { error: 'Please provide a valid Google Drive or Google Docs link' },
           { status: 400 }
         )
       }
     }
 
-    // Determine if it's a folder or file
+    // Determine the type of content
     const isFolder = folderRegex.test(googleDriveUrl)
+    const isGoogleDoc = docsRegex.test(googleDriveUrl) || sheetsRegex.test(googleDriveUrl) || slidesRegex.test(googleDriveUrl)
+    
+    // Determine Google Doc type
+    let docType = 'file'
+    if (docsRegex.test(googleDriveUrl)) docType = 'document'
+    else if (sheetsRegex.test(googleDriveUrl)) docType = 'spreadsheet'
+    else if (slidesRegex.test(googleDriveUrl)) docType = 'presentation'
 
     // Create admin client for server-side operations
     const supabaseAdmin = createClient(
@@ -76,7 +86,9 @@ export async function POST(request: NextRequest) {
         cdn_url: null, // Legacy field
         google_drive_url: googleDriveUrl,
         file_size: null, // Can't determine size from Google Drive link
-        mime_type: isFolder ? 'application/folder' : 'application/pdf',
+        mime_type: isFolder ? 'application/folder' : 
+                   isGoogleDoc ? `application/vnd.google-apps.${docType}` : 
+                   'application/pdf',
         program,
         branch: branch || null,
         year,
@@ -103,8 +115,8 @@ export async function POST(request: NextRequest) {
       success: true,
       file: fileRecord,
       message: canAutoApprove 
-        ? `${isFolder ? 'Folder' : 'File'} link added and published successfully!` 
-        : `${isFolder ? 'Folder' : 'File'} link added successfully! It will be available after admin approval.`,
+        ? `${isFolder ? 'Folder' : isGoogleDoc ? docType.charAt(0).toUpperCase() + docType.slice(1) : 'File'} link added and published successfully!` 
+        : `${isFolder ? 'Folder' : isGoogleDoc ? docType.charAt(0).toUpperCase() + docType.slice(1) : 'File'} link added successfully! It will be available after admin approval.`,
     })
 
   } catch (error) {

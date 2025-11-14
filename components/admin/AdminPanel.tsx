@@ -64,13 +64,6 @@ export default function AdminPanel() {
   const getBranchUrlSlug = (fullBranchName: string): string => {
     const branchMapping: Record<string, string> = {
       'computer-science-and-engineering': 'cse',
-      'cse-artificial-intelligence': 'cse-ai',
-      'cse-data-science': 'cse-ds',
-      'cse-networks': 'cse-networks',
-      'cse-artificial-intelligence-and-machine-learning': 'cse-aiml',
-      'cse-cyber-security': 'cyber-security',
-      'cse-internet-of-things': 'cse-iot',
-      'csbs-computer-science-and-business-systems': 'csbs',
       'ece-electronics-communication-engineering': 'ece',
       'ce-civil-engineering': 'civil',
       'ee-electrical-engineering': 'electrical',

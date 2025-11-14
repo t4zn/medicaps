@@ -1,7 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
-import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuFolder } from 'react-icons/lu'
+import { LuDownload, LuSearch, LuFilter, LuFileText, LuCalendar, LuFolder, LuFile, LuTable, LuPresentation } from 'react-icons/lu'
 import { ProfilePicture } from '@/components/ui/profile-picture'
 import { useAuth } from '@/contexts/AuthContext'
 import { Button } from '@/components/ui/button'
@@ -254,6 +254,12 @@ export default function FileBrowser({
                     <div className="flex items-center gap-2 mb-2">
                       {file.mime_type === 'application/folder' ? (
                         <LuFolder className="h-5 w-5 text-blue-500 flex-shrink-0" />
+                      ) : file.mime_type === 'application/vnd.google-apps.document' ? (
+                        <LuFile className="h-5 w-5 text-blue-600 flex-shrink-0" />
+                      ) : file.mime_type === 'application/vnd.google-apps.spreadsheet' ? (
+                        <LuTable className="h-5 w-5 text-green-600 flex-shrink-0" />
+                      ) : file.mime_type === 'application/vnd.google-apps.presentation' ? (
+                        <LuPresentation className="h-5 w-5 text-orange-600 flex-shrink-0" />
                       ) : (
                         <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
                       )}
@@ -312,6 +318,21 @@ export default function FileBrowser({
                       <>
                         <LuFolder className="h-4 w-4 mr-2" />
                         {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Open Folder'}
+                      </>
+                    ) : file.mime_type === 'application/vnd.google-apps.document' ? (
+                      <>
+                        <LuFile className="h-4 w-4 mr-2" />
+                        {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Open Doc'}
+                      </>
+                    ) : file.mime_type === 'application/vnd.google-apps.spreadsheet' ? (
+                      <>
+                        <LuTable className="h-4 w-4 mr-2" />
+                        {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Open Sheet'}
+                      </>
+                    ) : file.mime_type === 'application/vnd.google-apps.presentation' ? (
+                      <>
+                        <LuPresentation className="h-4 w-4 mr-2" />
+                        {!file.google_drive_url && !file.cdn_url ? 'No Link' : 'Open Slides'}
                       </>
                     ) : (
                       <>

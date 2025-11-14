@@ -78,12 +78,10 @@ export default function Home() {
       </div>
       <p className="text-foreground mb-8 max-w-[320px] sm:max-w-[600px] text-xs sm:text-base leading-relaxed">
         <span className="sm:hidden">
-          🎓 #1 platform for Medicaps University students. Free notes, PYQs, study materials + AI tutoring.
+          Find notes, PYQs, cheat sheets for Medicaps University. Get instant AI tutoring help.
         </span>
         <span className="hidden sm:inline">
-          🎓 The #1 study platform for Medicaps University students. Access free B.Tech, B.Sc, BBA notes, 
-          previous year questions (PYQs), formula sheets, and get instant AI tutoring help. 
-          Join 10,000+ students achieving academic excellence with MediNotes.
+          Find notes, PYQs, cheat sheets, and study materials for Medicaps University. Get instant AI tutoring help for any subject. Your comprehensive resource hub for academic success.
         </span>
       </p>
 

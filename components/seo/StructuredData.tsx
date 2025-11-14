@@ -10,10 +10,7 @@ interface StructuredDataProps {
 }
 
 export function StructuredData({ 
-  type = 'website', 
-  title = 'MediNotes',
-  description = 'Free study materials, notes, PYQs, and formula sheets for Medicaps University students',
-  url = 'https://medinotes.live'
+  description = 'Free study materials, notes, PYQs, and formula sheets for Medicaps University students'
 }: StructuredDataProps) {
   const websiteSchema = {
     "@context": "https://schema.org",

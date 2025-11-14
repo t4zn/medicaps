@@ -2,7 +2,7 @@ import { Fragment } from "react"
 import { Link } from "lib/transition"
 import { LuHouse } from "react-icons/lu"
 
-import { PageRoutes } from "@/lib/pageroutes"
+
 import {
   Breadcrumb,
   BreadcrumbEllipsis,

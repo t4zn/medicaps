@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '../ui/label'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuUser, LuSave, LuPlus, LuCheck } from 'react-icons/lu'
+import { LuSave, LuPlus, LuCheck } from 'react-icons/lu'
 import Link from 'next/link'
 
 // Predefined avatars from public/avatars directory

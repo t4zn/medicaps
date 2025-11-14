@@ -109,7 +109,7 @@ export function RoleRequest() {
     }
   }
 
-  const getRoleDescription = (role: string) => {
+  // const getRoleDescription = (role: string) => {
     switch (role) {
       case 'uploader': return 'Upload files without approval'
       case 'moderator': return 'Upload files and moderate content'

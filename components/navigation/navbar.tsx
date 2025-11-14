@@ -6,8 +6,7 @@ import { usePathname } from "next/navigation"
 import { Navigations } from "@/settings/navigation"
 import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
 import { useAuth } from "@/contexts/AuthContext"
-import { canAccessAdminPanel } from "@/lib/roles"
-import { canAccessAdminPanelFallback } from "@/lib/roles-fallback"
+
 
 import { buttonVariants } from "@/components/ui/button"
 import { Button } from "@/components/ui/button"
@@ -29,11 +28,7 @@ export function Navbar() {
   const { user, profile, signOut } = useAuth()
   const pathname = usePathname()
   
-  // Check if user can access admin panel (with fallback)
-  const canAccessAdmin = profile ? (
-    canAccessAdminPanel(profile.email || '', profile.role) || 
-    canAccessAdminPanelFallback(profile.email || '')
-  ) : false
+
   
   // Hide search bar on homepage but always show hamburger menu
   const showSearch = pathname !== '/'

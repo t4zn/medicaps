@@ -27,9 +27,7 @@ export function ProfilePicture({
   size = 24, 
   className = '' 
 }: ProfilePictureProps) {
-  const initials = fullName 
-    ? fullName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) 
-    : 'U'
+
   
   // Generate a consistent avatar based on user ID or name
   const getAvatarUrl = () => {

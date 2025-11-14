@@ -33,11 +33,11 @@ const faqs = [
   },
   {
     question: "What are PYQs and why are they important?",
-    answer: "PYQs (Previous Year Questions) are question papers from previous exams. They're crucial for exam preparation as they help you understand exam patterns, important topics, and question formats. Our PYQ collection covers multiple years for better preparation."
+    answer: "PYQs (Previous Year Questions) are question papers from previous exams. They&apos;re crucial for exam preparation as they help you understand exam patterns, important topics, and question formats. Our PYQ collection covers multiple years for better preparation."
   },
   {
     question: "How does the AI tutoring feature work?",
-    answer: "Our AI tutor provides instant help with any subject or topic. Simply ask your question and get detailed explanations, step-by-step solutions, and concept clarifications. It's like having a personal tutor available 24/7."
+    answer: "Our AI tutor provides instant help with any subject or topic. Simply ask your question and get detailed explanations, step-by-step solutions, and concept clarifications. It&apos;s like having a personal tutor available 24/7."
   },
   {
     question: "Can I upload my own study materials?",
@@ -91,7 +91,7 @@ export default function FAQPage() {
       <div className="mt-12 text-center">
         <h2 className="text-2xl font-semibold mb-4">Still have questions?</h2>
         <p className="text-muted-foreground mb-6">
-          Can't find what you're looking for? Our AI tutor is here to help with any academic questions!
+          Can&apos;t find what you&apos;re looking for? Our AI tutor is here to help with any academic questions!
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <a 

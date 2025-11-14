@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
@@ -33,13 +33,7 @@ export function RoleRequest() {
   })
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
 
-  useEffect(() => {
-    if (user) {
-      fetchRequests()
-    }
-  }, [user])
-
-  const fetchRequests = async () => {
+  const fetchRequests = useCallback(async () => {
     try {
       const { data, error } = await supabase
         .from('role_requests')
@@ -54,7 +48,13 @@ export function RoleRequest() {
     } finally {
       setLoading(false)
     }
-  }
+  }, [user])
+
+  useEffect(() => {
+    if (user) {
+      fetchRequests()
+    }
+  }, [user, fetchRequests])
 
   const submitRequest = async () => {
     if (!user || !formData.requested_role || !formData.reason.trim()) return
@@ -110,12 +110,12 @@ export function RoleRequest() {
   }
 
   // const getRoleDescription = (role: string) => {
-    switch (role) {
-      case 'uploader': return 'Upload files without approval'
-      case 'moderator': return 'Upload files and moderate content'
-      default: return ''
-    }
-  }
+  //   switch (role) {
+  //     case 'uploader': return 'Upload files without approval'
+  //     case 'moderator': return 'Upload files and moderate content'
+  //     default: return ''
+  //   }
+  // }
 
   const getRoleIcon = (role: string) => {
     switch (role) {

@@ -23,6 +23,7 @@ import {
 
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import SubjectChat from '@/components/ai/SubjectChat'
+import { handleFileDownload } from '@/utils/download-helper'
 
 interface FileItem {
   id: string
@@ -149,40 +150,28 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
   }, [fetchAllFiles])
 
   const handleDownload = async (file: FileItem) => {
-    // Add file to downloading state immediately for visual feedback
-    setDownloadingFiles(prev => new Set(prev).add(file.id))
-    
-    try {
-      // Track download and get download URL
-      const response = await fetch(`/api/download/${file.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user?.id }),
-      })
-
-      const data = await response.json()
-      
-      if (data.success && data.downloadUrl && data.downloadUrl !== 'null' && data.downloadUrl.trim() !== '') {
-        // Open Google Drive link in new tab immediately
-        window.open(data.downloadUrl, '_blank')
-      } else {
-        console.error('Failed to get download URL:', data)
-        const errorMessage = data.error || 'Download link not available. Please contact support.'
-        alert(errorMessage)
+    await handleFileDownload({
+      fileId: file.id,
+      userId: user?.id,
+      onStart: () => {
+        // Add file to downloading state immediately for visual feedback
+        setDownloadingFiles(prev => new Set(prev).add(file.id))
+      },
+      onError: (error) => {
+        console.error('Download error:', error)
+        alert(error)
+      },
+      onComplete: () => {
+        // Remove file from downloading state after a short delay to show the action completed
+        setTimeout(() => {
+          setDownloadingFiles(prev => {
+            const newSet = new Set(prev)
+            newSet.delete(file.id)
+            return newSet
+          })
+        }, 1000)
       }
-    } catch (error) {
-      console.error('Download error:', error)
-      alert('Failed to download file. Please try again.')
-    } finally {
-      // Remove file from downloading state after a short delay to show the action completed
-      setTimeout(() => {
-        setDownloadingFiles(prev => {
-          const newSet = new Set(prev)
-          newSet.delete(file.id)
-          return newSet
-        })
-      }, 1000)
-    }
+    })
   }
 
   const handleAdminDelete = async (fileId: string, category: string) => {

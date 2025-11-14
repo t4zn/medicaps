@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent } from '@/components/ui/card'
 import { Badge } from '@/components/ui/badge'
 import { ProfilePicture } from '@/components/ui/profile-picture'
+import { handleFileDownload } from '@/utils/download-helper'
 
 interface SavedFile {
   id: string
@@ -101,23 +102,14 @@ export default function SavedResources() {
   }
 
   const handleDownload = async (file: SavedFile) => {
-    try {
-      const response = await fetch(`/api/download/${file.id}`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ userId: user?.id }),
-      })
-
-      const data = await response.json()
-      
-      if (data.success && data.downloadUrl) {
-        window.open(data.downloadUrl, '_blank')
-      } else {
-        alert(data.error || 'Download link not available')
+    await handleFileDownload({
+      fileId: file.id,
+      userId: user?.id,
+      onError: (error) => {
+        console.error('Download error:', error)
+        alert(error)
       }
-    } catch (error) {
-      console.error('Download error:', error)
-    }
+    })
   }
 
   const handleRemoveBookmark = async (fileId: string) => {

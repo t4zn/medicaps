@@ -9,6 +9,7 @@ import { Card, CardContent, CardHeader, CardTitle } from './ui/card'
 import { Input } from './ui/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from './ui/select'
 import { Badge } from './ui/badge'
+import { handleFileDownload } from '@/utils/download-helper'
 
 interface FileItem {
   id: string
@@ -84,34 +85,14 @@ export default function FileBrowser({
   }, [fetchFiles])
 
   const handleDownload = async (file: FileItem) => {
-    try {
-      // Track download and get download URL
-      const response = await fetch(`/api/download/${file.id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          userId: user?.id || null,
-        }),
-      })
-
-      const data = await response.json()
-      
-      console.log('Download API response:', data) // Debug log
-      
-      if (data.success && data.downloadUrl && data.downloadUrl !== 'null' && data.downloadUrl.trim() !== '') {
-        console.log('Opening URL:', data.downloadUrl) // Debug log
-        // Open Google Drive link in new tab
-        window.open(data.downloadUrl, '_blank')
-      } else {
-        console.error('Failed to get download URL:', data)
-        const errorMessage = data.error || 'Download link not available. Please contact support.'
-        alert(errorMessage)
+    await handleFileDownload({
+      fileId: file.id,
+      userId: user?.id,
+      onError: (error) => {
+        console.error('Download error:', error)
+        alert(error)
       }
-    } catch (error) {
-      console.error('Download error:', error)
-    }
+    })
   }
 
 

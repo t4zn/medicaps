@@ -17,6 +17,7 @@ import {
   LuTag 
 } from 'react-icons/lu'
 import Link from 'next/link'
+import { handleDirectDownload, isValidDownloadUrl } from '@/utils/download-helper'
 
 interface UploadedFile {
   id: string
@@ -197,12 +198,11 @@ export default function MyUploads() {
                         variant="outline"
                         size="sm"
                         onClick={() => {
-                          const downloadUrl = file.google_drive_url || file.cdn_url
-                          if (downloadUrl && downloadUrl !== 'null' && downloadUrl.trim() !== '') {
-                            window.open(downloadUrl, '_blank')
-                          } else {
-                            alert('Download link not available. Please update your file with a valid Google Drive link.')
-                          }
+                          const downloadUrl = file.google_drive_url || file.cdn_url || ''
+                          handleDirectDownload(
+                            downloadUrl, 
+                            'Download link not available. Please update your file with a valid Google Drive link.'
+                          )
                         }}
                         className="flex-1 h-8 text-xs"
                       >
@@ -269,12 +269,11 @@ export default function MyUploads() {
                           variant="outline"
                           size="sm"
                           onClick={() => {
-                            const downloadUrl = file.google_drive_url || file.cdn_url
-                            if (downloadUrl && downloadUrl !== 'null' && downloadUrl.trim() !== '') {
-                              window.open(downloadUrl, '_blank')
-                            } else {
-                              alert('Download link not available. Please update your file with a valid Google Drive link.')
-                            }
+                            const downloadUrl = file.google_drive_url || file.cdn_url || ''
+                            handleDirectDownload(
+                              downloadUrl, 
+                              'Download link not available. Please update your file with a valid Google Drive link.'
+                            )
                           }}
                         >
                           <LuDownload className="h-4 w-4" />

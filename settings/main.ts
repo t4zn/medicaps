@@ -1,5 +1,5 @@
 export const url = "https://medinotes.live"
-export const siteicon = "/icon.png"
+export const siteicon = "/icon_light.png"
 
 export const gtm = "GTM-XXXXXXX"
 export const gtmconnected = true

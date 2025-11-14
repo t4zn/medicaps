@@ -11,6 +11,7 @@ import { Settings } from "@/types/settings"
 import { SidebarProvider } from "@/contexts/SidebarContext"
 import { LayoutContent } from "../components/LayoutContent"
 import { StructuredData } from "@/components/seo/StructuredData"
+import { FaviconSwitcher } from "../components/theme/FaviconSwitcher"
 
 import "@/styles/globals.css"
 
@@ -139,8 +140,8 @@ export default function RootLayout({
         <meta name="application-name" content="MediNotes" />
         <meta name="msapplication-TileColor" content="#000000" />
         <meta name="msapplication-config" content="/browserconfig.xml" />
+        <link rel="icon" href="/icon_light.png" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
         <link rel="manifest" href="/manifest.json" />
@@ -164,6 +165,7 @@ export default function RootLayout({
       </Script>
       <body className={`${inter.variable} ${poppins.variable} font-regular`}>
         <StructuredData />
+        <FaviconSwitcher />
         <Providers>
           <AuthProvider>
             <SidebarProvider>

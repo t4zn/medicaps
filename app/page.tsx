@@ -68,11 +68,18 @@ export default function Home() {
     <section className="flex min-h-[86.5vh] flex-col items-center justify-center px-2 py-8 text-center">
       <div className="mb-4 flex items-center justify-center gap-2 sm:gap-4">
         <Image
+          src="/icon_light.png"
+          alt="MediNotes Icon"
+          width={128}
+          height={128}
+          className="h-12 w-12 sm:h-32 sm:w-32 dark:hidden"
+        />
+        <Image
           src="/icon.png"
           alt="MediNotes Icon"
           width={128}
           height={128}
-          className="h-12 w-12 sm:h-32 sm:w-32"
+          className="h-12 w-12 sm:h-32 sm:w-32 hidden dark:block"
         />
         <h1 className="text-2xl font-bold sm:text-7xl whitespace-nowrap font-poppins">MediNotes</h1>
       </div>

@@ -1,5 +1,6 @@
 import { Link } from "lib/transition"
 import type { Metadata } from "next"
+import Image from "next/image"
 
 import { Upload } from "lucide-react"
 
@@ -65,48 +66,34 @@ export const metadata: Metadata = {
 
 export default function Home() {
   return (
-    <div className="min-h-screen relative">
+    <div className="relative">
 
       
       {/* Hero Section */}
-      <section className="px-4 py-16 sm:py-24 relative z-10">
+      <section className="px-4 py-8 relative z-10">
         <div className="mx-auto max-w-4xl text-center">
-          {/* Avatar Row */}
-          <div className="flex justify-center items-center gap-2 mb-12">
-            <div className="w-12 h-12 rounded-full bg-blue-500 flex items-center justify-center text-white font-bold">
-              📚
-            </div>
-            <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
-              🎓
-            </div>
-            <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white font-bold">
-              👨‍💻
-            </div>
-            <div className="w-12 h-12 rounded-full bg-orange-500 flex items-center justify-center text-white font-bold">
-              💡
-            </div>
-            <div className="w-12 h-12 rounded-full bg-yellow-400 flex items-center justify-center text-gray-800 font-bold">
-              ⚡
-            </div>
-            <div className="w-12 h-12 rounded-full bg-gray-100 flex items-center justify-center text-gray-600 font-bold">
-              📝
-            </div>
-            <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-white font-bold">
-              🔍
-            </div>
-            <div className="w-12 h-12 rounded-full bg-gray-800 flex items-center justify-center text-white font-bold">
-              👩‍🎓
-            </div>
-            <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center text-gray-600 font-bold">
-              📊
-            </div>
-            <div className="w-12 h-12 rounded-full bg-yellow-500 flex items-center justify-center text-gray-800 font-bold">
-              ✓
-            </div>
+          {/* Hero Image */}
+          <div className="mb-4">
+            <Image
+              src="/hero.jpg"
+              alt="MediNotes Hero"
+              width={400}
+              height={200}
+              className="mx-auto dark:hidden"
+              priority
+            />
+            <Image
+              src="/herodark.PNG"
+              alt="MediNotes Hero"
+              width={400}
+              height={200}
+              className="mx-auto hidden dark:block"
+              priority
+            />
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-tight mb-6">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none mb-6">
             Study smarter.
             <br />
             Achieve more.
@@ -118,8 +105,13 @@ export default function Home() {
             <span className="sm:hidden">Access notes, PYQs, study materials and get AI tutoring help for Medicaps University.</span>
           </p>
 
+          {/* Search Bar */}
+          <div className="w-full max-w-md mx-auto mb-8">
+            <Search />
+          </div>
+
           {/* CTA Buttons */}
-          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/welcome"
               className={buttonVariants({ 
@@ -142,30 +134,12 @@ export default function Home() {
               Upload File
             </Link>
           </div>
-
-          {/* Search Bar */}
-          <div className="w-full max-w-md mx-auto">
-            <Search />
-          </div>
         </div>
       </section>
 
 
 
-      {/* Trusted By Section */}
-      <section className="px-4 py-16 relative z-10">
-        <div className="mx-auto max-w-4xl text-center">
-          <p className="text-sm text-muted-foreground mb-8">Trusted by top students</p>
-          <div className="flex flex-wrap justify-center items-center gap-8 opacity-60">
-            <div className="text-lg font-semibold">Medicaps University</div>
-            <div className="text-lg font-semibold">B.Tech Students</div>
-            <div className="text-lg font-semibold">Engineering Dept</div>
-            <div className="text-lg font-semibold">Study Groups</div>
-            <div className="text-lg font-semibold">Academic Excellence</div>
-            <div className="text-lg font-semibold">10,000+ Users</div>
-          </div>
-        </div>
-      </section>
+
     </div>
   )
 }

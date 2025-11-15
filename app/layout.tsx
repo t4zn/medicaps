@@ -129,8 +129,8 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://fonts.cdnfonts.com" />
+        <link href="https://fonts.cdnfonts.com/css/gilroy-bold" rel="stylesheet" />
         <link rel="dns-prefetch" href="https://medinotes.live" />
         <meta name="theme-color" content="#000000" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -163,7 +163,7 @@ export default function RootLayout({
           gtag('config', 'G-EZ7B74TTSE');
         `}
       </Script>
-      <body className={`${inter.variable} ${poppins.variable} font-regular`}>
+      <body className="font-gilroy">
         <StructuredData />
         <FaviconSwitcher />
         <Providers>

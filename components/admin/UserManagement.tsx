@@ -78,12 +78,23 @@ export function UserManagement() {
 
   const updateUserRole = async (userId: string, newRole: UserRole) => {
     try {
-      const { error } = await supabase
-        .from('profiles')
-        .update({ role: newRole })
-        .eq('id', userId)
+      const response = await fetch('/api/admin/update-user-role', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          userId,
+          newRole,
+          adminUserId: profile?.id
+        }),
+      })
 
-      if (error) throw error
+      const result = await response.json()
+
+      if (!response.ok) {
+        throw new Error(result.error || 'Failed to update user role')
+      }
 
       // Update local state
       setUsers(prev => prev.map(user => 
@@ -94,7 +105,11 @@ export function UserManagement() {
       setTimeout(() => setMessage(null), 3000)
     } catch (error) {
       console.error('Error updating user role:', error)
-      setMessage({ type: 'error', text: 'Failed to update user role' })
+      setMessage({ 
+        type: 'error', 
+        text: error instanceof Error ? error.message : 'Failed to update user role' 
+      })
+      setTimeout(() => setMessage(null), 5000)
     }
   }
 

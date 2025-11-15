@@ -964,6 +964,119 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Industrial Training',
     description: 'Practical industry experience, internship reports, and professional skill development in electronics and communication engineering industry.',
     code: 'EC3PC03'
+  },
+  // Mix subjects for different branches and years
+  'mix-1st-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for 1st year engineering.',
+  },
+  'mix-cse-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSE 2nd year.',
+  },
+  'mix-cse-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSE 3rd year.',
+  },
+  'mix-cse-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSE 4th year.',
+  },
+  'mix-csbs-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSBS 2nd year.',
+  },
+  'mix-csbs-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSBS 3rd year.',
+  },
+  'mix-csbs-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for CSBS 4th year.',
+  },
+  'mix-ece-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for ECE 2nd year.',
+  },
+  'mix-ece-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for ECE 3rd year.',
+  },
+  'mix-ece-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for ECE 4th year.',
+  },
+  'mix-civil-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Civil 2nd year.',
+  },
+  'mix-civil-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Civil 3rd year.',
+  },
+  'mix-civil-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Civil 4th year.',
+  },
+  'mix-electrical-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Electrical 2nd year.',
+  },
+  'mix-electrical-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Electrical 3rd year.',
+  },
+  'mix-electrical-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Electrical 4th year.',
+  },
+  'mix-automobile-ev-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Automobile (EV) 2nd year.',
+  },
+  'mix-automobile-ev-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Automobile (EV) 3rd year.',
+  },
+  'mix-automobile-ev-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Automobile (EV) 4th year.',
+  },
+  'mix-it-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for IT 2nd year.',
+  },
+  'mix-it-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for IT 3rd year.',
+  },
+  'mix-it-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for IT 4th year.',
+  },
+  'mix-mechanical-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Mechanical 2nd year.',
+  },
+  'mix-mechanical-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Mechanical 3rd year.',
+  },
+  'mix-mechanical-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Mechanical 4th year.',
+  },
+  'mix-robotics-automation-2nd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Robotics & Automation 2nd year.',
+  },
+  'mix-robotics-automation-3rd-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Robotics & Automation 3rd year.',
+  },
+  'mix-robotics-automation-4th-year': {
+    name: 'Mix',
+    description: 'Mixed study materials, miscellaneous resources, and general reference materials for Robotics & Automation 4th year.',
   }
 }
 

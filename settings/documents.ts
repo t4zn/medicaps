@@ -68,7 +68,7 @@ export const Documents: Paths[] = [
 
               {
                 title: "Mix",
-                href: "/notes/btech/1st-year/mix",
+                href: "/notes/btech/1st-year/mix-1st-year",
               },
             ],
           },
@@ -152,7 +152,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/cse/2nd-year/mix",
+                    href: "/notes/btech/cse/2nd-year/mix-cse-2nd-year",
                   },
                 ],
               },
@@ -195,7 +195,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/cse/3rd-year/mix",
+                    href: "/notes/btech/cse/3rd-year/mix-cse-3rd-year",
                   },
                 ],
               },
@@ -210,7 +210,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/cse/4th-year/mix",
+                    href: "/notes/btech/cse/4th-year/mix-cse-4th-year",
                   },
                 ],
               },
@@ -293,7 +293,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/csbs/2nd-year/mix",
+                    href: "/notes/btech/csbs/2nd-year/mix-csbs-2nd-year",
                   },
                 ],
               },
@@ -360,7 +360,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/csbs/3rd-year/mix",
+                    href: "/notes/btech/csbs/3rd-year/mix-csbs-3rd-year",
                   },
                 ],
               },
@@ -395,7 +395,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/csbs/4th-year/mix",
+                    href: "/notes/btech/csbs/4th-year/mix-csbs-4th-year",
                   },
                 ],
               },
@@ -469,7 +469,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/ece/2nd-year/mix",
+                    href: "/notes/btech/ece/2nd-year/mix-ece-2nd-year",
                   },
                 ],
               },
@@ -516,7 +516,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/ece/3rd-year/mix",
+                    href: "/notes/btech/ece/3rd-year/mix-ece-3rd-year",
                   },
                 ],
               },
@@ -531,7 +531,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/ece/4th-year/mix",
+                    href: "/notes/btech/ece/4th-year/mix-ece-4th-year",
                   },
                 ],
               },
@@ -629,7 +629,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/civil/2nd-year/mix",
+                    href: "/notes/btech/civil/2nd-year/mix-civil-2nd-year",
                   },
                 ],
               },
@@ -692,7 +692,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/civil/3rd-year/mix",
+                    href: "/notes/btech/civil/3rd-year/mix-civil-3rd-year",
                   },
                 ],
               },
@@ -723,7 +723,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/civil/4th-year/mix",
+                    href: "/notes/btech/civil/4th-year/mix-civil-4th-year",
                   },
                 ],
               },
@@ -801,7 +801,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/electrical/2nd-year/mix",
+                    href: "/notes/btech/electrical/2nd-year/mix-electrical-2nd-year",
                   },
                 ],
               },
@@ -876,7 +876,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/electrical/3rd-year/mix",
+                    href: "/notes/btech/electrical/3rd-year/mix-electrical-3rd-year",
                   },
                 ],
               },
@@ -907,7 +907,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/electrical/4th-year/mix",
+                    href: "/notes/btech/electrical/4th-year/mix-electrical-4th-year",
                   },
                 ],
               },
@@ -989,7 +989,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/automobile-ev/2nd-year/mix",
+                    href: "/notes/btech/automobile-ev/2nd-year/mix-automobile-ev-2nd-year",
                   },
                 ],
               },
@@ -1040,7 +1040,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/automobile-ev/3rd-year/mix",
+                    href: "/notes/btech/automobile-ev/3rd-year/mix-automobile-ev-3rd-year",
                   },
                 ],
               },
@@ -1055,7 +1055,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/automobile-ev/4th-year/mix",
+                    href: "/notes/btech/automobile-ev/4th-year/mix-automobile-ev-4th-year",
                   },
                 ],
               },
@@ -1133,7 +1133,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/it/2nd-year/mix",
+                    href: "/notes/btech/it/2nd-year/mix-it-2nd-year",
                   },
                 ],
               },
@@ -1184,7 +1184,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/it/3rd-year/mix",
+                    href: "/notes/btech/it/3rd-year/mix-it-3rd-year",
                   },
                 ],
               },
@@ -1199,7 +1199,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/it/4th-year/mix",
+                    href: "/notes/btech/it/4th-year/mix-it-4th-year",
                   },
                 ],
               },
@@ -1281,7 +1281,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/mechanical/2nd-year/mix",
+                    href: "/notes/btech/mechanical/2nd-year/mix-mechanical-2nd-year",
                   },
                 ],
               },
@@ -1336,7 +1336,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/mechanical/3rd-year/mix",
+                    href: "/notes/btech/mechanical/3rd-year/mix-mechanical-3rd-year",
                   },
                 ],
               },
@@ -1351,7 +1351,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/mechanical/4th-year/mix",
+                    href: "/notes/btech/mechanical/4th-year/mix-mechanical-4th-year",
                   },
                 ],
               },
@@ -1425,7 +1425,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/robotics-automation/2nd-year/mix",
+                    href: "/notes/btech/robotics-automation/2nd-year/mix-robotics-automation-2nd-year",
                   },
                 ],
               },
@@ -1472,7 +1472,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/robotics-automation/3rd-year/mix",
+                    href: "/notes/btech/robotics-automation/3rd-year/mix-robotics-automation-3rd-year",
                   },
                 ],
               },
@@ -1487,7 +1487,7 @@ export const Documents: Paths[] = [
                   },
                   {
                     title: "Mix",
-                    href: "/notes/btech/robotics-automation/4th-year/mix",
+                    href: "/notes/btech/robotics-automation/4th-year/mix-robotics-automation-4th-year",
                   },
                 ],
               },

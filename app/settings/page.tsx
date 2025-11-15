@@ -299,7 +299,7 @@ export default function SettingsPage() {
               <Button 
                 type="submit" 
                 disabled={profileLoading}
-                className="w-full bg-black dark:bg-white text-white dark:text-black hover:opacity-80 active:opacity-60"
+                className="w-full bg-[#000000] dark:bg-[#ffffff] text-[#ffffff] dark:text-[#000000] hover:opacity-80 active:opacity-60"
               >
                 {profileLoading ? 'Saving...' : 'Save Changes'}
               </Button>
@@ -332,9 +332,20 @@ export default function SettingsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white dark:bg-black flex">
+    <>
+      <style dangerouslySetInnerHTML={{
+        __html: `
+          .dark div:not([class*="bg-"]) {
+            background-color: #000000 !important;
+          }
+          .dark body {
+            background-color: #000000 !important;
+          }
+        `
+      }} />
+      <div className="min-h-screen bg-white dark:bg-black flex">
       {/* Sidebar */}
-      <div className="hidden lg:block w-64 border-r border-gray-200 dark:border-gray-700 flex-shrink-0">
+      <div className="hidden lg:block w-64 border-r border-gray-200 dark:border-gray-700 flex-shrink-0 bg-[#ffffff] dark:bg-[#000000]">
         <div className="p-6">
           <h1 className="text-xl font-light text-black dark:text-white mb-8">Settings</h1>
           
@@ -427,9 +438,9 @@ export default function SettingsPage() {
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 overflow-auto">
+      <div className="flex-1 overflow-auto bg-[#ffffff] dark:bg-[#000000]">
         {/* Mobile Navigation */}
-        <div className="lg:hidden border-b border-gray-200 dark:border-gray-700 p-4">
+        <div className="lg:hidden border-b border-gray-200 dark:border-gray-700 p-4 bg-[#ffffff] dark:bg-[#000000]">
           <div className="flex items-center gap-3 mb-4">
             {activeSection !== 'overview' && (
               <Button
@@ -453,5 +464,6 @@ export default function SettingsPage() {
         </div>
       </div>
     </div>
+    </>
   )
 }

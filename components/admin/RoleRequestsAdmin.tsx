@@ -4,23 +4,12 @@ import { useState, useEffect } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { Textarea } from '@/components/ui/textarea'
-import { Alert, AlertDescription } from '@/components/ui/alert'
 import { ProfilePicture } from '@/components/ui/profile-picture'
+import { Pagination } from '@/components/ui/pagination'
 import { canManageUsers } from '@/lib/roles'
 import { canManageUsersFallback } from '@/lib/roles-fallback'
-import { 
-  LuShield, 
-  LuClock, 
-  LuCheck, 
-  LuX, 
-  LuUpload, 
-  LuUserCheck, 
-  LuUser,
-  LuCalendar 
-} from 'react-icons/lu'
+import { LuShield, LuClock, LuCheck, LuX, LuUpload, LuUserCheck, LuUser } from 'react-icons/lu'
 
 interface RoleRequestWithProfile {
   id: string
@@ -47,8 +36,12 @@ export function RoleRequestsAdmin() {
   const [rejectionReason, setRejectionReason] = useState('')
   const [showRejectionForm, setShowRejectionForm] = useState<string | null>(null)
   const [message, setMessage] = useState<{ type: 'success' | 'error', text: string } | null>(null)
+  
+  // Pagination states
+  const [pendingPage, setPendingPage] = useState(1)
+  const [reviewedPage, setReviewedPage] = useState(1)
+  const itemsPerPage = 10
 
-  // Check if current user can manage users
   const canManage = profile ? (
     canManageUsers(profile.email || '', profile.role) || 
     canManageUsersFallback(profile.email || '')
@@ -90,7 +83,6 @@ export function RoleRequestsAdmin() {
     setMessage(null)
 
     try {
-      // Update the role request
       const { error: requestError } = await supabase
         .from('role_requests')
         .update({
@@ -102,7 +94,6 @@ export function RoleRequestsAdmin() {
 
       if (requestError) throw requestError
 
-      // Update the user's role
       const { error: profileError } = await supabase
         .from('profiles')
         .update({ role: requestedRole })
@@ -151,24 +142,6 @@ export function RoleRequestsAdmin() {
     }
   }
 
-  const getStatusIcon = (status: string) => {
-    switch (status) {
-      case 'pending': return <LuClock className="h-4 w-4" />
-      case 'approved': return <LuCheck className="h-4 w-4" />
-      case 'rejected': return <LuX className="h-4 w-4" />
-      default: return <LuShield className="h-4 w-4" />
-    }
-  }
-
-  const getStatusColor = (status: string) => {
-    switch (status) {
-      case 'pending': return 'bg-yellow-100 text-yellow-800 border-yellow-200 dark:bg-yellow-900 dark:text-yellow-300'
-      case 'approved': return 'bg-green-100 text-green-800 border-green-200 dark:bg-green-900 dark:text-green-300'
-      case 'rejected': return 'bg-red-100 text-red-800 border-red-200 dark:bg-red-900 dark:text-red-300'
-      default: return 'bg-gray-100 text-gray-800 border-gray-200 dark:bg-gray-900 dark:text-gray-300'
-    }
-  }
-
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'uploader': return <LuUpload className="h-4 w-4" />
@@ -187,323 +160,256 @@ export function RoleRequestsAdmin() {
 
   if (!canManage) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center">
-          <LuShield className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <p className="text-muted-foreground">You don&apos;t have permission to manage role requests.</p>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12 space-y-4">
+        <LuShield className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600" />
+        <div>
+          <h3 className="text-lg font-light text-black dark:text-white mb-2">Access Denied</h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm">You don&apos;t have permission to manage role requests</p>
+        </div>
+      </div>
     )
   }
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading role requests...</p>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
+        <p className="text-gray-500 dark:text-gray-400">Loading role requests...</p>
+      </div>
     )
   }
 
   const pendingRequests = requests.filter(req => req.status === 'pending')
   const reviewedRequests = requests.filter(req => req.status !== 'pending')
+  
+  // Pagination helpers
+  const getPaginatedItems = <T,>(items: T[], page: number) => {
+    const startIndex = (page - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return items.slice(startIndex, endIndex)
+  }
+
+  const getTotalPages = (totalItems: number) => {
+    return Math.ceil(totalItems / itemsPerPage)
+  }
+  
+  const paginatedPendingRequests = getPaginatedItems(pendingRequests, pendingPage)
+  const paginatedReviewedRequests = getPaginatedItems(reviewedRequests, reviewedPage)
+  const pendingTotalPages = getTotalPages(pendingRequests.length)
+  const reviewedTotalPages = getTotalPages(reviewedRequests.length)
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <LuShield className="h-5 w-5" />
-            Role Requests Management
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Status Message */}
-          {message && (
-            <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
-              {message.type === 'success' ? <LuCheck className="h-4 w-4" /> : <LuX className="h-4 w-4" />}
-              <AlertDescription>{message.text}</AlertDescription>
-            </Alert>
-          )}
+    <div className="max-w-4xl mx-auto space-y-6">
+      <div>
+        <h2 className="text-lg font-light text-black dark:text-white mb-6">Role Requests</h2>
+      </div>
 
-          {/* Pending Requests */}
-          <div>
-            <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-              <LuClock className="h-5 w-5 text-yellow-600" />
-              Pending Requests ({pendingRequests.length})
-            </h3>
-            
-            {pendingRequests.length === 0 ? (
-              <div className="text-center py-8 text-muted-foreground">
-                <LuCheck className="h-12 w-12 mx-auto mb-2 opacity-50" />
-                <p>No pending role requests</p>
-              </div>
-            ) : (
-              <div className="space-y-4">
-                {pendingRequests.map((request) => (
-                  <div key={request.id} className="border rounded-lg">
-                    {/* Mobile Layout */}
-                    <div className="block sm:hidden p-3 space-y-3">
-                      {/* User Info */}
-                      <div className="flex items-start gap-3">
-                        <ProfilePicture 
-                          avatarUrl={request.profiles.avatar_url} 
-                          fullName={request.profiles.full_name}
-                          userId={request.user_id}
-                          size={32} 
-                        />
-                        <div className="flex-1 min-w-0">
-                          <h4 className="font-medium text-sm leading-tight">{request.profiles.full_name}</h4>
-                          <p className="text-xs text-muted-foreground truncate">{request.profiles.email}</p>
-                          <div className="flex items-center gap-1 mt-1 text-xs">
-                            <Badge variant="outline" className="text-xs px-1 py-0">
-                              {request.profiles.role}
-                            </Badge>
-                            <span className="text-muted-foreground">→</span>
-                            <Badge className="text-xs px-1 py-0 bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                              {request.requested_role}
-                            </Badge>
-                          </div>
-                        </div>
-                        <div className="text-xs text-muted-foreground">
-                          {new Date(request.created_at).toLocaleDateString()}
-                        </div>
-                      </div>
+      {message && (
+        <div className={`text-center text-sm ${
+          message.type === 'error' 
+            ? 'text-red-600 dark:text-red-400' 
+            : 'text-green-600 dark:text-green-400'
+        }`}>
+          {message.text}
+        </div>
+      )}
 
-                      {/* Role Description */}
-                      <div className="p-2 bg-muted/30 rounded text-xs">
-                        <div className="flex items-center gap-1 mb-1">
-                          {getRoleIcon(request.requested_role)}
-                          <span className="font-medium capitalize">{request.requested_role}</span>
-                        </div>
-                        <p className="text-muted-foreground">{getRoleDescription(request.requested_role)}</p>
-                      </div>
-
-                      {/* Reason */}
-                      <div>
-                        <p className="text-xs font-medium mb-1">Reason:</p>
-                        <p className="text-xs text-muted-foreground bg-muted/30 p-2 rounded leading-relaxed">{request.reason}</p>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex gap-1">
-                        <Button
-                          onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
-                          disabled={processingId === request.id}
-                          className="flex-1 h-8 text-xs bg-green-600 hover:bg-green-700"
-                          size="sm"
-                        >
-                          <LuCheck className="h-3 w-3 mr-1" />
-                          {processingId === request.id ? 'Approving...' : 'Approve'}
-                        </Button>
-                        
-                        <Button
-                          variant="destructive"
-                          onClick={() => setShowRejectionForm(request.id)}
-                          disabled={processingId === request.id}
-                          className="flex-1 h-8 text-xs"
-                          size="sm"
-                        >
-                          <LuX className="h-3 w-3 mr-1" />
-                          Reject
-                        </Button>
-                      </div>
-
-                      {/* Rejection Form */}
-                      {showRejectionForm === request.id && (
-                        <div className="space-y-2 p-2 border rounded bg-red-50 dark:bg-red-950">
-                          <label className="text-xs font-medium">Rejection Reason</label>
-                          <Textarea
-                            placeholder="Explain why this request is being rejected..."
-                            value={rejectionReason}
-                            onChange={(e) => setRejectionReason(e.target.value)}
-                            rows={2}
-                            className="text-xs"
-                          />
-                          <div className="flex gap-1">
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => rejectRequest(request.id)}
-                              disabled={!rejectionReason.trim() || processingId === request.id}
-                              className="flex-1 h-7 text-xs"
-                            >
-                              {processingId === request.id ? 'Rejecting...' : 'Confirm'}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setShowRejectionForm(null)
-                                setRejectionReason('')
-                              }}
-                              className="flex-1 h-7 text-xs"
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-
-                    {/* Desktop Layout */}
-                    <div className="hidden sm:block sm:p-4 sm:space-y-4">
-                      {/* User Info */}
-                      <div className="flex items-center gap-3">
-                        <ProfilePicture 
-                          avatarUrl={request.profiles.avatar_url} 
-                          fullName={request.profiles.full_name}
-                          userId={request.user_id}
-                          size={40} 
-                        />
-                        <div className="flex-1">
-                          <h4 className="font-medium">{request.profiles.full_name}</h4>
-                          <p className="text-sm text-muted-foreground">{request.profiles.email}</p>
-                          <div className="flex items-center gap-2 mt-1">
-                            <Badge variant="outline" className="text-xs">
-                              Current: {request.profiles.role}
-                            </Badge>
-                            <span className="text-xs text-muted-foreground">→</span>
-                            <Badge className="text-xs bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300">
-                              {getRoleIcon(request.requested_role)}
-                              <span className="ml-1">Requested: {request.requested_role}</span>
-                            </Badge>
-                          </div>
-                        </div>
-                        <div className="text-right text-xs text-muted-foreground">
-                          <div className="flex items-center gap-1">
-                            <LuCalendar className="h-3 w-3" />
-                            {new Date(request.created_at).toLocaleDateString()}
-                          </div>
-                        </div>
-                      </div>
-
-                      {/* Role Info */}
-                      <div className="p-3 bg-muted/30 rounded-lg">
-                        <div className="flex items-center gap-2 mb-2">
-                          {getRoleIcon(request.requested_role)}
-                          <span className="font-medium capitalize">{request.requested_role}</span>
-                        </div>
-                        <p className="text-sm text-muted-foreground">{getRoleDescription(request.requested_role)}</p>
-                      </div>
-
-                      {/* Reason */}
-                      <div>
-                        <p className="text-sm font-medium mb-1">Reason:</p>
-                        <p className="text-sm text-muted-foreground bg-muted/30 p-3 rounded-lg">{request.reason}</p>
-                      </div>
-
-                      {/* Actions */}
-                      <div className="flex gap-2">
-                        <Button
-                          onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
-                          disabled={processingId === request.id}
-                          className="flex-1 bg-green-600 hover:bg-green-700"
-                        >
-                          <LuCheck className="h-4 w-4 mr-2" />
-                          {processingId === request.id ? 'Approving...' : 'Approve'}
-                        </Button>
-                        
-                        <Button
-                          variant="destructive"
-                          onClick={() => setShowRejectionForm(request.id)}
-                          disabled={processingId === request.id}
-                          className="flex-1"
-                        >
-                          <LuX className="h-4 w-4 mr-2" />
-                          Reject
-                        </Button>
-                      </div>
-
-                      {/* Rejection Form */}
-                      {showRejectionForm === request.id && (
-                        <div className="space-y-3 p-3 border rounded-lg bg-red-50 dark:bg-red-950">
-                          <label className="text-sm font-medium">Rejection Reason</label>
-                          <Textarea
-                            placeholder="Explain why this request is being rejected..."
-                            value={rejectionReason}
-                            onChange={(e) => setRejectionReason(e.target.value)}
-                            rows={2}
-                          />
-                          <div className="flex gap-2">
-                            <Button
-                              size="sm"
-                              variant="destructive"
-                              onClick={() => rejectRequest(request.id)}
-                              disabled={!rejectionReason.trim() || processingId === request.id}
-                            >
-                              {processingId === request.id ? 'Rejecting...' : 'Confirm Rejection'}
-                            </Button>
-                            <Button
-                              size="sm"
-                              variant="outline"
-                              onClick={() => {
-                                setShowRejectionForm(null)
-                                setRejectionReason('')
-                              }}
-                            >
-                              Cancel
-                            </Button>
-                          </div>
-                        </div>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-
-          {/* Reviewed Requests */}
-          {reviewedRequests.length > 0 && (
+      {/* Pending Requests */}
+      <div>
+        <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+          <LuClock className="h-5 w-5 text-yellow-600" />
+          Pending Requests ({pendingRequests.length})
+        </h3>
+        
+        {pendingRequests.length === 0 ? (
+          <div className="text-center py-12 space-y-4">
+            <LuCheck className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600" />
             <div>
-              <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
-                <LuUser className="h-5 w-5" />
-                Recent Reviews ({reviewedRequests.slice(0, 5).length})
-              </h3>
-              
-              <div className="space-y-3">
-                {reviewedRequests.slice(0, 5).map((request) => (
-                  <div key={request.id} className="border rounded-lg p-3 opacity-75">
-                    <div className="flex items-center justify-between">
-                      <div className="flex items-center gap-3">
-                        <ProfilePicture 
-                          avatarUrl={request.profiles.avatar_url} 
-                          fullName={request.profiles.full_name} 
-                          size={32} 
-                        />
-                        <div>
-                          <p className="font-medium text-sm">{request.profiles.full_name}</p>
-                          <p className="text-xs text-muted-foreground">
-                            Requested {request.requested_role} role
-                          </p>
-                        </div>
+              <h3 className="text-lg font-light text-black dark:text-white mb-2">All caught up</h3>
+              <p className="text-gray-500 dark:text-gray-400 text-sm">No pending role requests</p>
+            </div>
+          </div>
+        ) : (
+          <>
+            <div className="space-y-3">
+              {paginatedPendingRequests.map((request) => (
+              <div key={request.id} className="py-4 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-start gap-3 flex-1">
+                    <ProfilePicture 
+                      avatarUrl={request.profiles.avatar_url} 
+                      fullName={request.profiles.full_name}
+                      userId={request.user_id}
+                      size={40} 
+                    />
+                    <div className="flex-1 min-w-0">
+                      <div className="flex items-center gap-2 mb-1">
+                        <h4 className="font-medium text-black dark:text-white text-sm">{request.profiles.full_name}</h4>
+                        <span className="text-xs px-2 py-0.5 rounded bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300">
+                          {request.profiles.role}
+                        </span>
+                        <span className="text-xs text-gray-400">→</span>
+                        <span className="text-xs px-2 py-0.5 rounded bg-blue-100 text-blue-700 dark:bg-blue-900 dark:text-blue-300">
+                          {request.requested_role}
+                        </span>
                       </div>
-                      <div className="text-right">
-                        <Badge className={getStatusColor(request.status)}>
-                          {getStatusIcon(request.status)}
-                          <span className="ml-1 capitalize">{request.status}</span>
-                        </Badge>
-                        <p className="text-xs text-muted-foreground mt-1">
-                          {request.reviewed_at && new Date(request.reviewed_at).toLocaleDateString()}
-                        </p>
+                      
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mb-2">{request.profiles.email}</p>
+                      
+                      <div className="flex items-center gap-2 mb-2">
+                        {getRoleIcon(request.requested_role)}
+                        <span className="text-xs text-gray-600 dark:text-gray-400">{getRoleDescription(request.requested_role)}</span>
                       </div>
+                      
+                      <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">{request.reason}</p>
+                      
+                      <p className="text-xs text-gray-400">
+                        {new Date(request.created_at).toLocaleDateString()}
+                      </p>
                     </div>
-                    
-                    {request.status === 'rejected' && request.rejection_reason && (
-                      <div className="mt-2 p-2 bg-red-50 dark:bg-red-950 rounded text-xs text-red-800 dark:text-red-200">
-                        <strong>Reason:</strong> {request.rejection_reason}
-                      </div>
-                    )}
                   </div>
+
+                  <div className="flex items-center gap-2 flex-shrink-0">
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => approveRequest(request.id, request.user_id, request.requested_role)}
+                      disabled={processingId === request.id}
+                      className="text-green-600 hover:text-green-700 hover:bg-green-50 dark:hover:bg-green-950"
+                    >
+                      {processingId === request.id ? (
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-green-600"></div>
+                      ) : (
+                        <LuCheck className="h-4 w-4" />
+                      )}
+                    </Button>
+                    
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => setShowRejectionForm(request.id)}
+                      disabled={processingId === request.id}
+                      className="text-red-600 hover:text-red-700 hover:bg-red-50 dark:hover:bg-red-950"
+                    >
+                      <LuX className="h-4 w-4" />
+                    </Button>
+                  </div>
+                </div>
+
+                {/* Rejection Form */}
+                {showRejectionForm === request.id && (
+                  <div className="mt-4 p-4 bg-red-50 dark:bg-red-950 rounded space-y-3">
+                    <label className="text-sm font-medium text-red-800 dark:text-red-200">Rejection Reason</label>
+                    <Textarea
+                      placeholder="Explain why this request is being rejected..."
+                      value={rejectionReason}
+                      onChange={(e) => setRejectionReason(e.target.value)}
+                      rows={2}
+                      className="border-red-200 dark:border-red-800"
+                    />
+                    <div className="flex gap-2">
+                      <Button
+                        size="sm"
+                        variant="destructive"
+                        onClick={() => rejectRequest(request.id)}
+                        disabled={!rejectionReason.trim() || processingId === request.id}
+                        className="flex-1"
+                      >
+                        {processingId === request.id ? 'Rejecting...' : 'Confirm Rejection'}
+                      </Button>
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        onClick={() => {
+                          setShowRejectionForm(null)
+                          setRejectionReason('')
+                        }}
+                        className="flex-1"
+                      >
+                        Cancel
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </div>
+              ))}
+            </div>
+            
+            <Pagination
+              currentPage={pendingPage}
+              totalPages={pendingTotalPages}
+              onPageChange={setPendingPage}
+              className="mt-6"
+            />
+          </>
+        )}
+      </div>
+
+      {/* Reviewed Requests */}
+      {reviewedRequests.length > 0 && (
+        <div>
+          <h3 className="text-lg font-medium mb-4 flex items-center gap-2">
+            <LuUser className="h-5 w-5" />
+            Recent Reviews ({reviewedRequests.length})
+          </h3>
+          
+          {reviewedRequests.length === 0 ? (
+            <div className="text-center py-8 space-y-4">
+              <LuCheck className="h-8 w-8 mx-auto text-gray-400 dark:text-gray-600" />
+              <p className="text-gray-500 dark:text-gray-400 text-sm">No reviewed requests yet</p>
+            </div>
+          ) : (
+            <>
+              <div className="space-y-3">
+                {paginatedReviewedRequests.map((request) => (
+              <div key={request.id} className="py-3 border-b border-gray-100 dark:border-gray-800 last:border-b-0 opacity-75">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center gap-3">
+                    <ProfilePicture 
+                      avatarUrl={request.profiles.avatar_url} 
+                      fullName={request.profiles.full_name} 
+                      size={32} 
+                    />
+                    <div>
+                      <p className="font-medium text-sm text-black dark:text-white">{request.profiles.full_name}</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400">
+                        Requested {request.requested_role} role
+                      </p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <span className={`text-xs px-2 py-0.5 rounded ${
+                      request.status === 'approved'
+                        ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300'
+                        : 'bg-red-100 text-red-700 dark:bg-red-900 dark:text-red-300'
+                    }`}>
+                      {request.status}
+                    </span>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {request.reviewed_at && new Date(request.reviewed_at).toLocaleDateString()}
+                    </p>
+                  </div>
+                </div>
+                
+                {request.status === 'rejected' && request.rejection_reason && (
+                  <div className="mt-2 p-2 bg-red-50 dark:bg-red-950 rounded text-xs text-red-800 dark:text-red-200">
+                    <strong>Reason:</strong> {request.rejection_reason}
+                  </div>
+                )}
+                </div>
                 ))}
               </div>
-            </div>
+              
+              <Pagination
+                currentPage={reviewedPage}
+                totalPages={reviewedTotalPages}
+                onPageChange={setReviewedPage}
+                className="mt-6"
+              />
+            </>
           )}
-        </CardContent>
-      </Card>
+        </div>
+      )}
     </div>
   )
 }

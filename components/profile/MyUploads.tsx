@@ -4,20 +4,15 @@ import { useState, useEffect, useCallback } from 'react'
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent, CardHeader, CardTitle } from '../ui/card'
-import { Badge } from '../ui/badge'
-import { Alert, AlertDescription } from '../ui/alert'
+import { Pagination } from '@/components/ui/pagination'
 import { 
   LuFileText, 
   LuDownload, 
   LuTrash2, 
-  LuUpload, 
-  LuCalendar, 
-  LuArrowDown, 
-  LuTag 
+  LuUpload
 } from 'react-icons/lu'
 import Link from 'next/link'
-import { handleDirectDownload, isValidDownloadUrl } from '@/utils/download-helper'
+import { handleDirectDownload } from '@/utils/download-helper'
 
 interface UploadedFile {
   id: string
@@ -41,6 +36,10 @@ export default function MyUploads() {
   const [files, setFiles] = useState<UploadedFile[]>([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   const fetchMyUploads = useCallback(async () => {
     if (!user) return
@@ -105,196 +104,126 @@ export default function MyUploads() {
     })
   }
 
+  // Pagination helpers
+  const getPaginatedItems = <T,>(items: T[], page: number) => {
+    const startIndex = (page - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return items.slice(startIndex, endIndex)
+  }
+
+  const getTotalPages = (totalItems: number) => {
+    return Math.ceil(totalItems / itemsPerPage)
+  }
+  
+  const paginatedFiles = getPaginatedItems(files, currentPage)
+  const totalPages = getTotalPages(files.length)
+
 
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="flex items-center justify-center py-8">
-          <div className="text-center">
-            <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-            <p className="text-muted-foreground">Loading your uploads...</p>
-          </div>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
+        <p className="text-gray-500 dark:text-gray-400">Loading uploads...</p>
+      </div>
     )
   }
 
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <LuFileText className="h-5 w-5" />
-          My Uploads ({files.length})
-        </CardTitle>
-      </CardHeader>
-      <CardContent>
-        {error && (
-          <Alert variant="destructive" className="mb-4">
-            <AlertDescription>{error}</AlertDescription>
-          </Alert>
-        )}
+    <div className="max-w-2xl mx-auto px-4 sm:px-0">
+      {error && (
+        <div className="text-center text-red-600 dark:text-red-400 text-sm mb-6">
+          {error}
+        </div>
+      )}
 
-        {files.length === 0 ? (
-          <div className="text-center py-12">
-            <LuFileText className="h-16 w-16 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold mb-2">No files uploaded yet</h3>
-            <p className="text-muted-foreground mb-6 max-w-md mx-auto">
-              You haven&apos;t added any file links yet. Start sharing your notes, PYQs, and study materials with the community using Google Drive links.
+      {files.length === 0 ? (
+        <div className="text-center py-12 space-y-4">
+          <LuFileText className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600" />
+          <div>
+            <h3 className="text-lg font-light text-black dark:text-white mb-2">No uploads yet</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+              Share your study materials with the community
             </p>
-            <Link href="/upload">
-              <Button size="lg">
-                <LuUpload className="h-4 w-4 mr-2" />
-                Add Your First File Link
-              </Button>
-            </Link>
           </div>
-        ) : (
-          <div className="space-y-4">
-            {files.map((file) => (
-              <div key={file.id} className="border rounded-lg hover:bg-muted/50 transition-colors">
-                {/* Mobile Layout */}
-                <div className="block sm:hidden p-3">
-                  <div className="flex items-start gap-3 mb-3">
-                    <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
-                    <div className="flex-1 min-w-0">
-                      <h3 className="font-medium text-sm leading-tight mb-1 break-words">{file.original_name}</h3>
-                      <Badge 
-                        variant="outline" 
-                        className={`text-xs ${file.is_approved ? 'text-green-600 border-green-200' : 'text-yellow-600 border-yellow-200'}`}
-                      >
-                        {file.is_approved ? 'Approved' : 'Pending'}
-                      </Badge>
-                    </div>
-                  </div>
-                  
-                  <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                    <div className="flex items-center gap-3">
-                      <span className="flex items-center gap-1">
-                        <LuCalendar className="h-3 w-3" />
-                        {formatDate(file.created_at)}
-                      </span>
-                      <span className="flex items-center gap-1">
-                        <LuArrowDown className="h-3 w-3" />
-                        {file.downloads}
-                      </span>
-                    </div>
-                    <span className="capitalize text-xs bg-muted px-2 py-1 rounded">
-                      {file.category.replace('-', ' ')}
+          <Link href="/upload">
+            <Button className="bg-black dark:bg-white text-white dark:text-black hover:opacity-80">
+              <LuUpload className="h-4 w-4 mr-2" />
+              Upload Files
+            </Button>
+          </Link>
+        </div>
+      ) : (
+        <div className="space-y-3">
+          <div className="text-center mb-6">
+            <p className="text-gray-500 dark:text-gray-400 text-sm">{files.length} files uploaded</p>
+          </div>
+          
+          {paginatedFiles.map((file) => (
+            <div key={file.id} className="py-4 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+              <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center gap-2 mb-1 flex-wrap">
+                    <LuFileText className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                    <h3 className="font-medium text-black dark:text-white text-sm truncate flex-1 min-w-0">{file.original_name}</h3>
+                    <span className={`text-xs px-2 py-0.5 rounded whitespace-nowrap ${
+                      file.is_approved 
+                        ? 'bg-green-100 text-green-700 dark:bg-green-900 dark:text-green-300' 
+                        : 'bg-yellow-100 text-yellow-700 dark:bg-yellow-900 dark:text-yellow-300'
+                    }`}>
+                      {file.is_approved ? 'Live' : 'Pending'}
                     </span>
                   </div>
-
-                  <div className="text-xs text-muted-foreground mb-3">
-                    <span className="inline-block bg-muted px-2 py-1 rounded mr-1 mb-1">{file.program}</span>
-                    <span className="inline-block bg-muted px-2 py-1 rounded mr-1 mb-1">{file.year}</span>
-                    {file.subject && (
-                      <span className="inline-block bg-muted px-2 py-1 rounded mb-1">{file.subject}</span>
-                    )}
+                  
+                  <div className="flex items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400 mb-2 flex-wrap">
+                    <span className="whitespace-nowrap">{formatDate(file.created_at)}</span>
+                    <span className="whitespace-nowrap">{file.downloads} downloads</span>
+                    <span className="capitalize whitespace-nowrap">{file.category.replace('-', ' ')}</span>
                   </div>
 
-                  <div className="flex gap-2">
-                    {file.is_approved && (
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => {
-                          const downloadUrl = file.google_drive_url || file.cdn_url || ''
-                          handleDirectDownload(
-                            downloadUrl, 
-                            'Download link not available. Please update your file with a valid Google Drive link.'
-                          )
-                        }}
-                        className="flex-1 h-8 text-xs"
-                      >
-                        <LuDownload className="h-3 w-3 mr-1" />
-                        Download
-                      </Button>
-                    )}
-                    <Button
-                      variant="outline"
-                      size="sm"
-                      onClick={() => handleDelete(file.id)}
-                      className="text-red-600 hover:text-red-700 flex-1 h-8 text-xs"
-                    >
-                      <LuTrash2 className="h-3 w-3 mr-1" />
-                      Delete
-                    </Button>
+                  <div className="text-xs text-gray-400 dark:text-gray-500">
+                    {file.program.toUpperCase()} • {file.year} • {file.subject}
                   </div>
                 </div>
 
-                {/* Desktop Layout */}
-                <div className="hidden sm:block sm:p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-2">
-                        <LuFileText className="h-5 w-5 text-red-500 flex-shrink-0" />
-                        <div className="flex-1 min-w-0">
-                          <h3 className="font-medium break-words">{file.original_name}</h3>
-                          <Badge 
-                            variant="outline" 
-                            className={`text-xs mt-1 ${file.is_approved ? 'text-green-600 border-green-200' : 'text-yellow-600 border-yellow-200'}`}
-                          >
-                            {file.is_approved ? 'Approved' : 'Pending Review'}
-                          </Badge>
-                        </div>
-                      </div>
-                      
-                      <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                        <span className="flex items-center gap-1">
-                          <LuCalendar className="h-3 w-3" />
-                          {formatDate(file.created_at)}
-                        </span>
-                        <span className="flex items-center gap-1">
-                          <LuArrowDown className="h-3 w-3" />
-                          {file.downloads}
-                        </span>
-                        <span className="flex items-center gap-1 capitalize">
-                          <LuTag className="h-3 w-3" />
-                          {file.category.replace('-', ' ')}
-                        </span>
-                      </div>
-
-                      <div className="mt-2 text-xs text-muted-foreground">
-                        <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.program}</span>
-                        <span className="inline-block bg-muted px-2 py-1 rounded mr-2">{file.year}</span>
-                        {file.subject && (
-                          <span className="inline-block bg-muted px-2 py-1 rounded">{file.subject}</span>
-                        )}
-                      </div>
-                    </div>
-
-                    <div className="flex flex-col gap-1">
-                      {file.is_approved && (
-                        <Button
-                          variant="outline"
-                          size="sm"
-                          onClick={() => {
-                            const downloadUrl = file.google_drive_url || file.cdn_url || ''
-                            handleDirectDownload(
-                              downloadUrl, 
-                              'Download link not available. Please update your file with a valid Google Drive link.'
-                            )
-                          }}
-                        >
-                          <LuDownload className="h-4 w-4" />
-                        </Button>
-                      )}
-                      <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() => handleDelete(file.id)}
-                        className="text-red-600 hover:text-red-700"
-                      >
-                        <LuTrash2 className="h-4 w-4" />
-                      </Button>
-                    </div>
-                  </div>
+                <div className="flex items-center justify-end sm:justify-start gap-1 sm:gap-2 flex-shrink-0">
+                  {file.is_approved && (
+                    <Button
+                      variant="ghost"
+                      size="sm"
+                      onClick={() => {
+                        const downloadUrl = file.google_drive_url || file.cdn_url || ''
+                        handleDirectDownload(
+                          downloadUrl, 
+                          'Download link not available. Please update your file with a valid Google Drive link.'
+                        )
+                      }}
+                      className="text-gray-500 hover:text-black dark:hover:text-white h-8 w-8 p-0"
+                    >
+                      <LuDownload className="h-4 w-4" />
+                    </Button>
+                  )}
+                  <Button
+                    variant="ghost"
+                    size="sm"
+                    onClick={() => handleDelete(file.id)}
+                    className="text-gray-500 hover:text-red-600 h-8 w-8 p-0"
+                  >
+                    <LuTrash2 className="h-4 w-4" />
+                  </Button>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-      </CardContent>
-    </Card>
+            </div>
+          ))}
+          
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+            className="mt-6"
+          />
+        </div>
+      )}
+    </div>
   )
 }

@@ -136,170 +136,152 @@ export function RoleRequest() {
 
   if (loading) {
     return (
-      <Card>
-        <CardContent className="py-8 text-center">
-          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-muted-foreground">Loading...</p>
-        </CardContent>
-      </Card>
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
+        <p className="text-gray-500 dark:text-gray-400">Loading...</p>
+      </div>
     )
   }
 
   return (
-    <div className="space-y-6">
-      <Card>
-        <CardHeader>
-          <CardTitle className="flex items-center gap-2">
-            <LuShield className="h-5 w-5" />
-            Role Requests
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {/* Current Role */}
-          <div className="p-4 bg-muted/30 rounded-lg">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className="text-sm font-medium">Current Role</p>
-                <p className="text-xs text-muted-foreground">Your current permission level</p>
-              </div>
-              <Badge className="bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300">
-                {profile?.role || 'User'}
-              </Badge>
-            </div>
+    <div className="max-w-md mx-auto space-y-6">
+      {/* Current Role */}
+      <div className="text-center py-4 border-b border-gray-200 dark:border-gray-700">
+        <p className="text-sm text-gray-500 dark:text-gray-400 mb-1">Current Role</p>
+        <span className="text-lg font-light text-black dark:text-white capitalize">
+          {profile?.role || 'User'}
+        </span>
+      </div>
+
+      {/* Request Form */}
+      {canRequestRole() && !showForm && (
+        <Button 
+          onClick={() => setShowForm(true)}
+          className="w-full bg-black dark:bg-white text-white dark:text-black hover:opacity-80"
+        >
+          Request Role Upgrade
+        </Button>
+      )}
+
+      {showForm && (
+        <div className="space-y-4">
+          <div>
+            <Select value={formData.requested_role} onValueChange={(value) => setFormData({...formData, requested_role: value})}>
+              <SelectTrigger className="border-0 border-b border-gray-200 dark:border-gray-700 rounded-none bg-transparent focus:border-black dark:focus:border-white">
+                <SelectValue placeholder="Select role" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="uploader">
+                  <div className="flex items-center gap-2">
+                    <LuUpload className="h-4 w-4" />
+                    <div>
+                      <div className="font-medium">Uploader</div>
+                      <div className="text-xs text-gray-500">Upload files without approval</div>
+                    </div>
+                  </div>
+                </SelectItem>
+                <SelectItem value="moderator">
+                  <div className="flex items-center gap-2">
+                    <LuUserCheck className="h-4 w-4" />
+                    <div>
+                      <div className="font-medium">Moderator</div>
+                      <div className="text-xs text-gray-500">Upload and moderate content</div>
+                    </div>
+                  </div>
+                </SelectItem>
+              </SelectContent>
+            </Select>
           </div>
 
-          {/* Request Form */}
-          {canRequestRole() && !showForm && (
+          <div>
+            <Textarea
+              placeholder="Why do you need this role? How will you contribute?"
+              value={formData.reason}
+              onChange={(e) => setFormData({...formData, reason: e.target.value})}
+              className="border-0 border-b border-gray-200 dark:border-gray-700 rounded-none bg-transparent focus:border-black dark:focus:border-white resize-none"
+              rows={3}
+              maxLength={500}
+            />
+            <p className="text-xs text-gray-400 mt-1 text-right">
+              {500 - formData.reason.length} characters left
+            </p>
+          </div>
+
+          <div className="flex gap-2">
             <Button 
-              onClick={() => setShowForm(true)}
-              className="w-full"
-              variant="outline"
+              onClick={submitRequest}
+              disabled={submitting || !formData.requested_role || !formData.reason.trim()}
+              className="flex-1 bg-black dark:bg-white text-white dark:text-black hover:opacity-80"
             >
-              <LuShield className="h-4 w-4 mr-2" />
-              Request Role Upgrade
+              {submitting ? 'Submitting...' : 'Submit'}
             </Button>
-          )}
+            <Button 
+              variant="ghost" 
+              onClick={() => {
+                setShowForm(false)
+                setFormData({ requested_role: '', reason: '' })
+              }}
+              className="text-gray-500 hover:text-black dark:hover:text-white"
+            >
+              Cancel
+            </Button>
+          </div>
+        </div>
+      )}
 
-          {showForm && (
-            <div className="space-y-4 p-4 border rounded-lg">
-              <div>
-                <label className="text-sm font-medium">Requested Role</label>
-                <Select value={formData.requested_role} onValueChange={(value) => setFormData({...formData, requested_role: value})}>
-                  <SelectTrigger className="mt-1">
-                    <SelectValue placeholder="Select a role" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="uploader">
-                      <div className="flex items-center gap-2">
-                        <LuUpload className="h-4 w-4" />
-                        <div>
-                          <div className="font-medium">Uploader</div>
-                          <div className="text-xs text-muted-foreground">Upload files without approval</div>
-                        </div>
-                      </div>
-                    </SelectItem>
-                    <SelectItem value="moderator">
-                      <div className="flex items-center gap-2">
-                        <LuUserCheck className="h-4 w-4" />
-                        <div>
-                          <div className="font-medium">Moderator</div>
-                          <div className="text-xs text-muted-foreground">Upload and moderate content</div>
-                        </div>
-                      </div>
-                    </SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
+      {/* Status Message */}
+      {message && (
+        <div className={`text-center text-sm ${
+          message.type === 'error' 
+            ? 'text-red-600 dark:text-red-400' 
+            : 'text-green-600 dark:text-green-400'
+        }`}>
+          {message.text}
+        </div>
+      )}
 
-              <div>
-                <label className="text-sm font-medium">Reason for Request</label>
-                <Textarea
-                  placeholder="Explain why you need this role and how you plan to contribute..."
-                  value={formData.reason}
-                  onChange={(e) => setFormData({...formData, reason: e.target.value})}
-                  className="mt-1"
-                  rows={3}
-                  maxLength={500}
-                />
-                <p className="text-xs text-muted-foreground mt-1">
-                  {500 - formData.reason.length} characters remaining
-                </p>
-              </div>
-
-              <div className="flex gap-2">
-                <Button 
-                  onClick={submitRequest}
-                  disabled={submitting || !formData.requested_role || !formData.reason.trim()}
-                  className="flex-1"
-                >
-                  {submitting ? 'Submitting...' : 'Submit Request'}
-                </Button>
-                <Button 
-                  variant="outline" 
-                  onClick={() => {
-                    setShowForm(false)
-                    setFormData({ requested_role: '', reason: '' })
-                  }}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
-          )}
-
-          {/* Status Message */}
-          {message && (
-            <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
-              {message.type === 'success' ? <LuCheck className="h-4 w-4" /> : <LuX className="h-4 w-4" />}
-              <AlertDescription>{message.text}</AlertDescription>
-            </Alert>
-          )}
-
-          {/* Existing Requests */}
-          {requests.length > 0 && (
-            <div className="space-y-3">
-              <h3 className="text-sm font-medium">Your Requests</h3>
-              {requests.map((request) => (
-                <div key={request.id} className="p-4 border rounded-lg space-y-2">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center gap-2">
-                      {getRoleIcon(request.requested_role)}
-                      <span className="font-medium capitalize">{request.requested_role}</span>
-                    </div>
-                    <Badge className={getStatusColor(request.status)}>
-                      {getStatusIcon(request.status)}
-                      <span className="ml-1 capitalize">{request.status}</span>
-                    </Badge>
-                  </div>
-                  
-                  <p className="text-sm text-muted-foreground">{request.reason}</p>
-                  
-                  {request.status === 'rejected' && request.rejection_reason && (
-                    <div className="p-2 bg-red-50 dark:bg-red-950 rounded text-sm text-red-800 dark:text-red-200">
-                      <strong>Rejection reason:</strong> {request.rejection_reason}
-                    </div>
-                  )}
-                  
-                  <p className="text-xs text-muted-foreground">
-                    Submitted {new Date(request.created_at).toLocaleDateString()}
-                    {request.reviewed_at && (
-                      <> • Reviewed {new Date(request.reviewed_at).toLocaleDateString()}</>
-                    )}
-                  </p>
+      {/* Existing Requests */}
+      {requests.length > 0 && (
+        <div className="space-y-3">
+          <p className="text-center text-sm text-gray-500 dark:text-gray-400">Previous Requests</p>
+          {requests.map((request) => (
+            <div key={request.id} className="py-3 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+              <div className="flex items-center justify-between mb-2">
+                <div className="flex items-center gap-2">
+                  {getRoleIcon(request.requested_role)}
+                  <span className="font-medium text-black dark:text-white capitalize">{request.requested_role}</span>
                 </div>
-              ))}
-            </div>
-          )}
-
-          {!canRequestRole() && profile?.role !== 'user' && (
-            <div className="p-4 bg-blue-50 dark:bg-blue-950 rounded-lg text-center">
-              <p className="text-sm text-blue-800 dark:text-blue-200">
-                You already have an elevated role. No further requests needed.
+                <span className={`text-xs px-2 py-0.5 rounded ${getStatusColor(request.status)}`}>
+                  {request.status}
+                </span>
+              </div>
+              
+              <p className="text-sm text-gray-600 dark:text-gray-400 mb-2">{request.reason}</p>
+              
+              {request.status === 'rejected' && request.rejection_reason && (
+                <div className="text-sm text-red-600 dark:text-red-400 mb-2">
+                  <strong>Rejected:</strong> {request.rejection_reason}
+                </div>
+              )}
+              
+              <p className="text-xs text-gray-400">
+                {new Date(request.created_at).toLocaleDateString()}
+                {request.reviewed_at && (
+                  <> • Reviewed {new Date(request.reviewed_at).toLocaleDateString()}</>
+                )}
               </p>
             </div>
-          )}
-        </CardContent>
-      </Card>
+          ))}
+        </div>
+      )}
+
+      {!canRequestRole() && profile?.role !== 'user' && (
+        <div className="text-center py-4">
+          <p className="text-sm text-gray-500 dark:text-gray-400">
+            You have an elevated role
+          </p>
+        </div>
+      )}
     </div>
   )
 }

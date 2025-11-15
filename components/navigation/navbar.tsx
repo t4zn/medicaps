@@ -4,12 +4,11 @@ import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { Navigations } from "@/settings/navigation"
-import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload } from "react-icons/lu"
+import { LuArrowUpRight, LuHouse, LuUser, LuLogOut, LuUpload, LuSettings } from "react-icons/lu"
 import { useAuth } from "@/contexts/AuthContext"
 
 
-import { buttonVariants } from "@/components/ui/button"
-import { Button } from "@/components/ui/button"
+
 import { SheetClose } from "@/components/ui/sheet"
 import {
   DropdownMenu,
@@ -30,15 +29,24 @@ export function Navbar() {
   
 
   
-  // Hide search bar and upload button on homepage but always show hamburger menu
+  // Hide search bar and upload button on homepage, hide sidebar on settings page
   const showSearch = pathname !== '/'
   const showUpload = pathname !== '/'
-  const showHamburger = true // Always show sidebar
+  const showHamburger = pathname !== '/settings' // Hide sidebar on settings page
 
   return (
     <nav className="sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-black/80 backdrop-blur-md px-4 md:px-6">
       <div className="flex items-center gap-4">
         {showHamburger && <SheetLeft />}
+        {/* Show home icon on settings page for mobile */}
+        {pathname === '/settings' && (
+          <Link
+            href="/welcome"
+            className="md:hidden inline-flex items-center justify-center h-8 w-8 text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+          >
+            <LuHouse className="h-5 w-5" />
+          </Link>
+        )}
         <div className="flex items-center gap-8">
           <div className="hidden md:flex">
             <Logo />
@@ -82,17 +90,17 @@ export function Navbar() {
                     )}
                   </button>
                 </DropdownMenuTrigger>
-                <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuContent align="end" className="w-32 border-gray-200 dark:border-gray-800">
                   <DropdownMenuItem asChild>
-                    <Link href="/profile" className="cursor-pointer">
-                      <LuUser className="h-4 w-4 mr-2" />
-                      Profile
+                    <Link href="/settings" className="cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white focus:text-black dark:focus:text-white focus:bg-gray-50 dark:focus:bg-gray-900">
+                      <LuSettings className="h-4 w-4 mr-2" />
+                      Settings
                     </Link>
                   </DropdownMenuItem>
-                  <DropdownMenuSeparator />
+                  <DropdownMenuSeparator className="bg-gray-200 dark:bg-gray-800" />
                   <DropdownMenuItem 
                     onClick={() => signOut()}
-                    className="cursor-pointer text-red-600 focus:text-red-600 focus:bg-red-50 dark:focus:bg-red-950"
+                    className="cursor-pointer text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white focus:text-black dark:focus:text-white focus:bg-gray-50 dark:focus:bg-gray-900"
                   >
                     <LuLogOut className="h-4 w-4 mr-2" />
                     Sign Out

@@ -6,9 +6,8 @@ import { LuBookmark, LuDownload, LuFileText, LuCalendar, LuExternalLink } from '
 import { useAuth } from '@/contexts/AuthContext'
 import { supabase } from '@/lib/supabase'
 import { Button } from '@/components/ui/button'
-import { Card, CardContent } from '@/components/ui/card'
-import { Badge } from '@/components/ui/badge'
 import { ProfilePicture } from '@/components/ui/profile-picture'
+import { Pagination } from '@/components/ui/pagination'
 import { handleFileDownload } from '@/utils/download-helper'
 
 interface SavedFile {
@@ -36,6 +35,10 @@ export default function SavedResources() {
   const { user } = useAuth()
   const [savedFiles, setSavedFiles] = useState<SavedFile[]>([])
   const [loading, setLoading] = useState(true)
+  
+  // Pagination states
+  const [currentPage, setCurrentPage] = useState(1)
+  const itemsPerPage = 10
 
   useEffect(() => {
     if (user) {
@@ -158,105 +161,107 @@ export default function SavedResources() {
     return `/notes/${file.program}/${branch}/${file.year}/${file.subject}`
   }
 
+  // Pagination helpers
+  const getPaginatedItems = <T,>(items: T[], page: number) => {
+    const startIndex = (page - 1) * itemsPerPage
+    const endIndex = startIndex + itemsPerPage
+    return items.slice(startIndex, endIndex)
+  }
+
+  const getTotalPages = (totalItems: number) => {
+    return Math.ceil(totalItems / itemsPerPage)
+  }
+  
+  const paginatedFiles = getPaginatedItems(savedFiles, currentPage)
+  const totalPages = getTotalPages(savedFiles.length)
+
   if (loading) {
     return (
-      <div className="space-y-4">
-        {[...Array(3)].map((_, i) => (
-          <Card key={i}>
-            <CardContent className="p-4">
-              <div className="animate-pulse">
-                <div className="h-4 bg-gray-200 rounded w-3/4 mb-2"></div>
-                <div className="h-3 bg-gray-200 rounded w-1/2"></div>
-              </div>
-            </CardContent>
-          </Card>
-        ))}
+      <div className="text-center py-12">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-black dark:border-white mx-auto mb-4"></div>
+        <p className="text-gray-500 dark:text-gray-400">Loading saved files...</p>
       </div>
     )
   }
 
   if (savedFiles.length === 0) {
     return (
-      <Card>
-        <CardContent className="py-12 text-center">
-          <LuBookmark className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-          <h3 className="text-lg font-medium mb-2">No saved resources yet</h3>
-          <p className="text-muted-foreground mb-4">
-            Start bookmarking files you want to save for later by clicking the bookmark icon on any file.
+      <div className="text-center py-12 space-y-4">
+        <LuBookmark className="h-12 w-12 mx-auto text-gray-400 dark:text-gray-600" />
+        <div>
+          <h3 className="text-lg font-light text-black dark:text-white mb-2">No saved files yet</h3>
+          <p className="text-gray-500 dark:text-gray-400 text-sm mb-6">
+            Bookmark files to save them for later access
           </p>
-          <Button asChild>
-            <Link href="/welcome">
-              <LuFileText className="h-4 w-4 mr-2" />
-              Browse Files
-            </Link>
+        </div>
+        <Link href="/welcome">
+          <Button className="bg-black dark:bg-white text-white dark:text-black hover:opacity-80">
+            <LuFileText className="h-4 w-4 mr-2" />
+            Browse Files
           </Button>
-        </CardContent>
-      </Card>
+        </Link>
+      </div>
     )
   }
 
   return (
-    <div className="space-y-4">
-      <div className="flex items-center justify-between">
-        <h2 className="text-lg font-semibold">Saved Resources ({savedFiles.length})</h2>
+    <div className="max-w-2xl mx-auto px-4 sm:px-0">
+      <div className="text-center mb-6">
+        <p className="text-gray-500 dark:text-gray-400 text-sm">{savedFiles.length} saved files</p>
       </div>
       
-      {savedFiles.map((file) => (
-        <Card key={file.id}>
-          <CardContent className="p-0">
-            {/* Mobile Layout */}
-            <div className="block sm:hidden p-3">
-              <div className="flex items-start gap-3 mb-3">
-                <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0 mt-0.5" />
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-medium text-sm leading-tight mb-1 break-words">{file.original_name}</h3>
-                  <Badge className={`${getCategoryColor(file.category)} text-xs`}>
+      <div className="space-y-3">
+        {paginatedFiles.map((file) => (
+          <div key={file.id} className="py-4 border-b border-gray-100 dark:border-gray-800 last:border-b-0">
+            <div className="flex flex-col sm:flex-row sm:items-start sm:justify-between gap-3">
+              <div className="flex-1 min-w-0">
+                <div className="flex items-center gap-2 mb-1 flex-wrap">
+                  <LuFileText className="h-4 w-4 text-gray-400 flex-shrink-0" />
+                  <h3 className="font-medium text-black dark:text-white text-sm truncate flex-1 min-w-0">{file.original_name}</h3>
+                  <span className={`text-xs px-2 py-0.5 rounded whitespace-nowrap ${getCategoryColor(file.category)}`}>
                     {file.category === 'formula-sheet' ? 'Formula' : file.category.toUpperCase()}
-                  </Badge>
+                  </span>
+                </div>
+                
+                <div className="flex items-center gap-2 sm:gap-4 text-xs text-gray-500 dark:text-gray-400 mb-2 flex-wrap">
+                  <div className="flex items-center gap-1">
+                    <ProfilePicture 
+                      avatarUrl={file.profiles?.avatar_url} 
+                      fullName={file.profiles?.full_name}
+                      userId={file.uploaded_by}
+                      size={12} 
+                    />
+                    <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
+                  </div>
+                  <span className="whitespace-nowrap">{file.downloads} downloads</span>
+                  <span className="whitespace-nowrap">{formatDate(file.created_at)}</span>
+                </div>
+
+                <div className="text-xs text-gray-400 dark:text-gray-500">
+                  {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
                 </div>
               </div>
-              
-              <div className="flex items-center justify-between text-xs text-muted-foreground mb-3">
-                <div className="flex items-center gap-2">
-                  <ProfilePicture 
-                    avatarUrl={file.profiles?.avatar_url} 
-                    fullName={file.profiles?.full_name}
-                    userId={file.uploaded_by}
-                    size={12} 
-                  />
-                  <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
-                </div>
-                <div className="flex items-center gap-3">
-                  <span>{file.downloads} downloads</span>
-                  <span>{formatDate(file.created_at)}</span>
-                </div>
-              </div>
-              
-              <div className="text-xs text-muted-foreground mb-3">
-                {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
-              </div>
-              
-              <div className="flex gap-1">
+
+              <div className="flex items-center justify-end sm:justify-start gap-1 sm:gap-2 flex-shrink-0">
                 <Button
-                  variant="outline"
+                  variant="ghost"
                   size="sm"
                   asChild
-                  className="flex-1 h-8 text-xs"
+                  className="text-gray-500 hover:text-black dark:hover:text-white h-8 w-8 p-0"
                 >
                   <Link href={getSubjectUrl(file)}>
-                    <LuExternalLink className="h-3 w-3 mr-1" />
-                    View
+                    <LuExternalLink className="h-4 w-4" />
                   </Link>
                 </Button>
                 
                 <Button
-                  onClick={() => handleDownload(file)}
+                  variant="ghost"
                   size="sm"
+                  onClick={() => handleDownload(file)}
                   disabled={!file.google_drive_url && !file.cdn_url}
-                  className="flex-1 h-8 text-xs"
+                  className="text-gray-500 hover:text-black dark:hover:text-white h-8 w-8 p-0"
                 >
-                  <LuDownload className="h-3 w-3 mr-1" />
-                  Download
+                  <LuDownload className="h-4 w-4" />
                 </Button>
                 
                 <Button
@@ -266,81 +271,20 @@ export default function SavedResources() {
                   className="text-blue-600 hover:text-blue-700 h-8 w-8 p-0"
                   title="Remove bookmark"
                 >
-                  <LuBookmark className="h-3 w-3 fill-current" />
+                  <LuBookmark className="h-4 w-4 fill-current" />
                 </Button>
               </div>
             </div>
-
-            {/* Desktop Layout */}
-            <div className="hidden sm:block sm:p-4">
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <LuFileText className="h-4 w-4 text-red-500 flex-shrink-0" />
-                    <h3 className="font-medium truncate">{file.original_name}</h3>
-                    <Badge className={getCategoryColor(file.category)}>
-                      {file.category === 'formula-sheet' ? 'Formula Sheet' : file.category.toUpperCase()}
-                    </Badge>
-                  </div>
-                  
-                  <div className="flex items-center gap-4 text-sm text-muted-foreground mb-3">
-                    <div className="flex items-center gap-1">
-                      <LuCalendar className="h-3 w-3" />
-                      <span>{formatDate(file.created_at)}</span>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <ProfilePicture 
-                        avatarUrl={file.profiles?.avatar_url} 
-                        fullName={file.profiles?.full_name}
-                        userId={file.uploaded_by}
-                        size={16} 
-                      />
-                      <span className="truncate">{file.profiles?.full_name || 'Anonymous'}</span>
-                    </div>
-                    <span>{file.downloads} downloads</span>
-                  </div>
-                  
-                  <div className="text-xs text-muted-foreground">
-                    {file.program.toUpperCase()} • {file.year.replace('-', ' ')} • {file.subject.replace('-', ' ')}
-                  </div>
-                </div>
-                
-                <div className="flex items-center gap-2 flex-shrink-0">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    asChild
-                  >
-                    <Link href={getSubjectUrl(file)}>
-                      <LuExternalLink className="h-3 w-3 mr-1" />
-                      View
-                    </Link>
-                  </Button>
-                  
-                  <Button
-                    onClick={() => handleDownload(file)}
-                    size="sm"
-                    disabled={!file.google_drive_url && !file.cdn_url}
-                  >
-                    <LuDownload className="h-3 w-3 mr-1" />
-                    Download
-                  </Button>
-                  
-                  <Button
-                    variant="ghost"
-                    size="sm"
-                    onClick={() => handleRemoveBookmark(file.id)}
-                    className="text-blue-600 hover:text-blue-700"
-                    title="Remove bookmark"
-                  >
-                    <LuBookmark className="h-3 w-3 fill-current" />
-                  </Button>
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      ))}
+          </div>
+        ))}
+      </div>
+      
+      <Pagination
+        currentPage={currentPage}
+        totalPages={totalPages}
+        onPageChange={setCurrentPage}
+        className="mt-6"
+      />
     </div>
   )
 }

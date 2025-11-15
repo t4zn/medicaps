@@ -2,6 +2,7 @@
 
 
 import { useState } from "react"
+import { usePathname } from "next/navigation"
 import { Routes } from "@/lib/pageroutes"
 import { Separator } from "@/components/ui/separator"
 import SubLink from "@/components/sidebar/sublink"
@@ -17,11 +18,17 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 
 export function PageMenu({ isSheet = false }) {
+  const pathname = usePathname()
   const [filters, setFilters] = useState({
     year: 'all',
     branch: 'all'
   })
   const [isFilterOpen, setIsFilterOpen] = useState(false)
+
+  // Hide the sidebar content on settings page
+  if (pathname === '/settings') {
+    return null
+  }
 
   const applyFilters = () => {
     // Apply filters to search results

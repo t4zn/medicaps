@@ -8,7 +8,7 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '../ui/label'
 import { Alert, AlertDescription } from '../ui/alert'
-import { LuSave, LuPlus, LuCheck } from 'react-icons/lu'
+import { LuSave, LuCheck } from 'react-icons/lu'
 import Link from 'next/link'
 
 // Predefined avatars from public/avatars directory
@@ -68,92 +68,88 @@ export default function ProfileSettings() {
 
 
   return (
-    <div className="max-w-md mx-auto space-y-6">
+    <div className="max-w-md space-y-8">
       {/* Profile Picture Selection */}
-      <div className="text-center">
-        <div className="mb-4">
-          <div className="h-24 w-24 rounded-full bg-gray-100 flex items-center justify-center overflow-hidden border-2 border-gray-200 mx-auto">
-            <Image
-              src={selectedAvatar}
-              alt="Profile"
-              width={96}
-              height={96}
-              className="h-full w-full object-cover"
-            />
-          </div>
+      <div className="text-center space-y-6">
+        <div className="h-20 w-20 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center overflow-hidden mx-auto">
+          <Image
+            src={selectedAvatar}
+            alt="Profile"
+            width={80}
+            height={80}
+            className="h-full w-full object-cover"
+          />
         </div>
         
-        <div>
-          <Label className="text-sm font-medium mb-3 block">Choose Avatar</Label>
-          <div className="grid grid-cols-3 gap-3 max-w-xs mx-auto">
-            {PREDEFINED_AVATARS.map((avatar, index) => (
-              <button
-                key={index}
-                type="button"
-                onClick={() => setSelectedAvatar(avatar)}
-                className={`relative h-16 w-16 rounded-full overflow-hidden border-2 transition-all ${
-                  selectedAvatar === avatar 
-                    ? 'border-primary ring-2 ring-primary/20' 
-                    : 'border-gray-200 hover:border-gray-300'
-                }`}
-              >
-                <Image
-                  src={avatar}
-                  alt={`Avatar ${index + 1}`}
-                  width={64}
-                  height={64}
-                  className="h-full w-full object-cover"
-                />
-                {selectedAvatar === avatar && (
-                  <div className="absolute inset-0 bg-primary/20 flex items-center justify-center">
-                    <LuCheck className="h-4 w-4 text-primary" />
-                  </div>
-                )}
-              </button>
-            ))}
-          </div>
+        <div className="grid grid-cols-6 gap-2 max-w-xs mx-auto">
+          {PREDEFINED_AVATARS.map((avatar, index) => (
+            <button
+              key={index}
+              type="button"
+              onClick={() => setSelectedAvatar(avatar)}
+              className={`relative h-10 w-10 rounded-full overflow-hidden transition-all ${
+                selectedAvatar === avatar 
+                  ? 'ring-2 ring-black dark:ring-white' 
+                  : 'opacity-60 hover:opacity-100'
+              }`}
+            >
+              <Image
+                src={avatar}
+                alt={`Avatar ${index + 1}`}
+                width={40}
+                height={40}
+                className="h-full w-full object-cover"
+              />
+              {selectedAvatar === avatar && (
+                <div className="absolute inset-0 bg-black/20 dark:bg-white/20 flex items-center justify-center">
+                  <LuCheck className="h-3 w-3 text-black dark:text-white" />
+                </div>
+              )}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Name Form */}
+      {/* Form */}
       <form onSubmit={handleUpdateProfile} className="space-y-4">
         <div>
-          <Label htmlFor="full_name" className="text-sm font-medium">
-            Full Name
-          </Label>
           <Input
             id="full_name"
             value={formData.full_name}
             onChange={(e) => setFormData({ ...formData, full_name: e.target.value })}
-            placeholder="Enter your full name"
+            placeholder="Full name"
             required
-            className="mt-1"
+            className="text-center border-0 border-b border-gray-200 dark:border-gray-700 rounded-none bg-transparent focus:border-black dark:focus:border-white focus:ring-0"
           />
         </div>
 
         {message && (
-          <Alert variant={message.type === 'error' ? 'destructive' : 'default'}>
-            <AlertDescription className="text-sm">{message.text}</AlertDescription>
-          </Alert>
+          <div className={`text-center text-sm ${
+            message.type === 'error' 
+              ? 'text-red-600 dark:text-red-400' 
+              : 'text-green-600 dark:text-green-400'
+          }`}>
+            {message.text}
+          </div>
         )}
 
-        <Button type="submit" disabled={loading} className="w-full">
-          <LuSave className="h-4 w-4 mr-2" />
-          {loading ? 'Saving...' : 'Save Profile'}
+        <Button 
+          type="submit" 
+          disabled={loading} 
+          className="w-full bg-black dark:bg-white text-white dark:text-black hover:opacity-80 active:opacity-60"
+        >
+          {loading ? 'Saving...' : 'Save Changes'}
         </Button>
       </form>
 
-      {/* Quick Actions */}
-      <div className="border-t pt-6">
-        <h3 className="text-sm font-medium mb-3">Quick Actions</h3>
-        <div className="space-y-2">
-          <Button asChild variant="outline" className="w-full justify-start">
-            <Link href="/settings/subject-requests">
-              <LuPlus className="h-4 w-4 mr-2" />
-              Request New Subject
-            </Link>
-          </Button>
-        </div>
+      {/* More Settings Link */}
+      <div className="text-center pt-6 border-t border-gray-200 dark:border-gray-700">
+        <Link
+          href="/settings"
+          className="text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors text-sm"
+        >
+          More Settings →
+        </Link>
       </div>
     </div>
   )

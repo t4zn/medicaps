@@ -93,14 +93,14 @@ export default function Home() {
           </div>
 
           {/* Main Headline */}
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-none mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-none mb-6">
             Study smarter.
             <br />
             Achieve more.
           </h1>
 
           {/* Description */}
-          <p className="text-base sm:text-lg lg:text-xl text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base lg:text-lg text-muted-foreground mb-8 max-w-2xl mx-auto leading-relaxed">
             <span className="hidden sm:inline">Find notes, PYQs and study materials for Medicaps University.<br />Get instant AI tutoring help for any subject.</span>
             <span className="sm:hidden">Access notes, PYQs, study materials and get AI tutoring help for Medicaps University.</span>
           </p>

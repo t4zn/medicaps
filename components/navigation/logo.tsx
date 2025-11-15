@@ -9,15 +9,13 @@ export function Logo() {
       href="/"
       title={`${Settings.title} main logo`}
       aria-label={`${Settings.title} main logo`}
-      className="flex items-center gap-2.5"
+      className="flex items-center gap-2 hover:opacity-80 transition-opacity"
     >
       <Image
         src="/logo_light.svg"
         alt={`${Settings.title} main logo`}
-        title={`${Settings.title} main logo`}
-        aria-label={`${Settings.title} main logo`}
-        width={34}
-        height={34}
+        width={28}
+        height={28}
         loading="lazy"
         decoding="async"
         className="dark:hidden"
@@ -25,15 +23,13 @@ export function Logo() {
       <Image
         src="/logo.svg"
         alt={`${Settings.title} main logo`}
-        title={`${Settings.title} main logo`}
-        aria-label={`${Settings.title} main logo`}
-        width={34}
-        height={34}
+        width={28}
+        height={28}
         loading="lazy"
         decoding="async"
         className="hidden dark:block"
       />
-      <span className="text-md font-semibold font-poppins">{Settings.title}</span>
+      <span className="text-sm font-semibold text-black dark:text-white">{Settings.title}</span>
     </Link>
   )
 }

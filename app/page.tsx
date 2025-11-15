@@ -4,7 +4,6 @@ import Image from "next/image"
 
 import { Upload } from "lucide-react"
 
-import { buttonVariants } from "@/components/ui/button"
 import Search from "@/components/navigation/search"
 
 
@@ -114,24 +113,16 @@ export default function Home() {
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Link
               href="/welcome"
-              className={buttonVariants({ 
-                variant: "default", 
-                size: "lg",
-                className: "px-8 py-3 text-base font-medium bg-blue-600 hover:bg-blue-700"
-              })}
+              className="inline-block px-6 xs:px-8 py-2.5 xs:py-3 bg-black dark:bg-white text-white dark:text-black text-xs xs:text-sm font-medium hover:opacity-80 active:opacity-60 transition-opacity touch-manipulation"
             >
               Get Started
             </Link>
             <Link
               href="/upload"
-              className={buttonVariants({ 
-                variant: "outline", 
-                size: "lg",
-                className: "px-8 py-3 text-base font-medium flex items-center gap-2"
-              })}
+              className="inline-flex items-center gap-1 text-gray-500 dark:text-gray-400 hover:text-black dark:hover:text-white active:text-black dark:active:text-white transition-colors border-b border-transparent hover:border-current touch-manipulation py-1 text-xs xs:text-sm"
             >
-              <Upload className="w-4 h-4" />
-              Upload File
+              <Upload className="w-3 h-3" />
+              Upload Notes
             </Link>
           </div>
         </div>

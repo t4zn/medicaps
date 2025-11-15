@@ -321,23 +321,34 @@ export default function SubjectPage({ subject }: SubjectPageProps) {
       const uploadUrl = `/upload?from=subject&program=${subject.program}${branchParam}&year=${subject.year}&subject=${subjectParam}&category=${categoryParam}`
 
       return (
-        <Card>
-          <CardContent className="py-12 text-center">
-            <LuFileText className="h-12 w-12 mx-auto mb-4 text-muted-foreground" />
-            <h3 className="text-lg font-semibold mb-2">No {category} available yet</h3>
-            <p className="text-muted-foreground mb-4 max-w-md mx-auto">
-              Be the first to contribute {category} for {subject.name}.
-            </p>
+        <div className="flex items-center justify-center min-h-[40vh] py-16">
+          <div className="text-center space-y-6 sm:space-y-8 w-full max-w-lg">
+            {/* Large Icon */}
+            <div className="space-y-3 sm:space-y-4">
+              <LuFileText className="h-16 w-16 xs:h-20 xs:w-20 sm:h-24 sm:w-24 mx-auto text-black dark:text-white opacity-10" />
+              <div className="space-y-2">
+                <h3 className="text-xl xs:text-2xl sm:text-3xl font-bold text-black dark:text-white">
+                  No {category} available yet
+                </h3>
+                <p className="text-gray-600 dark:text-gray-400 text-xs xs:text-sm sm:text-base max-w-sm mx-auto leading-relaxed">
+                  Be the first to contribute {category} for {subject.name}.
+                </p>
+              </div>
+            </div>
+            
+            {/* Minimal Action */}
             {user && (
-              <Link href={uploadUrl}>
-                <Button>
-                  <LuUpload className="h-4 w-4 mr-2" />
+              <div className="space-y-4 sm:space-y-5">
+                <Link 
+                  href={uploadUrl}
+                  className="inline-block px-6 xs:px-8 py-2.5 xs:py-3 bg-black dark:bg-white text-white dark:text-black text-xs xs:text-sm font-medium hover:opacity-80 active:opacity-60 transition-opacity touch-manipulation"
+                >
                   Upload First File
-                </Button>
-              </Link>
+                </Link>
+              </div>
             )}
-          </CardContent>
-        </Card>
+          </div>
+        </div>
       )
     }
 

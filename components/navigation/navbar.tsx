@@ -30,40 +30,43 @@ export function Navbar() {
   
 
   
-  // Hide search bar on homepage but always show hamburger menu
+  // Hide search bar and upload button on homepage but always show hamburger menu
   const showSearch = pathname !== '/'
+  const showUpload = pathname !== '/'
   const showHamburger = true // Always show sidebar
 
   return (
-    <nav className="bg-opacity-5 sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between border-b p-1 px-2 backdrop-blur-xl backdrop-filter sm:p-3 md:gap-2 md:px-4">
-      <div className="flex items-center gap-5">
+    <nav className="sticky top-0 z-50 mx-auto flex h-16 w-full items-center justify-between border-b border-gray-200 dark:border-gray-800 bg-white/80 dark:bg-black/80 backdrop-blur-md px-4 md:px-6">
+      <div className="flex items-center gap-4">
         {showHamburger && <SheetLeft />}
-        <div className="flex items-center gap-6">
+        <div className="flex items-center gap-8">
           <div className="hidden md:flex">
             <Logo />
           </div>
-          <div className="text-muted-foreground hidden items-center gap-5 text-sm font-medium md:flex">
+          <div className="hidden items-center gap-6 text-sm font-medium text-gray-600 dark:text-gray-400 md:flex">
             <NavMenu />
           </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2">
+      <div className="flex items-center gap-3">
         {showSearch && <Search />}
-        <div className="flex gap-2 sm:ml-0">
+        <div className="flex items-center gap-2">
           {user ? (
             <>
-              <Link
-                href="/upload"
-                className={buttonVariants({ variant: "outline", size: "sm" })}
-              >
-                <LuUpload className="h-4 w-4 sm:mr-2" />
-                <span className="hidden sm:inline">Upload</span>
-              </Link>
+              {showUpload && (
+                <Link
+                  href="/upload"
+                  className="inline-flex items-center justify-center h-8 px-3 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
+                >
+                  <LuUpload className="h-3 w-3 sm:mr-2" />
+                  <span className="hidden sm:inline">Upload</span>
+                </Link>
+              )}
               
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                  <Button variant="ghost" size="sm" className="h-8 w-8 rounded-full p-0">
+                  <button className="h-8 w-8 rounded-full overflow-hidden hover:opacity-80 transition-opacity">
                     {profile?.avatar_url ? (
                       <Image
                         src={profile.avatar_url}
@@ -73,11 +76,11 @@ export function Navbar() {
                         className="h-8 w-8 rounded-full object-cover"
                       />
                     ) : (
-                      <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center">
-                        <LuUser className="h-4 w-4 text-primary" />
+                      <div className="h-8 w-8 rounded-full bg-gray-100 dark:bg-gray-800 flex items-center justify-center">
+                        <LuUser className="h-4 w-4 text-gray-600 dark:text-gray-400" />
                       </div>
                     )}
-                  </Button>
+                  </button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent align="end" className="w-48">
                   <DropdownMenuItem asChild>
@@ -100,11 +103,11 @@ export function Navbar() {
           ) : (
             <Link
               href="/auth"
-              className={`${buttonVariants({ variant: "ghost", size: "sm" })} text-xs sm:text-sm px-2 sm:px-3 hover:bg-muted`}
+              className="inline-flex items-center justify-center h-8 px-3 text-xs font-medium text-gray-600 dark:text-gray-400 hover:text-black dark:hover:text-white transition-colors"
             >
-              <LuUser className="h-3 w-3 sm:h-4 sm:w-4 sm:mr-2" />
-              <span className="hidden sm:inline ml-2">Sign In</span>
-              <span className="sm:hidden ml-1 text-xs">Login</span>
+              <LuUser className="h-3 w-3 sm:mr-2" />
+              <span className="hidden sm:inline">Sign In</span>
+              <span className="sm:hidden ml-1">Login</span>
             </Link>
           )}
           

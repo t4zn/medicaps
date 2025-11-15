@@ -426,6 +426,544 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Power Electronics',
     description: 'Power semiconductor devices, converters, inverters, and power electronic systems.',
     code: 'EE3CO42'
+  },
+  // CSBS 2nd Year
+  'formal-language-and-automata-theory': {
+    name: 'Formal Language and Automata Theory',
+    description: 'Formal languages, regular expressions, finite automata, context-free grammars, and computational theory.',
+    code: 'CB3CO22'
+  },
+  'computer-organization-and-architecture': {
+    name: 'Computer Organization & Architecture',
+    description: 'Computer system organization, processor design, memory hierarchy, and instruction set architecture.',
+    code: 'EN3ES14'
+  },
+  'essence-of-indian-traditional-knowledge': {
+    name: 'Essence of Indian Traditional Knowledge',
+    description: 'Traditional Indian knowledge systems, cultural heritage, and their relevance in modern context.',
+    code: 'CB3NG05'
+  },
+  'open-learning-course': {
+    name: 'Open Learning Course',
+    description: 'Flexible learning module covering diverse topics based on student interests and career goals.',
+    code: 'CB3NG02'
+  },
+  'indian-constitution': {
+    name: 'Indian Constitution',
+    description: 'Constitutional principles, fundamental rights, duties, and governance structure of India.',
+    code: 'CB3NG03'
+  },
+  'introduction-to-innovation-ip-management-and-entrepreneurship': {
+    name: 'Introduction to Innovation, IP Management & Entrepreneurship',
+    description: 'Innovation processes, intellectual property rights, patent management, and entrepreneurial skills.',
+    code: 'CB3NG04'
+  },
+  'design-thinking': {
+    name: 'Design Thinking',
+    description: 'Human-centered design approach, creative problem-solving, and innovation methodologies.',
+    code: 'EN3ES13'
+  },
+  'operations-research': {
+    name: 'Operations Research',
+    description: 'Mathematical optimization, linear programming, decision analysis, and operational efficiency.',
+    code: 'EN3ES15'
+  },
+  'marketing-research-and-marketing-management': {
+    name: 'Marketing Research & Marketing Management',
+    description: 'Market analysis, consumer behavior, marketing strategies, and business development.',
+    code: 'OE00092'
+  },
+  // CSBS 3rd Year
+  'software-design-with-uml': {
+    name: 'Software Design with UML',
+    description: 'Unified Modeling Language, software design patterns, system modeling, and architectural design.',
+    code: 'CB3CO25'
+  },
+  'fundamentals-of-management': {
+    name: 'Fundamentals of Management',
+    description: 'Management principles, organizational behavior, leadership, and business administration.',
+    code: 'CB3CO26'
+  },
+  'business-strategy': {
+    name: 'Business Strategy',
+    description: 'Strategic planning, competitive analysis, business models, and strategic management.',
+    code: 'OE00090'
+  },
+  'business-communication-and-value-science': {
+    name: 'Business Communication & Value Science – III',
+    description: 'Professional communication, business ethics, value systems, and corporate communication.',
+    code: 'EN3HS07'
+  },
+  'machine-learning': {
+    name: 'Machine Learning',
+    description: 'Machine learning algorithms, supervised and unsupervised learning, neural networks, and AI applications.',
+    code: 'CB3EL01'
+  },
+  'cryptology': {
+    name: 'Cryptology',
+    description: 'Cryptographic algorithms, network security, encryption techniques, and information security.',
+    code: 'CB3EL13'
+  },
+  'mini-project': {
+    name: 'Mini Project',
+    description: 'Hands-on project development, research methodology, and practical application of learned concepts.',
+    code: 'CB3PC04'
+  },
+  'usability-design-of-software-applications': {
+    name: 'Usability Design of Software Applications',
+    description: 'User interface design, user experience principles, human-computer interaction, and software usability.',
+    code: 'CB3CO29'
+  },
+  'artificial-intelligence': {
+    name: 'Artificial Intelligence',
+    description: 'AI fundamentals, search algorithms, knowledge representation, expert systems, and machine reasoning.',
+    code: 'CB3CO14'
+  },
+  'financial-and-cost-accounting': {
+    name: 'Financial & Cost Accounting',
+    description: 'Financial accounting principles, cost analysis, budgeting, and financial management for businesses.',
+    code: 'OE00086'
+  },
+  'it-workshop-scilab-matlab': {
+    name: 'IT Workshop Scilab / MATLAB',
+    description: 'Scientific computing, numerical analysis, data visualization using Scilab and MATLAB tools.',
+    code: 'CB3CO27'
+  },
+  'data-mining-and-analytics': {
+    name: 'Data Mining and Analytics',
+    description: 'Data mining techniques, statistical analysis, predictive modeling, and business intelligence.',
+    code: 'CB3EL08'
+  },
+  'advance-finance': {
+    name: 'Advance Finance',
+    description: 'Advanced financial concepts, investment analysis, portfolio management, and financial markets.',
+    code: 'CB3EL04'
+  },
+  // CSBS 4th Year
+  'business-communication-and-value-science-iv': {
+    name: 'Business Communication & Value Science – IV',
+    description: 'Advanced business communication skills, professional ethics, value systems, and corporate governance.',
+    code: 'EN3HS11'
+  },
+  'financial-management': {
+    name: 'Financial Management',
+    description: 'Corporate finance, capital budgeting, financial planning, and investment decision making.',
+    code: 'OE00087'
+  },
+  'human-resource-management': {
+    name: 'Human Resource Management',
+    description: 'HR policies, recruitment, performance management, organizational behavior, and employee relations.',
+    code: 'OE00091'
+  },
+  'industrial-psychology': {
+    name: 'Industrial Psychology',
+    description: 'Workplace psychology, employee motivation, organizational behavior, and human factors in industry.',
+    code: 'CB3EL02'
+  },
+  'advanced-social-text-and-media': {
+    name: 'Advanced Social, Text and Media',
+    description: 'Social media analytics, digital marketing, content strategy, and multimedia communication.',
+    code: 'CB3EL06'
+  },
+  'services-science-and-service-operational-management': {
+    name: 'Services Science & Service Operational Management',
+    description: 'Service design, operations management, quality control, and customer relationship management.',
+    code: 'CB3CO19'
+  },
+  // Automobile (EV) 2nd Year
+  'mathematical-modelling-for-electric-vehicles': {
+    name: 'Mathematical Modelling for Electric Vehicles',
+    description: 'Mathematical modeling techniques for electric vehicle systems, battery modeling, and performance analysis.',
+    code: 'EN3BS17'
+  },
+  'introduction-to-automotive-systems': {
+    name: 'Introduction to Automotive Systems',
+    description: 'Automotive engineering fundamentals, vehicle systems, and automotive technology overview.',
+    code: 'AU3CO51'
+  },
+  'mechanics-of-materials': {
+    name: 'Mechanics of Materials',
+    description: 'Material properties, stress analysis, deformation, and failure analysis in automotive applications.',
+    code: 'AU3CO52'
+  },
+  'sensors-and-control': {
+    name: 'Sensors and Control',
+    description: 'Automotive sensors, control systems, electronic control units, and vehicle automation.',
+    code: 'AU3CO53'
+  },
+  'thermal-engineering': {
+    name: 'Thermal Engineering',
+    description: 'Heat transfer, thermodynamics, thermal management in vehicles, and engine cooling systems.',
+    code: 'AU3CO54'
+  },
+  'python-programming': {
+    name: 'Python Programming',
+    description: 'Python programming for automotive applications, data analysis, and simulation.',
+    code: 'AU3CO55'
+  },
+  'materials-and-material-testing-lab': {
+    name: 'Materials and Material Testing Lab',
+    description: 'Laboratory testing of automotive materials, material characterization, and quality assessment.',
+    code: 'AU3CO56'
+  },
+  'manufacturing-technology': {
+    name: 'Manufacturing Technology',
+    description: 'Manufacturing processes, production techniques, and quality control in automotive industry.',
+    code: 'AU3CO57'
+  },
+  'cnc-machines-and-metrology': {
+    name: 'CNC Machines and Metrology',
+    description: 'Computer numerical control machining, precision measurement, and quality inspection techniques.',
+    code: 'AU3CO58'
+  },
+  'mechanics-of-machines': {
+    name: 'Mechanics of Machines',
+    description: 'Machine dynamics, kinematics, vibrations, and mechanical system analysis.',
+    code: 'AU3CO59'
+  },
+  'electric-vehicle-technology': {
+    name: 'Electric Vehicle Technology',
+    description: 'Electric vehicle systems, battery technology, electric motors, and charging infrastructure.',
+    code: 'AU3CO60'
+  },
+  'engineering-design': {
+    name: 'Engineering Design',
+    description: 'Design methodology, CAD applications, product development, and engineering design principles.',
+    code: 'EN3ES31'
+  },
+  // Automobile (EV) 3rd Year
+  'industrial-engineering-and-operations-research': {
+    name: 'Industrial Engineering & Operations Research',
+    description: 'Industrial engineering principles, operations research techniques, optimization, and production management.',
+    code: 'AU3CO61'
+  },
+  'automotive-electrical-and-electronics-system': {
+    name: 'Automotive Electrical and Electronics System',
+    description: 'Vehicle electrical systems, electronic control units, automotive electronics, and electrical troubleshooting.',
+    code: 'AU3CO62'
+  },
+  'vehicular-network-and-communication': {
+    name: 'Vehicular Network and Communication',
+    description: 'Vehicle communication protocols, CAN bus, automotive networking, and connected vehicle technologies.',
+    code: 'AU3CO63'
+  },
+  'automotive-chassis': {
+    name: 'Automotive Chassis',
+    description: 'Chassis design, suspension systems, steering mechanisms, and vehicle dynamics.',
+    code: 'AU3CO64'
+  },
+  'design-and-simulation-lab': {
+    name: 'Design and Simulation Lab',
+    description: 'CAD/CAE tools, vehicle simulation, design validation, and virtual prototyping.',
+    code: 'AU3CO65'
+  },
+  'electric-and-hybrid-vehicles': {
+    name: 'Electric and Hybrid Vehicles',
+    description: 'Electric vehicle architecture, hybrid powertrains, battery management systems, and charging technologies.',
+    code: 'AU3CO66'
+  },
+  'power-electronics-circuits': {
+    name: 'Power Electronics Circuits',
+    description: 'Power electronic devices, inverters, converters, motor drives, and power management systems.',
+    code: 'AU3CO67'
+  },
+  'data-science-for-automobile-engineers': {
+    name: 'Data Science for Automobile Engineers',
+    description: 'Data analytics, machine learning applications in automotive, predictive maintenance, and vehicle data analysis.',
+    code: 'AU3CO68'
+  },
+  // Automobile (EV) 4th Year
+  'industrial-training-automotive': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in automotive industry.',
+    code: 'AU3PC23'
+  },
+  // Robotics & Automation 2nd Year
+  'strength-of-materials-for-mechanical-engineers': {
+    name: 'Strength of Materials for Mechanical Engineers',
+    description: 'Stress, strain, mechanical properties of materials, and structural analysis for mechanical applications.',
+    code: 'RA3CO23'
+  },
+  'kinematics-and-dynamics-of-machines': {
+    name: 'Kinematics and Dynamics of Machines',
+    description: 'Machine kinematics, velocity analysis, acceleration analysis, and dynamics of mechanical systems.',
+    code: 'RA3CO24'
+  },
+  'basic-of-thermal-engineering': {
+    name: 'Basic of Thermal Engineering',
+    description: 'Thermodynamics principles, heat transfer, thermal systems, and energy conversion processes.',
+    code: 'RA3CO25'
+  },
+  'sensors-and-instrumentation': {
+    name: 'Sensors and Instrumentation',
+    description: 'Sensor technologies, measurement systems, instrumentation principles, and data acquisition.',
+    code: 'RA3CO27'
+  },
+  'cnc-machine-and-metrology': {
+    name: 'CNC Machine and Metrology',
+    description: 'Computer numerical control machining, precision measurement, and quality control techniques.',
+    code: 'RA3CO30'
+  },
+  'automatic-control-systems': {
+    name: 'Automatic Control Systems',
+    description: 'Control theory, feedback systems, stability analysis, and control system design.',
+    code: 'RA3CO31'
+  },
+  'python-for-robotics-engineers': {
+    name: 'Python for Robotics Engineers',
+    description: 'Python programming for robotics applications, automation, and control systems.',
+    code: 'RA3CO32'
+  },
+  'cad-lab': {
+    name: 'CAD Lab',
+    description: 'Computer-aided design software, 3D modeling, technical drawing, and design visualization.',
+    code: 'RA3CO40'
+  },
+  'design-of-machine-elements-and-transmission-systems': {
+    name: 'Design of Machine Elements and Transmission Systems',
+    description: 'Mechanical design principles, machine elements, gear systems, and power transmission.',
+    code: 'RA3CO43'
+  },
+  // Robotics & Automation 3rd Year
+  'robot-system-design-and-slam': {
+    name: 'Robot System Design and SLAM (Simultaneous Localization and Area Mapping)',
+    description: 'Robot system architecture, SLAM algorithms, localization techniques, and autonomous navigation.',
+    code: 'RA3CO33'
+  },
+  'electrical-machines-and-power-systems': {
+    name: 'Electrical Machines and Power Systems',
+    description: 'AC/DC machines, transformers, power system analysis, and electrical power distribution.',
+    code: 'RA3CO37'
+  },
+  'microcontroller-and-programmable-logic-controllers': {
+    name: 'Microcontroller and Programmable Logic Controllers',
+    description: 'Microcontroller programming, PLC systems, industrial automation, and control applications.',
+    code: 'RA3CO38'
+  },
+  'computer-vision': {
+    name: 'Computer Vision',
+    description: 'Image processing, pattern recognition, machine vision, and visual perception for robotics.',
+    code: 'RA3CO46'
+  },
+  'embedded-systems': {
+    name: 'Embedded Systems',
+    description: 'Embedded system design, real-time systems, microprocessor applications, and IoT integration.',
+    code: 'RA3CO49'
+  },
+  'digital-image-processing': {
+    name: 'Digital Image Processing',
+    description: 'Image enhancement, filtering, feature extraction, and computer vision fundamentals.',
+    code: 'RA3CO50'
+  },
+  'principles-of-robotics': {
+    name: 'Principles of Robotics',
+    description: 'Robot kinematics, dynamics, control systems, and robotic system fundamentals.',
+    code: 'RA3CO51'
+  },
+  // Robotics & Automation 4th Year
+  'industrial-training-robotics': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in robotics and automation industry.',
+    code: 'RA3PC03'
+  },
+  // Mechanical Engineering 2nd Year
+  'manufacturing-processes-1': {
+    name: 'Manufacturing Processes - I',
+    description: 'Casting, welding, forming processes, and traditional manufacturing techniques.',
+    code: 'ME3CO18'
+  },
+  'engineering-thermodynamics': {
+    name: 'Engineering Thermodynamics',
+    description: 'Thermodynamic laws, cycles, heat engines, and energy conversion systems.',
+    code: 'ME3CO44'
+  },
+  'engineering-materials': {
+    name: 'Engineering Materials',
+    description: 'Material properties, selection criteria, metals, polymers, and composite materials.',
+    code: 'EN3ES25'
+  },
+  'manufacturing-processes-2': {
+    name: 'Manufacturing Processes- II',
+    description: 'Advanced manufacturing, machining processes, CNC operations, and modern production techniques.',
+    code: 'ME3CO45'
+  },
+  'fluid-mechanics-and-machinery': {
+    name: 'Fluid Mechanics and Machinery',
+    description: 'Fluid properties, flow analysis, pumps, turbines, and hydraulic machinery.',
+    code: 'ME3CO46'
+  },
+  'kinematics-of-machines': {
+    name: 'Kinematics of Machines',
+    description: 'Machine kinematics, velocity analysis, acceleration analysis, and mechanism design.',
+    code: 'ME3CO47'
+  },
+  'python-programming-for-mechanical-engineers': {
+    name: 'Python Programming for Mechanical Engineers -I',
+    description: 'Python programming for mechanical engineering applications, simulation, and data analysis.',
+    code: 'ME3CO24'
+  },
+  // Mechanical Engineering 3rd Year
+  'heat-and-mass-transfer': {
+    name: 'Heat & Mass Transfer',
+    description: 'Heat conduction, convection, radiation, mass transfer phenomena, and thermal system analysis.',
+    code: 'ME3CO32'
+  },
+  'dynamics-of-machine': {
+    name: 'Dynamics of Machine',
+    description: 'Machine dynamics, vibrations, balancing, and dynamic analysis of mechanical systems.',
+    code: 'ME3CO34'
+  },
+  'thermal-lab': {
+    name: 'Thermal Lab',
+    description: 'Laboratory experiments in thermodynamics, heat transfer, and thermal engineering applications.',
+    code: 'ME3CO35'
+  },
+  'design-and-simulation-lab-2': {
+    name: 'Design and Simulation Lab -II',
+    description: 'Advanced CAD/CAE applications, finite element analysis, and design optimization.',
+    code: 'ME3CO38'
+  },
+  'machine-design': {
+    name: 'Machine Design',
+    description: 'Design of machine elements, mechanical components, and engineering design principles.',
+    code: 'ME3CO39'
+  },
+  'design-and-simulation-lab-1': {
+    name: 'Design and Simulation Lab1',
+    description: 'CAD modeling, simulation techniques, and computer-aided design applications.',
+    code: 'ME3CO41'
+  },
+  'data-science-for-mechanical-engineers': {
+    name: 'Data Science for Mechanical Engineers',
+    description: 'Data analytics, machine learning applications in mechanical engineering, and predictive maintenance.',
+    code: 'ME3CO48'
+  },
+  'computer-integrated-manufacturing': {
+    name: 'Computer Integrated Manufacturing',
+    description: 'CIM systems, automation, robotics in manufacturing, and integrated production systems.',
+    code: 'ME3CO49'
+  },
+  'refrigeration-and-air-conditioning': {
+    name: 'Refrigeration & Air Conditioning',
+    description: 'Refrigeration cycles, air conditioning systems, HVAC design, and thermal comfort.',
+    code: 'ME3CO50'
+  },
+  // Mechanical Engineering 4th Year
+  'industrial-training-mechanical': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in mechanical engineering industry.',
+    code: 'ME3PC03'
+  },
+  // IT 2nd Year
+  'operating-system': {
+    name: 'Operating System',
+    description: 'Operating system concepts, process management, memory management, and file systems.',
+    code: 'IT3CO21'
+  },
+  'microprocessor-and-microcontroller': {
+    name: 'Microprocessor & Microcontroller',
+    description: 'Microprocessor architecture, microcontroller programming, and embedded system applications.',
+    code: 'IT3CO32'
+  },
+  // IT 3rd Year
+  'distributed-and-cloud-computing': {
+    name: 'Distributed and Cloud Computing',
+    description: 'Distributed systems, cloud computing architectures, virtualization, and cloud service models.',
+    code: 'IT3CO35'
+  },
+  'python-programming-it': {
+    name: 'Python Programming',
+    description: 'Python programming language, data structures, libraries, and application development.',
+    code: 'IT3ES03'
+  },
+  'web-programming': {
+    name: 'Web Programming',
+    description: 'Web development technologies, HTML, CSS, JavaScript, and web application frameworks.',
+    code: 'IT3ES01'
+  },
+  // IT 4th Year
+  'industrial-training-it': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in information technology industry.',
+    code: 'IT3PC03'
+  },
+  // ECE 2nd Year
+  'electronic-devices-and-circuits': {
+    name: 'Electronic Devices and Circuits',
+    description: 'Semiconductor devices, diodes, transistors, amplifiers, and electronic circuit analysis.',
+    code: 'EC3CO03'
+  },
+  'circuit-analysis-and-synthesis': {
+    name: 'Circuit Analysis and Synthesis',
+    description: 'Network analysis, circuit theorems, frequency response, and filter design.',
+    code: 'EC3CO05'
+  },
+  'linear-integrated-circuit-and-applications': {
+    name: 'Linear Integrated Circuit and Applications',
+    description: 'Operational amplifiers, analog IC design, and linear circuit applications.',
+    code: 'EC3CO17'
+  },
+  'vlsi-design': {
+    name: 'VLSI Design',
+    description: 'Very Large Scale Integration design, digital IC design, and CMOS technology.',
+    code: 'EC3CO20'
+  },
+  'communication-systems': {
+    name: 'Communication Systems',
+    description: 'Analog and digital communication, modulation techniques, and signal processing.',
+    code: 'EC3COXX'
+  },
+  'engineering-electromagnetics': {
+    name: 'Engineering Electromagnetics',
+    description: 'Electromagnetic fields, wave propagation, transmission lines, and antenna theory.',
+    code: 'EC3CO08'
+  },
+  'engineering-workshop-python-programming': {
+    name: 'Engineering Workshop II / Python Programming for Electronics Engg',
+    description: 'Practical workshop skills and Python programming for electronics engineering applications.',
+    code: 'EN3ES23'
+  },
+  'open-learning-courses': {
+    name: 'Open Learning Courses',
+    description: 'Flexible learning modules covering diverse topics based on student interests.',
+    code: 'EN3NG06'
+  },
+  // ECE 3rd Year
+  'digital-signal-processing': {
+    name: 'Digital Signal Processing',
+    description: 'Digital signal analysis, filtering, transforms, and signal processing algorithms.',
+    code: 'EC3COXX'
+  },
+  'vlsi-technology': {
+    name: 'VLSI Technology',
+    description: 'VLSI fabrication processes, semiconductor technology, and integrated circuit manufacturing.',
+    code: 'EC3COXX'
+  },
+  'scripting-languages-and-verification': {
+    name: 'Scripting Languages and Verification',
+    description: 'Hardware description languages, verification methodologies, and design automation.',
+    code: 'EC3COXX'
+  },
+  'digital-logic-synthesis-using-hdl': {
+    name: 'Digital Logic Synthesis using HDL',
+    description: 'Hardware description languages, logic synthesis, and digital system design.',
+    code: 'EC3COXX'
+  },
+  'semiconductor-device-modelling': {
+    name: 'Semiconductor Device Modelling',
+    description: 'Device physics, semiconductor modeling, and electronic device characterization.',
+    code: 'EC3COXX'
+  },
+  'fiber-optic-communication': {
+    name: 'Fiber Optic Communication',
+    description: 'Optical communication systems, fiber optics, and photonic devices.',
+    code: 'EC3CO21'
+  },
+  // ECE 4th Year
+  'industrial-training-ece': {
+    name: 'Industrial Training',
+    description: 'Practical industry experience, internship reports, and professional skill development in electronics and communication engineering industry.',
+    code: 'EC3PC03'
   }
 }
 

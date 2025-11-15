@@ -456,20 +456,7 @@ type PageProps = {
   }>
 }
 
-function SubjectNotFoundPage({ branch, year, subject }: { branch: string, year: string, subject: string }) {
-  const requestUrl = getSubjectRequestUrl('btech', branch, year, subject)
 
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold mb-4">Subject Not Found</h1>
-        <Link href={requestUrl}>
-          <Button>Add Subject</Button>
-        </Link>
-      </div>
-    </div>
-  )
-}
 
 export default async function BTechSubjectPage({ params }: PageProps) {
   const { branch, year, subject } = await params
@@ -483,7 +470,7 @@ export default async function BTechSubjectPage({ params }: PageProps) {
   const subjectExists = validateSubjectExists('btech', branch, year, subject)
   
   if (!subjectExists) {
-    return <SubjectNotFoundPage branch={branch} year={year} subject={subject} />
+    notFound()
   }
   
   // Get subject config or create default

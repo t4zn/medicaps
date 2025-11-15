@@ -222,20 +222,7 @@ type PageProps = {
   }>
 }
 
-function SubjectNotFoundPage({ program, year, subject }: { program: string, year: string, subject: string }) {
-  const requestUrl = getSubjectRequestUrl(program, null, year, subject)
 
-  return (
-    <div className="flex items-center justify-center min-h-[60vh]">
-      <div className="text-center">
-        <h1 className="text-3xl font-semibold mb-4">Subject Not Found</h1>
-        <Link href={requestUrl}>
-          <Button>Add Subject</Button>
-        </Link>
-      </div>
-    </div>
-  )
-}
 
 export default async function DynamicSubjectPage({ params }: PageProps) {
   const { program, year, subject } = await params
@@ -249,7 +236,7 @@ export default async function DynamicSubjectPage({ params }: PageProps) {
   const subjectExists = validateSubjectExists(program, null, year, subject)
   
   if (!subjectExists) {
-    return <SubjectNotFoundPage program={program} year={year} subject={subject} />
+    notFound()
   }
   
   // Get subject config or create default

@@ -159,6 +159,22 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       return []
     }
     
+    // Handle CSE Electives
+    if (branch === 'cse-electives') {
+      const cseSection = btechSection.items.find((item: Paths) => 'title' in item && item.title === 'CSE')
+      if (cseSection && 'items' in cseSection && cseSection.items) {
+        const electivesSection = cseSection.items.find((item: Paths) => 'title' in item && item.title === 'Electives')
+        if (electivesSection && 'items' in electivesSection && electivesSection.items) {
+          return electivesSection.items.filter((item: Paths): item is Extract<Paths, { title: string; href: string }> => 'title' in item && 'href' in item).map((subject) => ({
+            value: extractSubjectSlug(subject.href),
+            label: subject.title,
+            icon: getSubjectIcon(subject.title)
+          }))
+        }
+      }
+      return []
+    }
+    
     // Handle other years - find the specific branch
     let branchSection = null
     
@@ -265,7 +281,7 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
       case 'category': return !!formData.category
       case 'program': return !!formData.program
       case 'branch': return !!formData.branch || formData.year === '1st-year' // Branch not required for 1st year
-      case 'year': return !!formData.year
+      case 'year': return !!formData.year || formData.branch === 'cse-electives' // Year not required for CSE Electives
       case 'subject': return !!formData.subject
       case 'file': return !!googleDriveUrl && !!filename
       default: return false
@@ -281,14 +297,32 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
   const nextStep = () => {
     const currentIndex = getCurrentStepIndex()
     if (currentIndex < steps.length - 1) {
-      setCurrentStep(steps[currentIndex + 1].key)
+      let nextStepIndex = currentIndex + 1
+      
+      // Skip year step if CSE Electives is selected
+      if (steps[nextStepIndex].key === 'year' && formData.branch === 'cse-electives') {
+        nextStepIndex = currentIndex + 2 // Skip to subject step
+      }
+      
+      if (nextStepIndex < steps.length) {
+        setCurrentStep(steps[nextStepIndex].key)
+      }
     }
   }
 
   const prevStep = () => {
     const currentIndex = getCurrentStepIndex()
     if (currentIndex > 0) {
-      setCurrentStep(steps[currentIndex - 1].key)
+      let prevStepIndex = currentIndex - 1
+      
+      // Skip year step if CSE Electives is selected
+      if (steps[prevStepIndex].key === 'year' && formData.branch === 'cse-electives') {
+        prevStepIndex = currentIndex - 2 // Skip back to branch step
+      }
+      
+      if (prevStepIndex >= 0) {
+        setCurrentStep(steps[prevStepIndex].key)
+      }
     }
   }
 
@@ -421,23 +455,49 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         
         console.log('Redirect data:', { program, branch, year, subject }) // Debug log
         
-        if (year === '1st-year') {
-          // 1st year doesn't need branch
+        // Map long branch names to short slugs used in routing
+        const branchSlugMapping: Record<string, string> = {
+          'computer-science-and-engineering': 'cse',
+          'cse-electives': 'cse', // CSE Electives maps to cse for routing
+          'ece-electronics-communication-engineering': 'ece',
+          'ce-civil-engineering': 'civil',
+          'ee-electrical-engineering': 'electrical',
+          'mechanical-engineering': 'mechanical',
+          'au-ev-automobile-engineering-electric-vehicle': 'automobile-ev',
+          'it-information-technology': 'it',
+          'ra-robotics-and-automation': 'robotics-automation'
+        }
+        
+        if (program === 'btech') {
+          if (year === '1st-year') {
+            // 1st year doesn't need branch for B.Tech
+            subjectUrl = subject && subject !== 'null' 
+              ? `/notes/${program}/${year}/${subject}`
+              : `/notes/${program}/${year}`
+          } else if (branch === 'cse-electives') {
+            // CSE Electives redirect to electives section
+            subjectUrl = subject && subject !== 'null' 
+              ? `/notes/${program}/cse/electives/${subject}`
+              : `/notes/${program}/cse/electives`
+          } else {
+            // Other years need branch parameter for B.Tech
+            if (!branch || branch.trim() === '' || branch === 'null') {
+              console.error('Branch is missing for B.Tech non-1st-year upload:', { program, branch, year, subject })
+              // Fallback to program page instead of broken link
+              subjectUrl = `/notes/${program}`
+            } else {
+              // Convert long branch name to short slug
+              const branchSlug = branchSlugMapping[branch.trim()] || branch.trim()
+              subjectUrl = subject && subject !== 'null' 
+                ? `/notes/${program}/${branchSlug}/${year}/${subject}`
+                : `/notes/${program}/${branchSlug}/${year}`
+            }
+          }
+        } else {
+          // Non-B.Tech programs don't use branch parameter
           subjectUrl = subject && subject !== 'null' 
             ? `/notes/${program}/${year}/${subject}`
             : `/notes/${program}/${year}`
-        } else {
-          // Other years need branch parameter - ensure branch is properly set
-          if (!branch || !branch.trim()) {
-            console.error('Branch is missing for non-1st-year upload:', { program, branch, year, subject })
-            // Fallback to a safe redirect
-            subjectUrl = `/notes/${program}`
-          } else {
-            const branchParam = branch.trim()
-            subjectUrl = subject && subject !== 'null' 
-              ? `/notes/${program}/${branchParam}/${year}/${subject}`
-              : `/notes/${program}/${branchParam}/${year}`
-          }
         }
         
         console.log('Redirecting to:', subjectUrl) // Debug log
@@ -722,6 +782,12 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
                       CSE
                     </div>
                   </SelectItem>
+                  <SelectItem value="cse-electives">
+                    <div className="flex items-center gap-2">
+                      <LuBrain className="h-4 w-4" />
+                      CSE (Electives)
+                    </div>
+                  </SelectItem>
                   <SelectItem value="ece-electronics-communication-engineering">
                     <div className="flex items-center gap-2">
                       <LuCpu className="h-4 w-4" />
@@ -775,6 +841,15 @@ export default function FileUpload({ onUploadSuccess }: FileUploadProps) {
         )
 
       case 'year':
+        // Skip year selection for CSE Electives
+        if (formData.branch === 'cse-electives') {
+          return (
+            <div className="text-center py-8">
+              <p className="text-muted-foreground">Year selection not needed for CSE Electives</p>
+            </div>
+          )
+        }
+        
         return (
           <div className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">

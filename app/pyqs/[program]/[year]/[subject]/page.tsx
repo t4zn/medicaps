@@ -1,5 +1,6 @@
 import { notFound } from 'next/navigation'
 import SubjectPage from '@/components/SubjectPage'
+import { validateSubjectExists } from '@/lib/subject-validator'
 
 // Import the same configurations
 interface SubjectConfig {
@@ -222,6 +223,13 @@ export default async function DynamicPYQPage({ params }: PageProps) {
   const { program, year, subject } = await params
   
   if (!programConfigs[program]) {
+    notFound()
+  }
+  
+  // Check if subject exists in documents.ts
+  const subjectExists = validateSubjectExists(program, null, year, subject)
+  
+  if (!subjectExists) {
     notFound()
   }
   

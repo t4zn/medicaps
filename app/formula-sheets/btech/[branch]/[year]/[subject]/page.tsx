@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import SubjectPage from '@/components/SubjectPage'
 import { validateSubjectExists } from '@/lib/subject-validator'
 
+// Subject configurations (same as the main formula sheets page)
 interface SubjectConfig {
   name: string
   description: string
@@ -45,7 +46,7 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     code: 'EN3ES17'
   },
   'mechanical': {
-    name: 'Basic Civil Engineering & Mechanics',
+    name: 'Basic Mechanical Engineering',
     description: 'Key formulas for thermodynamics, fluid mechanics, and mechanical design.',
     code: 'EN3ES18'
   },
@@ -61,42 +62,42 @@ const subjectConfigs: Record<string, SubjectConfig> = {
   },
   'graphics': {
     name: 'Engineering Graphics',
-    description: 'Essential guidelines for technical drawing, projections, and CAD fundamentals.',
+    description: 'Technical drawing standards, projection methods, and CAD reference.',
     code: 'EN3ES26'
   },
   'workshop': {
     name: 'Workshop Practice',
-    description: 'Key procedures and guidelines for manufacturing processes and workshop practices.',
+    description: 'Manufacturing process guidelines, tool specifications, and workshop safety standards.',
     code: 'EN3ES29'
   },
   'discrete-mathematics': {
     name: 'Discrete Mathematics',
-    description: 'Essential formulas for set theory, logic, graph theory, and combinatorics.',
+    description: 'Logic formulas, set theory equations, and combinatorics reference.',
     code: 'CS3BS04'
   },
   'data-communication': {
     name: 'Data Communication',
-    description: 'Key formulas and protocols for data transmission and network communication.',
+    description: 'Network protocol formulas, data transmission calculations, and communication system equations.',
     code: 'CS3CO28'
   },
   'object-oriented-programming': {
     name: 'Object Oriented Programming',
-    description: 'Essential OOP concepts, syntax patterns, and design principles reference.',
+    description: 'OOP syntax reference, design patterns, and programming best practices.',
     code: 'CS3CO30'
   },
   'data-structures': {
     name: 'Data Structures',
-    description: 'Algorithm complexity formulas and data structure implementation patterns.',
+    description: 'Algorithm complexity formulas, data structure operations, and performance analysis.',
     code: 'CS3CO31'
   },
   'java-programming': {
     name: 'Java Programming',
-    description: 'Java syntax reference, built-in methods, and programming patterns.',
+    description: 'Java syntax reference, API documentation, and programming patterns.',
     code: 'CS3CO32'
   },
   'digital-electronics': {
     name: 'Digital Electronics',
-    description: 'Boolean algebra formulas, logic gate truth tables, and circuit design rules.',
+    description: 'Boolean algebra formulas, logic gate equations, and digital circuit design rules.',
     code: 'CS3CO33'
   },
   'computer-system-architecture': {
@@ -198,40 +199,57 @@ const subjectConfigs: Record<string, SubjectConfig> = {
     name: 'Advanced Java or Python Programming',
     description: 'Advanced programming syntax, libraries reference, and AI/ML framework usage.',
     code: 'CS3CO37'
+  },
+  'mix': {
+    name: 'Mix',
+    description: 'Mixed formula sheets and reference materials for various subjects.',
   }
 }
 
-const programConfigs: Record<string, string> = {
-  'btech': 'B.Tech',
-  'bsc': 'B.Sc',
-  'bba': 'BBA',
-  'bcom': 'B.Com',
-  'mtech': 'M.Tech',
-  'mba': 'MBA'
+// Branch configurations
+const branchConfigs: Record<string, string> = {
+  'cse': 'Computer Science and Engineering',
+  'cse-ai': 'CSE - Artificial Intelligence',
+  'cse-ds': 'CSE - Data Science',
+  'cse-networks': 'CSE - Networks',
+  'cse-aiml': 'CSE - AI & ML',
+  'cyber-security': 'Cyber Security',
+  'cse-iot': 'CSE - IoT',
+  'csbs': 'Computer Science and Business Systems',
+  'ece': 'Electronics and Communication Engineering',
+  'civil': 'Civil Engineering',
+  'electrical': 'Electrical Engineering',
+  'automobile-ev': 'Automobile Engineering (EV)',
+  'it': 'Information Technology',
+  'mechanical': 'Mechanical Engineering',
+  'robotics-automation': 'Robotics & Automation',
+  'electives': 'Electives'
 }
 
 type PageProps = {
   params: Promise<{
-    program: string
+    branch: string
     year: string
     subject: string
   }>
 }
 
-export default async function DynamicFormulaSheetPage({ params }: PageProps) {
-  const { program, year, subject } = await params
+export default async function BTechFormulaSheetPage({ params }: PageProps) {
+  const { branch, year, subject } = await params
   
-  if (!programConfigs[program]) {
+  // Validate branch
+  if (!branchConfigs[branch]) {
     notFound()
   }
   
   // Check if subject exists in documents.ts
-  const subjectExists = validateSubjectExists(program, null, year, subject)
+  const subjectExists = validateSubjectExists('btech', branch, year, subject)
   
   if (!subjectExists) {
     notFound()
   }
   
+  // Get subject config or create default
   const subjectConfig = subjectConfigs[subject] || {
     name: subject.split('-').map(word => 
       word.charAt(0).toUpperCase() + word.slice(1)
@@ -242,44 +260,19 @@ export default async function DynamicFormulaSheetPage({ params }: PageProps) {
   const subjectData = {
     name: subjectConfig.name,
     description: subjectConfig.description,
-    program: program,
+    program: 'btech',
+    branch: branch,
     year: year,
     category: 'formula-sheet',
     code: subjectConfig.code,
-    slug: subject // Add the original subject slug
+    slug: subject
   }
 
   return <SubjectPage subject={subjectData} />
 }
 
-export function generateStaticParams() {
-  const programs = ['btech', 'bsc', 'bba', 'bcom']
-  const years = ['1st-year', '2nd-year', '3rd-year', '4th-year']
-  const subjects = Object.keys(subjectConfigs)
-  
-  const params = []
-  
-  for (const program of programs) {
-    for (const year of years) {
-      if (year === '4th-year' && !['btech', 'bcom'].includes(program)) {
-        continue
-      }
-      
-      for (const subject of subjects) {
-        params.push({
-          program,
-          year,
-          subject
-        })
-      }
-    }
-  }
-  
-  return params
-}
-
 export async function generateMetadata({ params }: PageProps) {
-  const { program, year, subject } = await params
+  const { branch, year, subject } = await params
   
   const subjectConfig = subjectConfigs[subject] || {
     name: subject.split('-').map(word => 
@@ -287,18 +280,19 @@ export async function generateMetadata({ params }: PageProps) {
     ).join(' ')
   }
   
-  const programName = programConfigs[program] || program.toUpperCase()
+  const branchName = branchConfigs[branch] || branch.toUpperCase()
   const yearName = year.replace('-', ' ')
   
   return {
-    title: `${subjectConfig.name} Formula Sheet - ${programName} ${yearName}`,
+    title: `${subjectConfig.name} Formula Sheet - B.Tech ${branchName} ${yearName}`,
     description: subjectConfig.description || `Formula sheet for ${subjectConfig.name}`,
     keywords: [
       subjectConfig.name,
       'formula sheet',
       'formulas',
       'equations',
-      programName,
+      'B.Tech',
+      branchName,
       yearName,
       'quick reference'
     ].join(', ')

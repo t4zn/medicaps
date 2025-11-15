@@ -214,6 +214,17 @@ export const Documents: Paths[] = [
                   },
                 ],
               },
+              {
+                title: "Electives",
+                href: "/electives",
+                noLink: true,
+                items: [
+                  {
+                    title: "Mix",
+                    href: "/notes/btech/cse/electives/mix",
+                  },
+                ],
+              },
             ],
           },
           {
